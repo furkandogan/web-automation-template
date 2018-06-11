@@ -1,7 +1,7 @@
 # Zingat Web Automation
 
 <p align="center">
-  <img id="header" height="214" width="500" src="https://github.com/zingat/automation-test-bdd/blob/master/docker_configs/docker_zalenium/images/logo_zalenium_wide.png" />
+  <img id="header" height="214" width="500" src="https://github.com/furkandogan/web-automation-template/blob/master/docker_configs/docker_zalenium/images/logo_zalenium_wide.png" />
   <a href="https://cucumber.io/docs/reference/jvm">
     <img src="https://cucumber.io/images/cucumber-logo.svg" height="110" />
   </a>

@@ -9,6 +9,28 @@
 
     <name>Web Automation Template</name>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Manfred Moser</name>
+            <email>manfred@sonatype.com</email>
+            <organization>Sonatype</organization>
+            <organizationUrl>http://www.sonatype.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
+        <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
+        <url>http://github.com/furkandogan/web-automation-template/master</url>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
