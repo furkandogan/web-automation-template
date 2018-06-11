@@ -1,0 +1,323 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>test.tools.selenium</groupId>
+    <artifactId>web-automation-template</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>Web Automation Template</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!--default test-->
+        <test-package>@prod</test-package>
+        <parallel.test.count>2</parallel.test.count>
+
+        <!--site props-->
+        <site.url>https://www.google.com</site.url>
+
+        <!-- DB props -->
+        <db.driver></db.driver>
+        <db.server></db.server>
+        <db.user></db.user>
+        <db.password></db.password>
+        <db.jdbc.url></db.jdbc.url>
+
+        <!-- Browser props -->
+        <browser.remote.driver>false</browser.remote.driver>
+        <browser.mobile.type>false</browser.mobile.type>
+        <browser.type>chrome</browser.type>
+        <browser.version>60.0</browser.version>
+        <browser.platform>ANY</browser.platform>
+        <browser.device.name>samsung_galaxy_s6_7.1.1</browser.device.name>
+        <browser.device.version>7.1.1</browser.device.version>
+        <browser.driver.wait.timeout>30</browser.driver.wait.timeout>
+        <browser.driver.implicit.wait.timeOut>10</browser.driver.implicit.wait.timeOut>
+        <build>zingat-release</build>
+        <resolution>1920x1080</resolution>
+
+        <!-- Docker props -->
+        <selenium.hub.url>http://localhost:4444/wd/hub</selenium.hub.url>
+        <appium.hub.url>http://localhost:4444/wd/hub</appium.hub.url>
+
+        <!-- Report settings -->
+        <klov.reporter>false</klov.reporter>
+        <klov.db>localhost</klov.db>
+        <klov.db.port>21017</klov.db.port>
+        <klov.url>http://klovhost.com</klov.url>
+        <report.folder>target/tmp/reports</report.folder>
+        <report.title>${project.name}</report.title>
+
+        <chrome.driver.location.linux>/usr/bin/chromedriver</chrome.driver.location.linux>
+        <firefox.driver.location.linux>/usr/bin/firefoxdriver</firefox.driver.location.linux>
+
+        <chrome.driver.location.mac>src/main/resources/driver/mac/chromedriver</chrome.driver.location.mac>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <executions>
+                    <execution>
+                        <id>acceptance-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <forkCount>${parallel.test.count}</forkCount>
+                            <reuseForks>true</reuseForks>
+                            <includes>
+                                <include>**/*IT.class</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/test-classes/test/tools/selenium</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/test/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>4.2.0</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Mandatory -->
+                            <!-- List of package names to scan for glue code. -->
+                            <glue>
+                                <package>test.tools.selenium.steps</package>
+                            </glue>
+                            <!-- These are optional, with the default values -->
+                            <!-- Where to output the generated tests -->
+                            <outputDirectory>${project.build.directory}/generated-test-sources/cucumber
+                            </outputDirectory>
+                            <!-- The directory, which must be in the root of the runtime classpath, containing your feature files.  -->
+                            <featuresDirectory>src/test/resources/features/</featuresDirectory>
+                            <!-- Directory where the cucumber report files shall be written  -->
+                            <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+                            <!-- CucumberOptions.strict property -->
+                            <strict>true</strict>
+                            <!-- CucumberOptions.monochrome property -->
+                            <monochrome>true</monochrome>
+                            <!-- The tags to run, maps to CucumberOptions.tags property. Default is no tags. -->
+                            <tags>
+                                <tag>${test-package}</tag>
+                                <tag>~@ignore</tag>
+                            </tags>
+                            <!-- Generate TestNG runners instead of JUnit ones. -->
+                            <useTestNG>false</useTestNG>
+                            <!-- The naming scheme to use for the generated test classes.  One of 'simple' or 'feature-title' -->
+                            <namingScheme>simple</namingScheme>
+                            <!-- The class naming pattern to use.  Only required/used if naming scheme is 'pattern'.-->
+                            <namingPattern>Parallel{c}IT</namingPattern>
+                            <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per scenario.  FEATURE generates a runner per feature. -->
+                            <parallelScheme>SCENARIO</parallelScheme>
+                            <!-- Specify a custom package name for generated sources. Default is no package.-->
+                            <packageName>test.tools.selenium</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>1.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.galenframework</groupId>
+            <artifactId>galen-java-support</artifactId>
+            <version>2.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>local-web-test</id>
+            <properties>
+                <site.url>http://local.example.com</site.url>
+                <browser.remote.driver>true</browser.remote.driver>
+                <build>${test-package}-web-test</build>
+                <test-package>@local</test-package>
+                <parallel.test.count>2</parallel.test.count>
+            </properties>
+        </profile>
+        <profile>
+            <id>test-web-test</id>
+            <properties>
+                <site.url>http://test.example.com</site.url>
+                <browser.remote.driver>true</browser.remote.driver>
+                <build>${test-package}-web-test</build>
+                <test-package>@stage</test-package>
+                <parallel.test.count>20</parallel.test.count>
+            </properties>
+        </profile>
+        <profile>
+            <id>preprod-web-test</id>
+            <properties>
+                <site.url>http://preprod.example.com</site.url>
+                <browser.remote.driver>true</browser.remote.driver>
+                <build>${test-package}-web-test</build>
+                <test-package>@preprod</test-package>
+                <parallel.test.count>20</parallel.test.count>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod-web-test</id>
+            <properties>
+                <site.url>https://www.example.com</site.url>
+                <browser.remote.driver>true</browser.remote.driver>
+                <build>${test-package}-web-test</build>
+                <test-package>@prod</test-package>
+                <parallel.test.count>20</parallel.test.count>
+            </properties>
+        </profile>
+        <profile>
+            <id>test-mobile-web-test</id>
+            <properties>
+                <site.url>http://test.example.com</site.url>
+                <browser.remote.driver>false</browser.remote.driver>
+                <browser.mobile.type>true</browser.mobile.type>
+                <browser.device.name>samsung_galaxy_s6_7.1.1</browser.device.name>
+                <browser.device.version>7.1.1</browser.device.version>
+                <browser.platform>Android</browser.platform>
+                <build>${test-package}-web-test</build>
+                <test-package>@stg-mobile</test-package>
+                <parallel.test.count>20</parallel.test.count>
+            </properties>
+        </profile>
+        <profile>
+            <id>preprod-mobile-web-test</id>
+            <properties>
+                <site.url>http://preprod.example.com</site.url>
+                <browser.remote.driver>false</browser.remote.driver>
+                <browser.mobile.type>true</browser.mobile.type>
+                <browser.device.name>samsung_galaxy_s6_7.1.1</browser.device.name>
+                <browser.device.version>7.1.1</browser.device.version>
+                <browser.platform>Android</browser.platform>
+                <build>${test-package}-web-test</build>
+                <test-package>@preprod-mobile</test-package>
+                <parallel.test.count>20</parallel.test.count>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod-mobile-web-test</id>
+            <properties>
+                <site.url>https://www.example.com</site.url>
+                <browser.remote.driver>false</browser.remote.driver>
+                <browser.mobile.type>true</browser.mobile.type>
+                <browser.device.name>samsung_galaxy_s6_7.1.1</browser.device.name>
+                <browser.device.version>7.1.1</browser.device.version>
+                <browser.platform>Android</browser.platform>
+                <build>${test-package}-web-test</build>
+                <test-package>@prod-mobile</test-package>
+                <parallel.test.count>20</parallel.test.count>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

@@ -1,0 +1,8 @@
+{
+  "ARA BUTONUNA": {
+    "byMethod": "xpath",
+    "tag":"button",
+    "attrName": "data-zingalite",
+    "attrValue":"submit-button"
+  }
+}

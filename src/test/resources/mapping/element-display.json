@@ -1,0 +1,8 @@
+{
+  "ARA BUTONUNA": {
+    "byMethod": "xpath",
+    "tag":"div",
+    "attrName": "value",
+    "attrValue":"submit-button"
+  }
+}

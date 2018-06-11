@@ -1,0 +1,8 @@
+{
+  "GOOGLE.COM": {
+    "byMethod": "xpath",
+    "tag": "*",
+    "attrName": "@data-zingalite",
+    "attrValue": "zingat-home"
+  }
+}
