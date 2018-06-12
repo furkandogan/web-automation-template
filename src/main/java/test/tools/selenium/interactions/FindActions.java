@@ -35,6 +35,8 @@ public class FindActions extends WaitingActions {
     }
 
     /**
+     * Highlight element with red color
+     *
      * @param element
      */
     public void highlightElement(WebElement element) {
@@ -46,6 +48,8 @@ public class FindActions extends WaitingActions {
     }
 
     /**
+     * Finding Element
+     *
      * @param by
      * @return
      */
@@ -74,6 +78,8 @@ public class FindActions extends WaitingActions {
     }
 
     /**
+     * Finding List Element
+     *
      * @param by
      * @return
      */

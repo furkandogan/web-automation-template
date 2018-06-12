@@ -33,6 +33,8 @@ public class BaseUtil extends FindActions {
     }
 
     /**
+     * Sleep seconds
+     *
      * @param seconds
      */
     public void sleep(Integer seconds) {
@@ -46,7 +48,7 @@ public class BaseUtil extends FindActions {
 
 
     /**
-     *
+     * refresh page
      */
     public void pageRefresh() {
         try {
@@ -57,6 +59,8 @@ public class BaseUtil extends FindActions {
     }
 
     /**
+     * Open custom url
+     *
      * @param url
      */
     public void openCustomUrlPage(String url) {
@@ -115,7 +119,6 @@ public class BaseUtil extends FindActions {
      * Alert popup handle
      *
      * @param acceptAndDismiss
-     * @throws InterruptedException
      */
     public void alertPopup(boolean acceptAndDismiss) {
         waitForAlertIsPresent();
@@ -128,6 +131,8 @@ public class BaseUtil extends FindActions {
     }
 
     /**
+     * Switch to windows
+     *
      * @param attr
      */
     public void switchWindowAndHandle(String attr) {
@@ -144,6 +149,8 @@ public class BaseUtil extends FindActions {
 
 
     /**
+     * Add cookie by parameter
+     *
      * @param name
      * @param value
      * @param domain
@@ -158,7 +165,6 @@ public class BaseUtil extends FindActions {
      * Delete cookie
      *
      * @param cookieName
-     * @return
      */
     public void deleteCookie(String cookieName) {
         driver.manage().deleteCookieNamed(cookieName);

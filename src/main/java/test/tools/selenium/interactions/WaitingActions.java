@@ -24,6 +24,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element presence by
+     *
      * @param by
      * @return
      */
@@ -32,6 +34,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for elements presence by
+     *
      * @param by
      * @return
      */
@@ -40,6 +44,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element clickable by
+     *
      * @param by
      */
     public void waitForElementClickable(By by) {
@@ -47,6 +53,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element clickable element
+     *
      * @param element
      */
     public void waitForElementClickable(WebElement element) {
@@ -54,6 +62,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element selectable element
+     *
      * @param element
      */
     public void waitForElementSelectable(WebElement element) {
@@ -61,6 +71,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element selectable by
+     *
      * @param by
      */
     public void waitForElementSelectable(By by) {
@@ -68,6 +80,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element visible element
+     *
      * @param element
      */
     public void waitForElementVisible(WebElement element) {
@@ -75,6 +89,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element visible by
+     *
      * @param by
      */
     public void waitForElementVisible(By by) {
@@ -82,6 +98,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element invisible element
+     *
      * @param element
      */
     public void waitForElementInVisible(WebElement element) {
@@ -89,6 +107,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for element invisible by
+     *
      * @param by
      */
     public void waitForElementInVisible(By by) {
@@ -96,6 +116,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for Frame can be switchable element
+     *
      * @param element
      */
     public void waitForFrameAvailableToSwitch(WebElement element) {
@@ -103,6 +125,8 @@ public class WaitingActions {
     }
 
     /**
+     * Waiting for Frame can be switchable by
+     *
      * @param by
      */
     public void waitForFrameAvailableToSwitch(By by) {
@@ -110,13 +134,15 @@ public class WaitingActions {
     }
 
     /**
-     *
+     * Waiting for Alert is Present
      */
     public void waitForAlertIsPresent() {
         wait.until(ExpectedConditions.alertIsPresent());
     }
 
     /**
+     * Wait for attribute to be element
+     *
      * @param element
      * @param attr
      * @param attrValue
@@ -126,6 +152,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for attribute to be by
+     *
      * @param by
      * @param attr
      * @param attrValue
@@ -135,6 +163,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for attribute contains element
+     *
      * @param element
      * @param attr
      * @param attrValue
@@ -144,6 +174,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for attribute contains by
+     *
      * @param by
      * @param attr
      * @param attrValue
@@ -153,6 +185,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for attribute not empty
+     *
      * @param element
      * @param attr
      */
@@ -161,6 +195,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait js return no exception
+     *
      * @param javaScript
      */
     public void waitForJavaScriptThrowsNoExceptions(String javaScript) {
@@ -168,6 +204,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait js return value
+     *
      * @param javaScript
      */
     public void waitForJsReturnsValue(String javaScript) {
@@ -175,6 +213,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for invisible elements
+     *
      * @param elements
      */
     public void waitForElementsInVisible(List<WebElement> elements) {
@@ -182,6 +222,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for elements number
+     *
      * @param by
      * @param number
      */
@@ -191,6 +233,8 @@ public class WaitingActions {
 
 
     /**
+     * Wait for elements number less than
+     *
      * @param by
      * @param number
      */
@@ -199,6 +243,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for elements number more than
+     *
      * @param by
      * @param number
      */
@@ -207,6 +253,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for element selected
+     *
      * @param element
      */
     public void waitElementToBeSelected(WebElement element) {
@@ -221,6 +269,8 @@ public class WaitingActions {
     }
 
     /**
+     * Wait for text to be present in element
+     *
      * @param element
      */
     public void waitTextToBePresent(WebElement element) {

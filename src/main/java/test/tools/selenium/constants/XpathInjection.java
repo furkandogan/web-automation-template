@@ -12,6 +12,8 @@ public abstract class XpathInjection {
 
 
     /**
+     * Create map configuration from map
+     *
      * @param attr
      * @param mapMethodType
      * @return
@@ -23,6 +25,8 @@ public abstract class XpathInjection {
     }
 
     /**
+     * Create xpath from json
+     *
      * @param attr
      * @param mapMethodType
      * @return
@@ -63,6 +67,8 @@ public abstract class XpathInjection {
     }
 
     /**
+     * Create following xpath from json
+     *
      * @param attr
      * @param followingAttr
      * @param mapMethodType

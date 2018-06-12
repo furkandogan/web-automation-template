@@ -24,7 +24,6 @@ public class PresenceOfQualification extends FindActions {
      * Checking the presence of qualification
      *
      * @param attr
-     * @return
      */
     public void isPageLoaded(String attr) {
         waitUntilJQueryReady();
@@ -185,6 +184,8 @@ public class PresenceOfQualification extends FindActions {
     }
 
     /**
+     * Value Equals Control
+     *
      * @param attr
      * @param patternAttrValue
      * @return
@@ -199,6 +200,8 @@ public class PresenceOfQualification extends FindActions {
     }
 
     /**
+     * Attribute Value Equals Control
+     *
      * @param attr
      * @param patternAttr
      * @param patternAttrValue
@@ -214,6 +217,8 @@ public class PresenceOfQualification extends FindActions {
     }
 
     /**
+     * Range text
+     *
      * @param attr
      * @param low
      * @param high
@@ -230,6 +235,8 @@ public class PresenceOfQualification extends FindActions {
     }
 
     /**
+     * Range attribute value
+     *
      * @param attr
      * @param low
      * @param high
@@ -273,6 +280,8 @@ public class PresenceOfQualification extends FindActions {
     }
 
     /**
+     * url is exist
+     *
      * @param URLName
      * @return
      */

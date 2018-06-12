@@ -41,6 +41,8 @@ public class ActionsPerform extends FindActions {
     }
 
     /**
+     * Mouse move
+     *
      * @param attr
      * @param count
      * @throws InterruptedException
@@ -60,6 +62,8 @@ public class ActionsPerform extends FindActions {
     }
 
     /**
+     * Sendkeys input element by action perform
+     *
      * @param attr
      * @param inputValue
      */
@@ -86,9 +90,8 @@ public class ActionsPerform extends FindActions {
      * @param attr
      * @param xOffset
      * @param yOffset
-     * @throws InterruptedException
      */
-    public void dragElement(String attr, int xOffset, int yOffset) throws InterruptedException {
+    public void dragElement(String attr, int xOffset, int yOffset) {
         WebElement element = findElement(createXpath(attr, mapMethodType));
         Actions a = new Actions(driver);
         a.dragAndDropBy(element, xOffset, yOffset).build().perform();

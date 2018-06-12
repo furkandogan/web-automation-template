@@ -1,4 +1,4 @@
-# Zingat Web Automation
+# Web Automation Template
 
 <p align="center">
   <img id="header" height="214" width="500" src="https://github.com/furkandogan/web-automation-template/blob/master/docker_configs/docker_zalenium/images/logo_zalenium_wide.png" />
@@ -10,18 +10,16 @@
 # Zalenium
 Docker üzerinde çalışan bir selenium grid konteyneridir. Testlerinizi Firefox ve Chrome'da çalıştırmak için kullanılır.[docker-selenium] (https://github.com/elgalu/docker-selenium).
 
-## Getting Started
+## Başlarken
 
-#### Prerequisites
-* Pull the [docker-selenium](https://github.com/elgalu/docker-selenium) image. `docker pull elgalu/selenium`
+#### Ön Koşullar
+*[docker-selenium](https://github.com/elgalu/docker-selenium) imajını `docker pull elgalu/selenium` komutu ile indirin.
 
 #### Set it up
-* Make sure your docker daemon is running (e.g. `docker info` works without errors).
-* `docker pull dosel/zalenium`
+* Docker servisinin çalıştığından emin ol (Örneğin; `docker info` hatasız çalışır).
+* Docker zalenium imajını `docker pull dosel/zalenium` komutu ile indirin.
 
 #### Run it
-Zalenium uses docker to scale on-demand, therefore we need to give it the `docker.sock` full access, this is known as
-"Docker alongside docker".
 
 * Basic usage, without any of the integrated cloud testing platforms enabled:
 
