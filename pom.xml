@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>1.0</version>
+    <version>1.0�.1</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
@@ -16,7 +15,8 @@
         <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-    </scm>
+      <tag>web-automation-template-1.0�.1</tag>
+  </scm>
 
     <developers>
         <developer>
@@ -45,11 +45,11 @@
         <site.url>https://www.google.com</site.url>
 
         <!-- DB props -->
-        <db.driver></db.driver>
-        <db.server></db.server>
-        <db.user></db.user>
-        <db.password></db.password>
-        <db.jdbc.url></db.jdbc.url>
+        <db.driver />
+        <db.server />
+        <db.user />
+        <db.password />
+        <db.jdbc.url />
 
         <!-- Browser props -->
         <browser.remote.driver>false</browser.remote.driver>
