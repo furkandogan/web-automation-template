@@ -1,11 +1,10 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
-
-import static test.tools.selenium.constants.XpathInjection.mapValue;
 
 public class StoreElementProperties extends FindActions {
 
@@ -33,7 +32,7 @@ public class StoreElementProperties extends FindActions {
     public HashMap<String, String> storeElementData(String attr) {
         HashMap<String, String> attrTextList = new HashMap<>();
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
-        attrTextList.put(mapValue.getAttrValue(), getElementProperties.getText(attr));
+        attrTextList.put(XpathInjection.mapValue.getAttrValue(), getElementProperties.getText(attr));
         setStringList(attrTextList);
         return getStringList();
     }
@@ -46,7 +45,7 @@ public class StoreElementProperties extends FindActions {
     public HashMap<String, String> storeElementData(String attr, String patternAttr) {
         HashMap<String, String> attrTextList = new HashMap<>();
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
-        attrTextList.put(mapValue.getAttrValue(), getElementProperties.getAttribute(attr, patternAttr));
+        attrTextList.put(XpathInjection.mapValue.getAttrValue(), getElementProperties.getAttribute(attr, patternAttr));
         setStringList(attrTextList);
         return getStringList();
     }

@@ -1,10 +1,11 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
+import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.mapping.MapMethodType;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class SelectActions extends FindActions {
      * @param attr
      */
     public Select selectElement(String attr) {
-        WebElement element = findElement(createXpath(attr, mapMethodType));
+        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         waitElementToBeSelected(element);
         return new Select(element);
     }
@@ -126,7 +127,7 @@ public class SelectActions extends FindActions {
     public void selectMapPoint(String attr, String mapLocationPointAttr) {
         String lat = getFirstSelectedOptionFromElement(attr).getAttribute("lat");
         String lon = getFirstSelectedOptionFromElement(attr).getAttribute("lon");
-        WebElement element = findElement(createXpath(mapLocationPointAttr, mapMethodType));
+        WebElement element = findElement(XpathInjection.createXpath(mapLocationPointAttr, mapMethodType));
         JavaScriptActions jsActions = new JavaScriptActions(driver);
         jsActions.executeJS("arguments[0].setAttribute('value', arguments[1]);", element,
                 lat + "," + lon);

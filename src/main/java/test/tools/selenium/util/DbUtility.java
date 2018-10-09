@@ -1,7 +1,7 @@
 package test.tools.selenium.util;
 
-import test.tools.selenium.config.ConfigurationManager;
 import test.tools.selenium.config.PropertyNames;
+import test.tools.selenium.config.ConfigurationManager;
 
 import java.sql.*;
 

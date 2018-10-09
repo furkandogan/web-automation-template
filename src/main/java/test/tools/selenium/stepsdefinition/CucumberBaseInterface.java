@@ -22,7 +22,7 @@ public interface CucumberBaseInterface {
     @Ve("^Sayfa yeniden yüklenir$")
     void pageReload();
 
-    @Ozaman("^\"(.+)\" sayfasının yüklendiği görülür$")
+    @Ozaman("^\"(.+)\"'nın yüklendiği görülür$")
     void pageLoaded(String pageName);
 
     @Diyelimki("^\"(.+)\" formatına göre sayfa düzenine bakılır$")

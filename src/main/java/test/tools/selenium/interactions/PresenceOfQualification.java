@@ -1,16 +1,16 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
+import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.mapping.MapMethodType;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static test.tools.selenium.constants.XpathInjection.createXpath;
-import static test.tools.selenium.constants.XpathInjection.mapValue;
 
 public class PresenceOfQualification extends FindActions {
 
@@ -27,7 +27,7 @@ public class PresenceOfQualification extends FindActions {
      */
     public void isPageLoaded(String attr) {
         waitUntilJQueryReady();
-        findElement(createXpath(attr, MapMethodType.PAGE_LOADED));
+        findElement(XpathInjection.createXpath(attr, MapMethodType.PAGE_LOADED));
         JavaScriptActions jsActions = new JavaScriptActions(driver);
         jsActions.executeJS("return window.javascript_errors ");
     }
@@ -39,7 +39,7 @@ public class PresenceOfQualification extends FindActions {
      * @return
      */
     public boolean isElementExists(String attr) {
-        if (findElement(createXpath(attr, mapMethodType)).isDisplayed()) {
+        if (findElement(XpathInjection.createXpath(attr, mapMethodType)).isDisplayed()) {
             return true;
         }
         return false;
@@ -52,7 +52,7 @@ public class PresenceOfQualification extends FindActions {
      * @return
      */
     public boolean isElementEmpty(String attr) {
-        if (!findElements(createXpath(attr, mapMethodType)).isEmpty()) {
+        if (!findElements(XpathInjection.createXpath(attr, mapMethodType)).isEmpty()) {
             return true;
         }
         return false;
@@ -66,11 +66,11 @@ public class PresenceOfQualification extends FindActions {
      */
     public boolean isElementInView(String attr) {
         String jsStmt;
-        int index = mapValue.getIndex();
+        int index = XpathInjection.mapValue.getIndex();
         if (index == 0 || index < 0) {
-            jsStmt = String.format("return arguments[%s].size()>0;", createXpath(attr, mapMethodType));
+            jsStmt = String.format("return arguments[%s].size()>0;", XpathInjection.createXpath(attr, mapMethodType));
         } else {
-            jsStmt = String.format("return arguments[%s%s].size()>0;", createXpath(attr, mapMethodType), index);
+            jsStmt = String.format("return arguments[%s%s].size()>0;", XpathInjection.createXpath(attr, mapMethodType), index);
         }
         JavaScriptActions jsActions = new JavaScriptActions(driver);
         Object result = jsActions.executeJS(jsStmt, true);
@@ -85,7 +85,7 @@ public class PresenceOfQualification extends FindActions {
      */
     public boolean isElementDisplayed(String attr) {
         try {
-            return findElement(createXpath(attr, mapMethodType)).isDisplayed();
+            return findElement(XpathInjection.createXpath(attr, mapMethodType)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -112,7 +112,7 @@ public class PresenceOfQualification extends FindActions {
      */
     public boolean isElementEnabled(String attr) {
         try {
-            return findElement(createXpath(attr, mapMethodType)).isEnabled();
+            return findElement(XpathInjection.createXpath(attr, mapMethodType)).isEnabled();
         } catch (Exception e) {
             return false;
         }

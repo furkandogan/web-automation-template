@@ -1,9 +1,9 @@
 package test.tools.selenium.constants;
 
-import org.openqa.selenium.By;
 import test.tools.selenium.mapping.MapMethodType;
 import test.tools.selenium.mapping.MapValue;
 import test.tools.selenium.mapping.Mapper;
+import org.openqa.selenium.By;
 
 public abstract class XpathInjection {
 

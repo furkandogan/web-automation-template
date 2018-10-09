@@ -7,9 +7,9 @@ import com.aventstack.extentreports.reporter.KlovReporter;
 import com.aventstack.extentreports.reporter.configuration.ChartLocation;
 import com.aventstack.extentreports.reporter.configuration.Protocol;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import test.tools.selenium.TestCaseFrame;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import test.tools.selenium.TestCaseFrame;
 
 import java.io.File;
 import java.io.FileOutputStream;

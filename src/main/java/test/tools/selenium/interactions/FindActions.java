@@ -1,13 +1,12 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-
-import static test.tools.selenium.constants.XpathInjection.mapValue;
 
 public class FindActions extends WaitingActions {
 
@@ -55,18 +54,18 @@ public class FindActions extends WaitingActions {
      */
     public WebElement findElement(By by) {
         try {
-            if(mapValue.getMoreThanOne() != null && mapValue.getMoreThanOne() == true){
+            if(XpathInjection.mapValue.getMoreThanOne() != null && XpathInjection.mapValue.getMoreThanOne() == true){
                 setElements(findElements(by));
             }
-            if (mapValue.getIndex() != null) {
+            if (XpathInjection.mapValue.getIndex() != null) {
                 setElements(waitForElementsPresence(by));
-                setElement(getElements().get(mapValue.getIndex()));
+                setElement(getElements().get(XpathInjection.mapValue.getIndex()));
             } else {
                 setElement(waitForElementPresence(by));
             }
             ScrollingActions scroll = new ScrollingActions(driver);
             scroll.scrollToElement(element);
-            if (mapValue.getIsJsEnabled() != null && mapValue.getIsJsEnabled() == true) {
+            if (XpathInjection.mapValue.getIsJsEnabled() != null && XpathInjection.mapValue.getIsJsEnabled() == true) {
                 waitForElementInVisible(by);
             } else {
                 waitForElementVisible(by);

@@ -124,13 +124,13 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * O zaman "http://www.google.com" sayfasının yüklendiği görülür
      */
     @Override
-    @Ozaman("^\"(.+)\" sayfasının yüklendiği görülür$")
+    @Ozaman("^\"(.+)\"'nın yüklendiği görülür$")
     public void pageLoaded(String pageName) {
         try {
             PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
             presence.isPageLoaded(pageName);
-            extTest.log(Status.PASS, String.format("%s sayfasının yüklendiği görüldü", pageName));
-            Cookie cookie = new Cookie("zaleniumMessage", String.format("%s sayfasının yüklendiği görüldü", pageName));
+            extTest.log(Status.PASS, String.format("%s'nın yüklendiği görüldü", pageName));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("%s'nın yüklendiği görüldü", pageName));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());

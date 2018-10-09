@@ -1,9 +1,9 @@
 package test.tools.selenium.instances;
 
-import org.apache.commons.io.FileUtils;
 import test.tools.selenium.XlsReader;
 import test.tools.selenium.config.ConfigurationManager;
 import test.tools.selenium.config.PropertyNames;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

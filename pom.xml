@@ -2,34 +2,37 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>test.tools.selenium</groupId>
+    <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
+    <url>https://github.com/furkandogan/web-automation-template</url>
+    <description>Web Automation Template for Website with Cucumber, Zalenium end Klov Reporter
+    </description>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
+        <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
+        <url>https://github.com/furkandogan/web-automation-template.git</url>
+    </scm>
 
     <developers>
         <developer>
             <name>Furkan Doğan</name>
             <email>dgnfrkn@gmail.com</email>
             <organization>Frkndgn</organization>
-            <organizationUrl>http://www.frkndgn.com</organizationUrl>
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
-        <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
-        <url>http://github.com/furkandogan/web-automation-template/master</url>
-    </scm>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

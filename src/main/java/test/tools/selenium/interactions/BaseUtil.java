@@ -1,10 +1,11 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
+import test.tools.selenium.mapping.MapMethodType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.mapping.MapMethodType;
 
 import java.text.ParseException;
 import java.text.RuleBasedCollator;
@@ -112,7 +113,7 @@ public class BaseUtil extends FindActions {
      */
     public void switchToFrame(String attr) {
         driver.switchTo().defaultContent();
-        driver.switchTo().frame(findElement(createXpath(attr, mapMethodType)));
+        driver.switchTo().frame(findElement(XpathInjection.createXpath(attr, mapMethodType)));
     }
 
     /**
@@ -136,7 +137,7 @@ public class BaseUtil extends FindActions {
      * @param attr
      */
     public void switchWindowAndHandle(String attr) {
-        WebElement element = findElement(createXpath(attr, mapMethodType));
+        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         Set<String> allWindows = driver.getWindowHandles();
         for (String selectWindow : allWindows) {
             driver.switchTo().window(selectWindow);

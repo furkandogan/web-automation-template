@@ -1,8 +1,9 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
+import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.mapping.MapMethodType;
 
 import static test.tools.selenium.constants.XpathInjection.createXpath;
 
@@ -21,7 +22,7 @@ public class GetElementProperties extends FindActions {
      * @return
      */
     public String getAttribute(String attr, String patternAttr) {
-        return findElement(createXpath(attr, mapMethodType)).getAttribute(patternAttr).trim().toLowerCase();
+        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getAttribute(patternAttr).trim().toLowerCase();
     }
 
     /**
@@ -41,7 +42,7 @@ public class GetElementProperties extends FindActions {
      * @return
      */
     public String getText(String attr) {
-        return findElement(createXpath(attr, mapMethodType)).getText().trim().toLowerCase();
+        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getText().trim().toLowerCase();
     }
 
     /**
@@ -51,7 +52,7 @@ public class GetElementProperties extends FindActions {
      * @return
      */
     public String getTagName(String attr) {
-        return findElement(createXpath(attr, mapMethodType)).getTagName().trim().toLowerCase();
+        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getTagName().trim().toLowerCase();
     }
 
     /**
@@ -61,7 +62,7 @@ public class GetElementProperties extends FindActions {
      * @return
      */
     public String getCssValue(String attr, String value) {
-        return findElement(createXpath(attr, mapMethodType)).getCssValue(value).trim().toLowerCase();
+        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getCssValue(value).trim().toLowerCase();
     }
 
     /**
@@ -71,7 +72,7 @@ public class GetElementProperties extends FindActions {
      * @return
      */
     public Integer getSize(String attr) {
-        return findElements(createXpath(attr, mapMethodType)).size();
+        return findElements(XpathInjection.createXpath(attr, mapMethodType)).size();
     }
 
     /**

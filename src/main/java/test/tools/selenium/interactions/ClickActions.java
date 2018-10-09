@@ -1,13 +1,13 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
+import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.mapping.MapMethodType;
 
 import static test.tools.selenium.constants.XpathInjection.createXpath;
-import static test.tools.selenium.constants.XpathInjection.mapValue;
 
 public class ClickActions extends FindActions {
 
@@ -23,9 +23,9 @@ public class ClickActions extends FindActions {
      * @param attr
      */
     public void clickToElement(String attr) {
-        WebElement element = findElement(createXpath(attr, mapMethodType));
+        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         try {
-            if (mapValue.getIsJsEnabled() != null && mapValue.getIsJsEnabled() == true) {
+            if (XpathInjection.mapValue.getIsJsEnabled() != null && XpathInjection.mapValue.getIsJsEnabled() == true) {
                 clickByElement(element);
             } else {
                 clickByJs(element);

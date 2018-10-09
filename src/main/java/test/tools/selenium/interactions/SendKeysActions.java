@@ -1,10 +1,11 @@
 package test.tools.selenium.interactions;
 
+import test.tools.selenium.constants.XpathInjection;
+import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.mapping.MapMethodType;
 
 import static test.tools.selenium.constants.XpathInjection.createXpath;
 
@@ -24,7 +25,7 @@ public class SendKeysActions extends FindActions {
      * @param inputValue
      */
     public void sendKeysByElement(String attr, String inputValue) {
-        WebElement element = findElement(createXpath(attr, mapMethodType));
+        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         element.clear();
         element.sendKeys(inputValue);
     }
@@ -37,7 +38,7 @@ public class SendKeysActions extends FindActions {
      * @param filePath
      */
     public void uploadFile(String attr, String filePath) {
-        findElement(createXpath(attr, mapMethodType)).sendKeys(filePath);
+        findElement(XpathInjection.createXpath(attr, mapMethodType)).sendKeys(filePath);
     }
 
     /**
@@ -46,7 +47,7 @@ public class SendKeysActions extends FindActions {
      * @param attr
      */
     public void sendKeysReturn(String attr) {
-        WebElement element = findElement(createXpath(attr, mapMethodType));
+        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         element.sendKeys(Keys.RETURN);
     }
 
