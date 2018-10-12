@@ -95,6 +95,12 @@ public class CucumberSteps extends ExtentReportTestCaseFrame implements Cucumber
     }
 
     @Override
+    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir")
+    public void uploadFileInputField(DataTable dataTable){
+        cucumberBase.uploadFileInputField(dataTable);
+    }
+
+    @Override
     @Diyelimki("^Sayfa üzerindeki seçim alanından tablodaki seçenekler seçilir$")
     public void selectOptionField(DataTable dataTable) {
         cucumberBase.selectOptionField(dataTable);
