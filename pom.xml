@@ -3,7 +3,7 @@
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
@@ -15,7 +15,7 @@
         <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-      <tag>web-automation-template-1.1</tag>
+      <tag>web-automation-template-1.2</tag>
   </scm>
 
     <developers>
@@ -79,7 +79,7 @@
         <chrome.driver.location.linux>/usr/bin/chromedriver</chrome.driver.location.linux>
         <firefox.driver.location.linux>/usr/bin/firefoxdriver</firefox.driver.location.linux>
 
-        <chrome.driver.location.mac>src/main/resources/driver/mac/chromedriver</chrome.driver.location.mac>
+        <chrome.driver.location.mac>/usr/bin/chromedriver</chrome.driver.location.mac>
     </properties>
 
     <build>
