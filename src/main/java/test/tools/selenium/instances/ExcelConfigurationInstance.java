@@ -39,6 +39,10 @@ public class  ExcelConfigurationInstance {
         xlsReader = new XlsReader(copyDublicateExcelDocument(excelDoc));
     }
 
+    private void loadExcelDocument(String path) throws Exception {
+        xlsReader = new XlsReader(copyDublicateExcelDocument(path));
+    }
+
     public XlsReader getXlsReader() {
         return xlsReader;
     }

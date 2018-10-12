@@ -25,8 +25,7 @@ public class XlsReader {
     private XSSFRow row = null;
     private XSSFCell cell = null;
 
-    public XlsReader(String path) {
-
+    public XlsReader() {
         try {
             excelFilePath = ConfigurationManager.getConfigProperty(PropertyNames.EXCEL_FILE_PATH);
             fis = new FileInputStream(excelFilePath);
@@ -37,7 +36,19 @@ public class XlsReader {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
 
+    public XlsReader(String path) {
+        try {
+            excelFilePath = ConfigurationManager.getConfigProperty(PropertyNames.EXCEL_FILE_PATH);
+            fis = new FileInputStream(path);
+            workbook = new XSSFWorkbook(fis);
+            sheet = workbook.getSheetAt(0);
+            fis.close();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     // returns the row count in a sheet

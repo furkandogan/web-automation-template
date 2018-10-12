@@ -46,6 +46,9 @@ public interface CucumberBaseInterface {
     @Diyelimki("^Sayfa üzerindeki metin alanları önbellekteki verilerle doldurulur$")
     void fillInputFieldByList(DataTable dataTable);
 
+    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir")
+    void uploadFileInputField(DataTable dataTable);
+
     @Diyelimki("^Sayfa üzerindeki seçim alanından tablodaki seçenekler seçilir$")
     void selectOptionField(DataTable dataTable);
 

@@ -283,6 +283,30 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
 
     /**
      * Example:
+     * Diyelimki Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir
+     * | cellItem1 | cellItem2 |
+     */
+    @Override
+    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir")
+    public void uploadFileInputField(DataTable dataTable) {
+        for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
+            String cellItem1 = dataTableRow.getCells().get(0);
+            String cellItem2 = dataTableRow.getCells().get(1);
+            try {
+                SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
+                sendKeysActions.uploadFile(cellItem1, cellItem2);
+                extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına tablodaki %s dosyası eklendi", cellItem1, cellItem2));
+                Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanına tablodaki %s dosyası eklendi", cellItem1, cellItem2));
+                driver.manage().addCookie(cookie);
+            } catch (Exception e) {
+                extTest.log(Status.FAIL, e.getMessage());
+                Assert.fail(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Example:
      * Diyelimki Sayfa üzerindeki seçim alanından tablodaki seçenekler seçilir
      * | cellItem1 | cellItem2 |
      */
