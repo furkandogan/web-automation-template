@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import test.tools.selenium.constants.XpathInjection;
 import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.WebDriver;
@@ -51,12 +52,26 @@ public class SelectActions extends FindActions {
         return selectElement(attr).getOptions();
     }
 
+
+    /**
+     * @param attr
+     */
+    public void waitOptionToBePresent(String attr) {
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return getOptionsFromElement(attr).size() != 0;
+            }
+        });
+    }
+
     /**
      * @param attr
      * @param option
      */
     public void selectElementByVisibleText(String attr, String option) {
+        waitOptionToBePresent(attr);
         selectElement(attr).selectByVisibleText(option);
+        waitTextToBePresent(selectElement(attr).getFirstSelectedOption());
     }
 
     /**
@@ -72,6 +87,7 @@ public class SelectActions extends FindActions {
      * @param index
      */
     public void selectElementByIndex(String attr, int index) {
+        waitOptionToBePresent(attr);
         selectElement(attr).selectByIndex(index);
     }
 
@@ -87,7 +103,8 @@ public class SelectActions extends FindActions {
      * @param attr
      * @param value
      */
-    public void selectElementByIndex(String attr, String value) {
+    public void selectElementByValue(String attr, String value) {
+        waitOptionToBePresent(attr);
         selectElement(attr).selectByValue(value);
     }
 
@@ -95,7 +112,7 @@ public class SelectActions extends FindActions {
      * @param attr
      * @param value
      */
-    public void deselectElementByIndex(String attr, String value) {
+    public void deselectElementByValue(String attr, String value) {
         selectElement(attr).deselectByValue(value);
     }
 
@@ -111,6 +128,7 @@ public class SelectActions extends FindActions {
      * @param optionText
      */
     public void selectByVisibleContainText(String attr, String optionText) {
+        waitOptionToBePresent(attr);
         List<WebElement> options = getOptionsFromElement(attr);
         for (WebElement option : options) {
             if (options.contains(optionText)) {

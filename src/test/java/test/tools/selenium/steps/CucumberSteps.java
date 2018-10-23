@@ -47,7 +47,7 @@ public class CucumberSteps extends ExtentReportTestCaseFrame implements Cucumber
     }
 
     @Override
-    @Ozaman("^\"(.+)\" sayfasının yüklendiği görülür$")
+    @Ozaman("^\"(.+)\"'nın yüklendiği görülür$")
     public void pageLoaded(String pageName) {
         cucumberBase.pageLoaded(pageName);
     }

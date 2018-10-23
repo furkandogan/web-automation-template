@@ -33,34 +33,35 @@ public abstract class XpathInjection {
      */
     public static By createXpath(String attr, MapMethodType mapMethodType) {
         MapValue mapValue = createMapperConfiguration(attr, mapMethodType);
+        String attrValue = mapValue.getAttrValue();
         switch (mapValue.getByMethod()) {
             case "id":
-                by = By.id(attr);
+                by = By.id(attrValue);
                 break;
             case "name":
-                by = By.name(attr);
+                by = By.name(attrValue);
                 break;
             case "className":
-                by = By.className(attr);
+                by = By.className(attrValue);
                 break;
             case "tagName":
-                by = By.tagName(attr);
+                by = By.tagName(attrValue);
                 break;
             case "linkText":
-                by = By.linkText(attr);
+                by = By.linkText(attrValue);
                 break;
             case "partialLinkText":
-                by = By.partialLinkText(attr);
+                by = By.partialLinkText(attrValue);
                 break;
             case "cssSelector":
-                by = By.cssSelector(attr);
+                by = By.cssSelector(attrValue);
                 break;
             case "xpath":
             default:
                 by = By.xpath(String.format("//%s[%s='%s']",
                         mapValue.getTag(),
                         mapValue.getAttrName(),
-                        mapValue.getAttrValue()));
+                        attrValue));
                 break;
         }
         return by;
@@ -77,38 +78,40 @@ public abstract class XpathInjection {
      */
     public static By createXpath(String attr, String followingAttr, MapMethodType mapMethodType, MapMethodType followingMapMethodType) {
         MapValue mapValue = createMapperConfiguration(attr, mapMethodType);
+        String attrValue = mapValue.getAttrValue();
         MapValue followingMapValue = createMapperConfiguration(followingAttr, followingMapMethodType);
+        String followingAttrValue = followingMapValue.getAttrValue();
         switch (mapValue.getByMethod()) {
             case "id":
-                by = By.id(attr);
+                by = By.id(attrValue);
                 break;
             case "name":
-                by = By.name(attr);
+                by = By.name(attrValue);
                 break;
             case "className":
-                by = By.className(attr);
+                by = By.className(attrValue);
                 break;
             case "tagName":
-                by = By.tagName(attr);
+                by = By.tagName(attrValue);
                 break;
             case "linkText":
-                by = By.linkText(attr);
+                by = By.linkText(attrValue);
                 break;
             case "partialLinkText":
-                by = By.partialLinkText(attr);
+                by = By.partialLinkText(attrValue);
                 break;
             case "cssSelector":
-                by = By.cssSelector(attr);
+                by = By.cssSelector(attrValue);
                 break;
             case "xpath":
             default:
                 by = By.xpath(String.format("//%s[%s='%s']/following::%s[%s='%s']",
                         mapValue.getTag(),
                         mapValue.getAttrName(),
-                        mapValue.getAttrValue(),
+                        attrValue,
                         followingMapValue.getTag(),
                         followingMapValue.getAttrName(),
-                        followingMapValue.getAttrValue()));
+                        followingAttrValue));
                 break;
         }
         return by;

@@ -1,8 +1,8 @@
 {
-  "ARA BUTONUNA": {
-    "byMethod": "xpath",
-    "tag":"button",
-    "attrName": "data-zingalite",
-    "attrValue":"submit-button"
+  "GOOGLE'DA ARA BUTONU": {
+    "byMethod": "name",
+    "tag": "input",
+    "attrName": "@name",
+    "attrValue": "btnK"
   }
 }
