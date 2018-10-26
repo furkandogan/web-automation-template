@@ -3,7 +3,7 @@
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
