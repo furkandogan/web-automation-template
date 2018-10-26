@@ -262,7 +262,7 @@ public class WaitingActions {
                 .until(new ExpectedCondition<Boolean>() {
                     public Boolean apply(WebDriver d) {
                         Select select = new Select(element);
-                        select.getAllSelectedOptions().isEmpty();
+                        //select.getAllSelectedOptions().isEmpty();
                         return select.getAllSelectedOptions().size() != 0;
                     }
                 });
