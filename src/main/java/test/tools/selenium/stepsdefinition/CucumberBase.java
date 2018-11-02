@@ -393,7 +393,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
             PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
-            String cellItem3 = dataTableRow.getCells().get(2);
+            String cellItem3 = dataTableRow.getCells().get(2).trim().toLowerCase();
             try {
                 if (cellItem2.equalsIgnoreCase("text")) {
                     Assert.assertTrue(presence.isTextEquals(cellItem1, cellItem3));
@@ -422,7 +422,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
-            String cellItem3 = dataTableRow.getCells().get(2);
+            String cellItem3 = dataTableRow.getCells().get(2).trim().toLowerCase();
             try {
                 PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
                 if (cellItem2.equalsIgnoreCase("text")) {
@@ -451,7 +451,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
-            String cellItem3 = dataTableRow.getCells().get(2);
+            String cellItem3 = dataTableRow.getCells().get(2).trim().toLowerCase();
             try {
                 StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
                 String storeDataItem = elementProperties.getStoreElementValue(cellItem3);
@@ -537,7 +537,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
-            String cellItem3 = dataTableRow.getCells().get(2);
+            String cellItem3 = dataTableRow.getCells().get(2).trim().toLowerCase();
             try {
                 PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
                 boolean isElementPresent = presence.isElementExists(cellItem1);

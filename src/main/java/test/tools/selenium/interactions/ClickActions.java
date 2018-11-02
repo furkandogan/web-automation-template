@@ -26,10 +26,10 @@ public class ClickActions extends FindActions {
         WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         try {
             if (XpathInjection.mapValue.getIsJsEnabled() != null && XpathInjection.mapValue.getIsJsEnabled() == true) {
-                clickByElement(element);
+                clickByJs(element);
                 waitUntilJSReady();
             } else {
-                clickByJs(element);
+                clickByElement(element);
                 waitUntilJSReady();
             }
         } catch (WebDriverException e) {
