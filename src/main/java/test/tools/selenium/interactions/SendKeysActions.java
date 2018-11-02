@@ -24,10 +24,35 @@ public class SendKeysActions extends FindActions {
      * @param attr
      * @param inputValue
      */
-    public void sendKeysByElement(String attr, String inputValue) {
+    public void sendKeysToElement(String attr, String inputValue) {
         WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
+        if (XpathInjection.mapValue.getIsJsEnabled() != null && XpathInjection.mapValue.getIsJsEnabled() == true) {
+            sendKeysByElement(element,inputValue);
+            waitUntilJSReady();
+        } else {
+            sendKeysByJsElement(element,inputValue);
+            waitUntilJSReady();
+        }
+    }
+
+    /**
+     * Send texts or keys in input element
+     *
+     * @param element
+     */
+    public void sendKeysByElement(WebElement element, String inputValue) {
         element.clear();
         element.sendKeys(inputValue);
+    }
+
+    /**
+     * Send texts or keys in input element by js
+     *
+     * @param element
+     */
+    public void sendKeysByJsElement(WebElement element, String inputValue) {
+        JavaScriptActions jsActions = new JavaScriptActions(driver);
+        jsActions.executeJS("arguments[0].setAttribute('value', '" + inputValue +"')", element);
     }
 
 

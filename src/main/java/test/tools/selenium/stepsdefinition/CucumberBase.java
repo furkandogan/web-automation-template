@@ -244,7 +244,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
             String cellItem2 = dataTableRow.getCells().get(1);
             try {
                 SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
-                sendKeysActions.sendKeysByElement(cellItem1, cellItem2);
+                sendKeysActions.sendKeysToElement(cellItem1, cellItem2);
                 extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına tablodaki %s değeri girildi", cellItem1, cellItem2));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanına tablodaki %s değeri girildi", cellItem1, cellItem2));
                 driver.manage().addCookie(cookie);
@@ -270,7 +270,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
                 StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
                 String storeDataItem = elementProperties.getStoreElementValue(cellItem2);
                 SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
-                sendKeysActions.sendKeysByElement(cellItem1, storeDataItem);
+                sendKeysActions.sendKeysToElement(cellItem1, storeDataItem);
                 extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına önbellekteki %s değeri girildi", cellItem1, storeDataItem));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanına önbellekteki %s değeri girildi", cellItem1, storeDataItem));
                 driver.manage().addCookie(cookie);
