@@ -3,7 +3,6 @@
     "byMethod": "id",
     "tag":"input",
     "attrName": "@id",
-    "attrValue":"lst-ib",
-    "isJsEnabled": true
+    "attrValue":"lst-ib"
   }
 }

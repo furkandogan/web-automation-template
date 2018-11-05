@@ -43,6 +43,7 @@ public class SendKeysActions extends FindActions {
     public void sendKeysByElement(WebElement element, String inputValue) {
         element.clear();
         element.sendKeys(inputValue);
+        waitTextToBePresent(element);
     }
 
     /**
