@@ -449,9 +449,9 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
     @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, önbellekteki değer ile aynı olup olmadığı kontrol edilir")
     public void checkStoreElementDataIsExistOnSite(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
-            String cellItem1 = dataTableRow.getCells().get(0).trim().toLowerCase();
+            String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
-            String cellItem3 = dataTableRow.getCells().get(2).trim().toLowerCase();
+            String cellItem3 = dataTableRow.getCells().get(2);
             try {
                 StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
                 String storeDataItem = elementProperties.getStoreElementValue(cellItem3);
