@@ -28,6 +28,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
     private WebDriverWait wait = null;
     private ExtentTest extTest = null;
     private List<GalenTestInfo> galenTestInfos = null;
+    private StoreElementProperties elementProperties = null;
 
     /**
      * @param scenario
@@ -267,7 +268,6 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
             try {
-                StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
                 String storeDataItem = elementProperties.getStoreElementValue(cellItem2);
                 SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
                 sendKeysActions.sendKeysToElement(cellItem1, storeDataItem);
@@ -362,7 +362,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
     @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri önbelleğe kaydedilir")
     public void storeElementData(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
-            StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
+            elementProperties = new StoreElementProperties(driver, wait);
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
             try {
@@ -453,7 +453,6 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
             String cellItem2 = dataTableRow.getCells().get(1);
             String cellItem3 = dataTableRow.getCells().get(2);
             try {
-                StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
                 String storeDataItem = elementProperties.getStoreElementValue(cellItem3);
                 PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
                 if (cellItem2.equalsIgnoreCase("text")) {
@@ -574,7 +573,6 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
                 PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
                 boolean isElementPresent = presence.isElementExists(cellItem1);
                 if (isElementPresent == true) {
-                    StoreElementProperties elementProperties = new StoreElementProperties(driver, wait);
                     String storeDataItem = elementProperties.getStoreElementValue(cellItem1);
                     if (cellItem2.equalsIgnoreCase("text")) {
                         Assert.assertTrue(presence.isTextEquals(cellItem1, storeDataItem));
