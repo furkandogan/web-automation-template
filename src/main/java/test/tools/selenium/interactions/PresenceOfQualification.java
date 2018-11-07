@@ -39,10 +39,12 @@ public class PresenceOfQualification extends FindActions {
      * @return
      */
     public boolean isElementExists(String attr) {
-        if (findElement(XpathInjection.createXpath(attr, mapMethodType)).isDisplayed()) {
+        try {
+            findElement(XpathInjection.createXpath(attr, mapMethodType));
             return true;
+        }catch (NoSuchElementException e){
+            return false;
         }
-        return false;
     }
 
     /**
