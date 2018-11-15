@@ -1,44 +1,16 @@
 package test.tools.selenium.util;
 
-import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.config.ConfigurationManager;
+import test.tools.selenium.config.PropertyNames;
 
 import java.sql.*;
 
 public class DbUtility {
 
-
-    private static ResultSet rsCacheData;
-
     private Connection connection = null;
     private Statement statement = null;
 
-
-    public static ResultSet getRsCacheData() {
-        return rsCacheData;
-    }
-
-
-    public Statement getStatement() {
-        return statement;
-    }
-
-    public void setStatement(Statement statement) {
-        this.statement = statement;
-    }
-
-    public Connection initConnection() throws Exception {
-
-        Class.forName(PropertyNames.DB_DRIVER);
-
-        String user = ConfigurationManager.getConfigProperty(PropertyNames.DB_USER);
-        String password = ConfigurationManager.getConfigProperty(PropertyNames.DB_PS);
-        String jdbcUrl = ConfigurationManager.getConfigProperty(PropertyNames.DB_JDBC_URL);
-
-        connection = DriverManager.getConnection(jdbcUrl, user, password);
-
-        return connection;
-    }
+    private static ResultSet rsCacheData;
 
     public Connection getConnection() {
         return connection;
@@ -48,7 +20,58 @@ public class DbUtility {
         this.connection = connection;
     }
 
+    public Statement getStatement() {
+        return statement;
+    }
 
+    public void setStatement(Statement statement) {
+        this.statement = statement;
+    }
+
+    public static ResultSet getRsCacheData() {
+        return rsCacheData;
+    }
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public Connection initConnection() throws Exception {
+
+        Class.forName(PropertyNames.DB_DRIVER);
+        String user = ConfigurationManager.getConfigProperty(PropertyNames.DB_USER);
+        String password = ConfigurationManager.getConfigProperty(PropertyNames.DB_PS);
+        String jdbcUrl = ConfigurationManager.getConfigProperty(PropertyNames.DB_JDBC_URL);
+
+        connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+        return connection;
+    }
+
+    /**
+     *
+     * @param dbDriver
+     * @param user
+     * @param password
+     * @param jdbcUrl
+     * @return
+     * @throws Exception
+     */
+    public Connection initConnection(String dbDriver, String user, String password, String jdbcUrl) throws Exception {
+
+        Class.forName(dbDriver);
+        connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+        return connection;
+    }
+
+    /**
+     *
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     public ResultSet getAllResult(String query) throws SQLException {
         statement = connection.createStatement();
         ResultSet res = statement.executeQuery(query);
@@ -56,7 +79,12 @@ public class DbUtility {
 
     }
 
-    // Gönderilen queryinin ilk rowunu geriye dönderir
+    /**
+     * Gönderilen queryinin ilk rowunu geriye dönderir
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     public ResultSet getFirstRowResult(String query) throws SQLException {
         statement = connection.createStatement();
         statement.setMaxRows(1);
@@ -64,7 +92,13 @@ public class DbUtility {
         return res;
     }
 
-    // Gönderilen queryinin ilk rowunun string typeli colonunu gönderir
+    /**
+     * Gönderilen queryinin ilk rowunun string typeli colonunu gönderir
+     * @param query
+     * @param columnName
+     * @return
+     * @throws SQLException
+     */
     public String getFirstRowResultCellValue(String query, String columnName)
             throws SQLException {
         statement = connection.createStatement();
@@ -75,7 +109,13 @@ public class DbUtility {
         return res.getString(columnName);
     }
 
-    // Gönderilen queryinin ilk rowunun int type li colonunun degerini gönderir
+    /**
+     * Gönderilen queryinin ilk rowunun int type li colonunun degerini gönderir
+     * @param query
+     * @param columnName
+     * @return
+     * @throws SQLException
+     */
     public int getFirstRowResultCellValue(String query, int columnName)
             throws SQLException {
         statement = connection.createStatement();
@@ -86,6 +126,10 @@ public class DbUtility {
         return res.getInt(columnName);
     }
 
+    /**
+     *
+     * @throws SQLException
+     */
     public void disConnect() throws SQLException {
 
         if (connection != null) {
@@ -93,15 +137,14 @@ public class DbUtility {
         }
     }
 
-    // public int fetchSizeSalesData() {
-    // int fetchSize = 0;
-    // if(rsSalesData != null){
-    // fetchSize = rsSalesData.getFetchSize();
-    // }
-    // return fetchSize;
-    // }
-
-
+    /**
+     *
+     * @param rowNumber
+     * @param rowName
+     * @param rowValue
+     * @return
+     * @throws Exception
+     */
     public String fetchData(int rowNumber, String rowName, String rowValue) throws Exception {
         if (rsCacheData != null) {
 
@@ -123,6 +166,12 @@ public class DbUtility {
         return rowValue;
     }
 
+    /**
+     *
+     * @param selectQuery
+     * @return
+     * @throws Exception
+     */
     public int cacheData(String selectQuery) throws Exception {
         int fetchSize = 0;
 

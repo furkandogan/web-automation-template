@@ -12,114 +12,135 @@ import java.nio.file.attribute.FileTime;
 import java.util.Date;
 
 public class FileUtil {
-	private static FileUtil instance;
+    private static FileUtil instance;
 
-	// 7 gün'ün milisaniye değeri = 604800000
-	public static final long DISTANCEFROMCREATEDDATE = 604800000;
+    // 7 gün'ün milisaniye değeri = 604800000
+    public static final long DISTANCEFROMCREATEDDATE = 604800000;
 
-	public static FileUtil getInstance() {
+    public static FileUtil getInstance() {
+        if (instance == null) {
+            createInstance();
+        }
+        return instance;
+    }
 
-		if (instance == null) {
+    private static synchronized void createInstance() {
+        if (instance == null) {
+            instance = new FileUtil();
+        }
+    }
 
-			createInstance();
-		}
+    /**
+     * @param dir
+     */
+    public void createDirectory(File dir) {
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+    }
 
-		return instance;
-	}
+    /**
+     * @param srcFile
+     * @param destFile
+     * @throws IOException
+     */
+    public void copyFile(File srcFile, File destFile) throws IOException {
+        FileUtils.copyFile(srcFile, destFile);
+    }
 
-	private static synchronized void createInstance() {
+    /**
+     * @param root
+     * @param datas
+     * @param tokenId
+     */
+    @SuppressWarnings("deprecation")
+    public void writeDatasInLogFile(String root, String datas, String tokenId) {
+        PrintWriter pWriter = null;
+        File file = new File(root + ".log");
+        String data = null;
+        try {
+            String log = FileUtils.readFileToString(file);
 
-		if (instance == null) {
+            pWriter = new PrintWriter(root + ".log");
+            data = "Kullanilan veriler: -" + datas;
 
-			instance = new FileUtil();
-		}
-	}
+            for (int i = 0; i < data.split("-").length; i++) {
 
-	public void createDirectory(File dir) {
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-	}
+                pWriter.println(data.split("-")[i]);
+            }
+            pWriter.println("");
+            pWriter.println("Log: ");
+            pWriter.println(log);
 
-	public void copyFile(File srcFile, File destFile) throws IOException {
-		FileUtils.copyFile(srcFile, destFile);
-	}
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+        } finally {
+            if (pWriter != null)
+                pWriter.close();
+        }
 
-	@SuppressWarnings("deprecation")
-	public void writeDatasInLogFile(String root, String datas, String tokenId) {
-		PrintWriter pWriter = null;
-		File file = new File(root + ".log");
-		String data  = null;
-		try {
-			String log = FileUtils.readFileToString(file);
+    }
 
-			pWriter = new PrintWriter(root + ".log");
-			data = "Kullanilan veriler: -" + datas;
+    /**
+     * @param file
+     */
+    public void deleteFileListing(File file) {
 
-			for (int i = 0; i < data.split("-").length; i++) {
+        File[] directoryListing = file.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                try {
+                    deleteOlderFile(child, DISTANCEFROMCREATEDDATE);
+                    if (child.isDirectory()) {
+                        deleteFileListing(child);
+                    }
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                }
+            }
+        }
+    }
 
-				pWriter.println(data.split("-")[i]);
-			}
-			pWriter.println("");
-			pWriter.println("Log: ");
-			pWriter.println(log);
+    /**
+     * @param file
+     * @param time
+     */
+    public void deleteOlderFile(File file, Long time) {
 
-		} catch (Exception e) {
-		} finally {
-			if (pWriter != null)
-				pWriter.close();
-		}
+        try {
 
-	}
+            Path path = file.toPath();
+            BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+            FileTime creationTime = attributes.creationTime();
+            long epoch = creationTime.toMillis();
+            Date currentTime = new Date();
+            if (time <= (currentTime.getTime() - epoch)) {
+                if (file.isDirectory()) {
+                    FileUtils.deleteDirectory(new File(file.getCanonicalPath()));
+                } else if (file.isFile()) {
+                    file.delete();
+                }
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+        }
 
-	public void deleteFileListing(File file) {
+    }
 
-		File[] directoryListing = file.listFiles();
-		if (directoryListing != null) {
-			for (File child : directoryListing) {
-				try {
-					deleteOlderFile(child, DISTANCEFROMCREATEDDATE);
-					if (child.isDirectory()) {
-						deleteFileListing(child);
-					}
-				} catch (Exception e) {
-				}
-			}
-		}
-	}
-
-	public void deleteOlderFile(File file, Long time) {
-
-		try {
-
-			Path path = file.toPath();
-			BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
-			FileTime creationTime = attributes.creationTime();
-			long epoch = creationTime.toMillis();
-			Date currentTime = new Date();
-			if (time <= (currentTime.getTime() - epoch)) {
-				if (file.isDirectory()) {
-					FileUtils.deleteDirectory(new File(file.getCanonicalPath()));
-				} else if (file.isFile()) {
-					file.delete();
-				}
-			}
-		} catch (Exception e) {
-		}
-
-	}
-
-	public void deleteDirectory(File path) {
-		if (path.exists()) {
-			File[] files = path.listFiles();
-			for (int i = 5; i <= files.length; i++) {
-				if (files[i].isDirectory()) {
-					deleteDirectory(files[i]);
-				} else {
-					files[i].delete();
-				}
-			}
-		}
-		path.delete();
-	}
+    /**
+     * @param path
+     */
+    public void deleteDirectory(File path) {
+        if (path.exists()) {
+            File[] files = path.listFiles();
+            for (int i = 5; i <= files.length; i++) {
+                if (files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                } else {
+                    files[i].delete();
+                }
+            }
+        }
+        path.delete();
+    }
 }

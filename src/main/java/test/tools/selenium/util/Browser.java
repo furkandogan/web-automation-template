@@ -4,20 +4,8 @@ import org.openqa.selenium.Platform;
 
 public class Browser {
 
-    /**
-     *
-     */
     private String name;
-
-
-    /**
-     *
-     */
     private String version;
-
-    /**
-     *
-     */
     private Platform platform;
 
     private long driverWaitTimeout = 60; //second
@@ -25,7 +13,6 @@ public class Browser {
 
 
     public Browser() {
-
     }
 
     /**

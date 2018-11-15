@@ -8,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -118,12 +117,12 @@ public abstract class TestCaseFrame {
     public void setMobile(boolean mobile) {
         isMobile = mobile;
     }
-
+    
     public TestCaseFrame() {
         try {
-            setRemote(Boolean.valueOf(getConfigProperty("browser.remote.driver")));
-            setStartPage(getConfigProperty("site.url"));
-            setMobile(Boolean.valueOf(getConfigProperty("browser.mobile.type")));
+            setRemote(Boolean.valueOf(getConfigProperty(PropertyNames.BROWSER_REMOTE_DRIVER)));
+            setStartPage(getConfigProperty(PropertyNames.BASE_URL));
+            setMobile(Boolean.valueOf(getConfigProperty(PropertyNames.BROWSER_MOBILE_TYPE)));
             setSeleniumHubUrl(getConfigProperty(PropertyNames.SELENIUM_HUB_URL));
             setAppiumHubUrl(getConfigProperty(PropertyNames.APPIUM_HUB_URL));
         } catch (Exception e) {
@@ -131,9 +130,12 @@ public abstract class TestCaseFrame {
         }
     }
 
-    /*
+    /**
      * create web driver based on default browser values
-     * */
+     * @param scenario
+     * @return
+     * @throws Exception
+     */
     public WebDriver createWebDriver(Scenario scenario) throws Exception {
         //Read default browser type and version which will be used during test
         createBrowserFromConfiguration();
@@ -141,15 +143,14 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     * ,
      *
      * @throws Exception
      */
     private void createBrowserFromConfiguration() throws Exception {
-        setBrowser(new Browser(this.getConfigProperty("browser.type"), null, (Platform) null));
+        setBrowser(new Browser(this.getConfigProperty(PropertyNames.BROWSER_TYPE), null, (Platform) null));
     }
 
-    /***
+    /**
      *
      * @param scenario
      * @param baseUrl
@@ -162,7 +163,7 @@ public abstract class TestCaseFrame {
         return this.createWebDriver(scenario, getBrowser(), baseUrl);
     }
 
-    /***
+    /**
      *
      * @param scenario
      * @param browser
@@ -177,7 +178,7 @@ public abstract class TestCaseFrame {
         return this.webDriver;
     }
 
-    /***
+    /**
      *
      * @param scenario
      * @param browser
@@ -193,7 +194,7 @@ public abstract class TestCaseFrame {
         return this.webDriver;
     }
 
-    /***
+    /**
      *
      * @param scenario
      * @param browser
@@ -226,13 +227,12 @@ public abstract class TestCaseFrame {
         return getWebDriver();
     }
 
-    /***
+    /**
      *
      * @return
      * @throws Exception
      */
     private WebDriverWait createWebDriverWait() throws Exception {
-        //set
         Long tm = Long.valueOf(this.getConfigProperty("browser.driver.wait.timeout"));
         setTimeOutInSeconds(tm.longValue());
         WebDriverWait driverWait = new WebDriverWait(getWebDriver(), getTimeOutInSeconds());
@@ -241,8 +241,8 @@ public abstract class TestCaseFrame {
         return driverWait;
     }
 
-    /***
-     *
+    /**
+     *open the homepage
      */
     public void openStartPage() {
         //getWebDriver().manage().window().maximize();
@@ -250,16 +250,16 @@ public abstract class TestCaseFrame {
         getWebDriver().get(getStartPage());
     }
 
-    /***
-     *
+    /**
+     * set file detector for remote desktop
      */
     public void setFileDetector() {
         ((RemoteWebDriver) getWebDriver()).setFileDetector(new LocalFileDetector());
     }
 
 
-    /***
-     *
+    /**
+     * Driver end
      * @param startTime
      */
     public void endDriverSession(long startTime) {
@@ -275,7 +275,7 @@ public abstract class TestCaseFrame {
     }
 
 
-    /***
+    /**
      *
      * @param capabilities
      */
@@ -295,8 +295,9 @@ public abstract class TestCaseFrame {
     }
 
 
-    /***
+    /**
      *
+     * @param scenario
      * @return
      * @throws Exception
      */
@@ -328,6 +329,8 @@ public abstract class TestCaseFrame {
     }
 
     /**
+     *
+     * @param scenario
      * @return
      * @throws Exception
      */
@@ -341,6 +344,8 @@ public abstract class TestCaseFrame {
         options.addArguments("start-maximized");
         options.addArguments("--window-size=1920,1080");
         //options.addArguments("headless");
+
+        /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
 
         if (isRemote()) {
@@ -381,6 +386,10 @@ public abstract class TestCaseFrame {
         return getWebDriver();
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     private void setChromeBrowserDriverLocation() throws Exception {
         String location = null;
         if (OsUtility.isWindows()) {
@@ -393,6 +402,10 @@ public abstract class TestCaseFrame {
         System.setProperty("webdriver.chrome.driver", location);
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     private void setFirefoxBrowserDriverLocation() throws Exception {
         String location = null;
         if (OsUtility.isWindows()) {
@@ -405,56 +418,14 @@ public abstract class TestCaseFrame {
         System.setProperty("webdriver.gecko.driver", location);
     }
 
-    private void setIEBrowserDriverLocation() throws Exception {
-        String location = null;
-        if (OsUtility.isWindows()) {
-            location = getConfigProperty(PropertyNames.IE_DRV_LOC_WINDOWS);
-        }
-        System.setProperty("webdriver.ie.driver", location);
-    }
-
-    /***
-     *
-     * @return
-     * @throws Exception
-     */
-    private WebDriver createIEDriver(Scenario scenario) throws Exception {
-
-        if (isRemote()) {
-
-            DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-
-            updateBrowserCapsFromConfig(capabilities);
-            //capabilities.setCapability(InternetExplorerDriver.FORCE_CREATE_PROCESS, true);
-            //capabilities.setCapability(InternetExplorerDriver.IE_SWITCHES,"-private");
-            //capabilities.setCapability("ignoreProtectedModeSettings",true);
-            // capabilities.setCapability("ie.forceCreateProcessApi", true);
-            // capabilities.setCapability("ie.ensureCleanSession", true);
-            // capabilities.setCapability("ie.setProxyByServer", true);
-            // capabilities.setCapability("logFile", "/tmp/server.log")
-            // capabilities.setCapability("initialBrowserUrl",
-            capabilities.setCapability("logLevel", "TRACE");
-            capabilities.setCapability("build", getConfigProperty("build"));
-            capabilities.setCapability("name", scenario.getName());
-            capabilities.setJavascriptEnabled(true);
-
-            setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), capabilities));
-        } else {
-            setIEBrowserDriverLocation();
-            InternetExplorerDriver ieDriver = new InternetExplorerDriver();
-            setWebDriver(ieDriver);
-        }
-
-        return getWebDriver();
-    }
-
     public String getConfigProperty(String key) throws Exception {
 
         return ConfigurationInstance.getInstance().getConfigProperty(key);
     }
 
-    /***
+    /**
      *
+     * @param scenario
      * @return
      * @throws Exception
      */
@@ -479,10 +450,6 @@ public abstract class TestCaseFrame {
                 || "geckodriver".equalsIgnoreCase(browser.getName())
                 || "ff".equalsIgnoreCase(browser.getName())) {
             createFirefoxDriver(scenario);
-        } else if ("iexplorer".equalsIgnoreCase(browser.getName())
-                || "ie".equalsIgnoreCase(browser.getName())
-                || "internet explorer".equalsIgnoreCase(browser.getName())) {
-            createIEDriver(scenario);
         } else {
             // TODO :got unknown browser type!
             System.out.println(String.format("Browser type [%s] could not verified!", browser.getName()));
@@ -492,9 +459,10 @@ public abstract class TestCaseFrame {
     }
 
 
-    /***
+    /**
      *
      * @param driver
+     * @throws Exception
      */
     public void cleanUpWebDriver(WebDriver driver) throws Exception {
 
