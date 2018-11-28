@@ -9,13 +9,14 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.interactions.*;
 import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumBaseInterface {
+public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements SeleniumBaseInterface {
 
     private WebDriver driver = null;
     private WebDriverWait wait = null;
@@ -23,10 +24,6 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
     private List<GalenTestInfo> galenTestInfos = null;
     private StoreElementProperties elementProperties = null;
 
-    /**
-     * @param scenario
-     * @throws Exception
-     */
     @Override
     public void setUp(String scenario) throws Exception {
         driver = createWebDriver(scenario);
@@ -34,7 +31,9 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
         setExtentReports(createExtentsReportInstance());
         extTest = getExtentReports().createTest(scenario);
         PageFactory.initElements(driver, WaitingActions.class);
-        galenTestInfos = new LinkedList<GalenTestInfo>();
+        if (Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
+            galenTestInfos = new LinkedList<GalenTestInfo>();
+        }
     }
 
     @Override
@@ -179,7 +178,7 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
         try {
             SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
             sendKeysActions.sendKeysToElement(attrName, inputValue);
-            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına tablodaki %s değeri girildi", attrName, inputValue));
+            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına %s değeri girildi", attrName, inputValue));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanına tablodaki %s değeri girildi", attrName, inputValue));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
@@ -208,8 +207,8 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
         try {
             SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
             sendKeysActions.uploadFile(attrName, filePath);
-            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına tablodaki %s dosyası eklendi", attrName, filePath));
-            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanına tablodaki %s dosyası eklendi", attrName, filePath));
+            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanına %s dosyası eklendi", attrName, filePath));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanına %s dosyası eklendi", attrName, filePath));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
@@ -222,8 +221,8 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
         try {
             SelectActions selectActions = new SelectActions(driver, wait);
             selectActions.selectElementByVisibleText(attrName, visibleText);
-            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından tablodaki %s değeri seçildi", attrName, visibleText));
-            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından tablodaki %s değeri seçildi", attrName, visibleText));
+            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, visibleText));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, visibleText));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
@@ -236,8 +235,8 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
         try {
             SelectActions selectActions = new SelectActions(driver, wait);
             selectActions.selectByVisibleContainText(attrName, visibleContainText);
-            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından tablodaki %s değerini içeren değer seçildi", attrName, visibleContainText));
-            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından tablodaki %s değerini içeren değer seçildi", attrName, visibleContainText));
+            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından %s değerini içeren değer seçildi", attrName, visibleContainText));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından %s değerini içeren değer seçildi", attrName, visibleContainText));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
@@ -272,8 +271,8 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
             } else {
                 presence.isAttrValueEquals(attrName, patternAttr, dataToBeVerified.trim().toLowerCase());
             }
-            extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
-            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
+            extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
@@ -291,8 +290,8 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
             } else {
                 Assert.assertTrue(presence.isAttrValueContains(attrName, patternAttr, dataToContainVerified.trim().toLowerCase()));
             }
-            extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değerini içerdiği görüldü", attrName, patternAttr, dataToContainVerified));
-            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değerini içerdiği görüldü", attrName, patternAttr, dataToContainVerified));
+            extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s değerini içerdiği görüldü", attrName, patternAttr, dataToContainVerified));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s değerini içerdiği görüldü", attrName, patternAttr, dataToContainVerified));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
@@ -414,8 +413,10 @@ public class SeleniumBase extends ExtentReportTestCaseFrame implements SeleniumB
 
     @Override
     public void teardown(String scenario) throws Exception {
-        new HtmlReportBuilder().build(galenTestInfos,
-                "target/galen-html-reports");
+        if (Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
+            new HtmlReportBuilder().build(galenTestInfos,
+                    "target/galen-html-reports");
+        }
         if (extTest != null) {
             boolean scenarioIsFailed = extTest.getStatus().equals(Status.PASS);
             if (scenarioIsFailed == false) {

@@ -1,4 +1,4 @@
-package test.tools.selenium.cucumber;
+package test.tools.selenium.cucumber.tr;
 
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
@@ -6,7 +6,7 @@ import cucumber.api.java.tr.Diyelimki;
 import cucumber.api.java.tr.Ozaman;
 import cucumber.api.java.tr.Ve;
 
-public interface CucumberBaseInterface {
+public interface CucumberBaseTRInterface {
     void setUp(Scenario scenario) throws Exception;
 
     @Diyelimki("^Anasayfaya girilir$")
@@ -30,13 +30,13 @@ public interface CucumberBaseInterface {
     @Diyelimki("^Sayfa üzerindeki \"(.+)\" öğesine tıklanır$")
     void clickObject(String keyword);
 
-    @Diyelimki("^Mouse \"(.+)\" öğesinin üzerine getirilir")
+    @Diyelimki("^Mouse \"(.+)\" öğesinin üzerine getirilir$")
     void mouseOverObject(String keyword);
 
-    @Diyelimki("^Sayfa üzerindeki \"(.+)\" alanı üzerinde klavyeden enter tuşuna basılır")
+    @Diyelimki("^Sayfa üzerindeki \"(.+)\" alanı üzerinde klavyeden enter tuşuna basılır$")
     void clickEnter(String keyword);
 
-    @Diyelimki("^Sayfa üzerindeki \"(.+)\" öğesi sürüklenir")
+    @Diyelimki("^Sayfa üzerindeki \"(.+)\" öğesi sürüklenir$")
     void dragObject(String keyword);
 
     @Diyelimki("^Sayfa üzerindeki metin alanları tablodaki verilerle doldurulur$")
@@ -45,7 +45,7 @@ public interface CucumberBaseInterface {
     @Diyelimki("^Sayfa üzerindeki metin alanları önbellekteki verilerle doldurulur$")
     void fillInputFieldByList(DataTable dataTable);
 
-    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir")
+    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir$")
     void uploadFileInputField(DataTable dataTable);
 
     @Diyelimki("^Sayfa üzerindeki seçim alanından tablodaki seçenekler seçilir$")
@@ -54,19 +54,19 @@ public interface CucumberBaseInterface {
     @Diyelimki("^Sayfa üzerindeki seçim alanından tablodaki verileri içeren seçenekler seçilir$")
     void selectOptionFieldByContainText(DataTable dataTable);
 
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri önbelleğe kaydedilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri önbelleğe kaydedilir$")
     void storeElementData(DataTable dataTable);
 
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen değerle aynı olup olmadığı kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen değerle aynı olup olmadığı kontrol edilir$")
     void checkElementDataIsExistOnSite(DataTable dataTable);
 
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tablodaki verileri içerip içermediği kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tablodaki verileri içerip içermediği kontrol edilir$")
     void checkElementDataIsContainsOnSite(DataTable dataTable);
 
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, önbellekteki değer ile aynı olup olmadığı kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, önbellekteki değer ile aynı olup olmadığı kontrol edilir$")
     void checkStoreElementDataIsExistOnSite(DataTable dataTable);
 
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen aralıkta olup olmadığı kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen aralıkta olup olmadığı kontrol edilir$")
     void rangeElementDataBetweenGivenValues(DataTable dataTable);
 
     @Diyelimki("^Tabloda verilen değerler ile haritadan lokasyon seçilir$")

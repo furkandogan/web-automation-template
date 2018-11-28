@@ -1,4 +1,4 @@
-package test.tools.selenium.cucumber;
+package test.tools.selenium.cucumber.tr;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -22,7 +22,7 @@ import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberBaseInterface {
+public class CucumberBaseTR extends ExtentReportTestCaseFrame implements CucumberBaseTRInterface {
 
     private WebDriver driver = null;
     private WebDriverWait wait = null;
@@ -52,6 +52,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki Anasayfaya girilir
      */
     @Override
+    @Diyelimki("^Anasayfaya girilir$")
     public void enterHomePage() {
         try {
             openStartPage();
@@ -69,6 +70,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki "http://www.google.com" adresine girilir
      */
     @Override
+    @Diyelimki("^\"(.+)\" adresine girilir$")
     public void enterRandomPage(String pageName) {
         try {
             BaseUtil baseUtil = new BaseUtil(driver, wait);
@@ -182,7 +184,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki Mouse "keyword" öğesinin üzerine getirilir
      */
     @Override
-    @Diyelimki("^Mouse \"(.+)\" öğesinin üzerine getirilir")
+    @Diyelimki("^Mouse \"(.+)\" öğesinin üzerine getirilir$")
     public void mouseOverObject(String keyword) {
         try {
             ActionsPerform actionsPerform = new ActionsPerform(driver, wait);
@@ -201,7 +203,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki Sayfa üzerindeki "keyword" alanı üzerinde klavyeden enter tuşuna basılır
      */
     @Override
-    @Diyelimki("^Sayfa üzerindeki \"(.+)\" alanı üzerinde klavyeden enter tuşuna basılır")
+    @Diyelimki("^Sayfa üzerindeki \"(.+)\" alanı üzerinde klavyeden enter tuşuna basılır$")
     public void clickEnter(String keyword) {
         try {
             SendKeysActions sendKeysActions = new SendKeysActions(driver, wait);
@@ -218,7 +220,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki Sayfa üzerindeki "keyword" öğesi sürüklenir
      */
     @Override
-    @Diyelimki("^Sayfa üzerindeki \"(.+)\" öğesi sürüklenir")
+    @Diyelimki("^Sayfa üzerindeki \"(.+)\" öğesi sürüklenir$")
     public void dragObject(String keyword) {
         try {
             ActionsPerform actionsPerform = new ActionsPerform(driver, wait);
@@ -287,7 +289,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * | cellItem1 | cellItem2 |
      */
     @Override
-    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir")
+    @Diyelimki("^Sayfa üzerindeki dosya ekleme alanlarına tablodaki dosya verileri eklenir$")
     public void uploadFileInputField(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
@@ -359,7 +361,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * | cellItem1 | cellItem2 |
      */
     @Override
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri önbelleğe kaydedilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri önbelleğe kaydedilir$")
     public void storeElementData(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             elementProperties = new StoreElementProperties(driver, wait);
@@ -387,7 +389,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * | cellItem1 | cellItem2 | cellItem3 |
      */
     @Override
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen değerle aynı olup olmadığı kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen değerle aynı olup olmadığı kontrol edilir$")
     public void checkElementDataIsExistOnSite(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
@@ -417,7 +419,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * | cellItem1 | cellItem2 | cellItem3 |
      */
     @Override
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tablodaki verileri içerip içermediği kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tablodaki verileri içerip içermediği kontrol edilir$")
     public void checkElementDataIsContainsOnSite(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
@@ -446,7 +448,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * | cellItem1 | cellItem2 | cellItem3 |
      */
     @Override
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, önbellekteki değer ile aynı olup olmadığı kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, önbellekteki değer ile aynı olup olmadığı kontrol edilir$")
     public void checkStoreElementDataIsExistOnSite(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
@@ -476,7 +478,7 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * | cellItem1 | cellItem2 | cellItem3 | cellItem4 |
      */
     @Override
-    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen aralıkta olup olmadığı kontrol edilir")
+    @Ve("^Sayfada yer alan web öğelerinin metin veya nitelik değerleri, tabloda belirtilen aralıkta olup olmadığı kontrol edilir$")
     public void rangeElementDataBetweenGivenValues(DataTable dataTable) {
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
