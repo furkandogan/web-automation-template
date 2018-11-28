@@ -1,5 +1,4 @@
-
-package test.tools.selenium.stepsdefinition;
+package test.tools.selenium.cucumber;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -16,6 +15,7 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.interactions.*;
 import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
 
@@ -41,7 +41,9 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
         setExtentReports(createExtentsReportInstance());
         extTest = getExtentReports().createTest(scenario.getName());
         PageFactory.initElements(driver, WaitingActions.class);
-        galenTestInfos = new LinkedList<GalenTestInfo>();
+        if(Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))){
+            galenTestInfos = new LinkedList<GalenTestInfo>();
+        }
     }
 
 
@@ -50,7 +52,6 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki Anasayfaya girilir
      */
     @Override
-    @Diyelimki("^Anasayfaya girilir$")
     public void enterHomePage() {
         try {
             openStartPage();
@@ -68,7 +69,6 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      * Diyelimki "http://www.google.com" adresine girilir
      */
     @Override
-    @Diyelimki("^\"(.+)\" adresine girilir$")
     public void enterRandomPage(String pageName) {
         try {
             BaseUtil baseUtil = new BaseUtil(driver, wait);
@@ -623,8 +623,10 @@ public class CucumberBase extends ExtentReportTestCaseFrame implements CucumberB
      */
     @Override
     public void teardown(Scenario scenario) throws Exception {
-        new HtmlReportBuilder().build(galenTestInfos,
-                "target/galen-html-reports");
+        if(Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))){
+            new HtmlReportBuilder().build(galenTestInfos,
+                    "target/galen-html-reports");
+        }
         if (scenario.isFailed()) {
             if (extTest != null) {
                 extTest.log(Status.FAIL, scenario.getName() + " senaryosu hata almıştır");

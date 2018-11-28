@@ -23,13 +23,11 @@ public class PropertyNames {
     public static final String DB_PS = "db.password";
     public static final String DB_JDBC_URL = "db.jdbc.url";
 
+    public static final String GALEN_TEST_LAYOUT = "galen.test.layout";
+
     public static final String CHROME_DRV_LOC_WINDOWS = "chrome.driver.location.windows";
-    public static final String FIREFOX_DRV_LOC_WINDOWS = "firefox.driver.location.windows";
-    public static final String IE_DRV_LOC_WINDOWS = "ie.driver.location.windows";
     public static final String CHROME_DRV_LOC_LINUX = "chrome.driver.location.linux";
-    public static final String FIREFOX_DRV_LOC_LINUX = "firefox.driver.location.linux";
     public static final String CHROME_DRV_LOC_MAC = "chrome.driver.location.mac";
-    public static final String FIREFOX_DRV_LOC_MAC = "firefox.driver.location.mac";
 
     public static final String BASE_URL = "site.url";
 

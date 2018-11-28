@@ -1,4 +1,4 @@
-package test.tools.selenium.stepsdefinition;
+package test.tools.selenium.cucumber;
 
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
@@ -7,7 +7,6 @@ import cucumber.api.java.tr.Ozaman;
 import cucumber.api.java.tr.Ve;
 
 public interface CucumberBaseInterface {
-
     void setUp(Scenario scenario) throws Exception;
 
     @Diyelimki("^Anasayfaya girilir$")

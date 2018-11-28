@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
@@ -15,8 +16,8 @@
         <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-      <tag>web-automation-template-1.5</tag>
-  </scm>
+        <tag>web-automation-template-1.5</tag>
+    </scm>
 
     <developers>
         <developer>
@@ -45,11 +46,13 @@
         <site.url>https://www.google.com</site.url>
 
         <!-- DB props -->
-        <db.driver />
-        <db.server />
-        <db.user />
-        <db.password />
-        <db.jdbc.url />
+        <db.driver/>
+        <db.server/>
+        <db.user/>
+        <db.password/>
+        <db.jdbc.url/>
+
+        <galen.test.layout>false</galen.test.layout>
 
         <!-- Browser props -->
         <browser.remote.driver>false</browser.remote.driver>
@@ -61,7 +64,7 @@
         <browser.device.version>7.1.1</browser.device.version>
         <browser.driver.wait.timeout>30</browser.driver.wait.timeout>
         <browser.driver.implicit.wait.timeOut>10</browser.driver.implicit.wait.timeOut>
-        <build>zingat-release</build>
+        <build>release</build>
         <resolution>1920x1080</resolution>
 
         <!-- Docker props -->
@@ -76,10 +79,11 @@
         <report.folder>target/tmp/reports</report.folder>
         <report.title>${project.name}</report.title>
 
-        <chrome.driver.location.linux>/usr/bin/chromedriver</chrome.driver.location.linux>
-        <firefox.driver.location.linux>/usr/bin/firefoxdriver</firefox.driver.location.linux>
-
-        <chrome.driver.location.mac>/usr/local/bin/chromedriver</chrome.driver.location.mac>
+        <!-- Local directory -->
+        <chrome.driver.location.linux>src/test/resources/driver/nux/chromedriver</chrome.driver.location.linux>
+        <chrome.driver.location.mac>src/test/resources/driver/mac/chromedriver</chrome.driver.location.mac>
+        <chrome.driver.location.windows>src\\test\\resources\\driver\\win\\chromedriver.exe
+        </chrome.driver.location.windows>
     </properties>
 
     <build>
@@ -184,6 +188,9 @@
                         <configuration>
                             <forkCount>${parallel.test.count}</forkCount>
                             <reuseForks>true</reuseForks>
+                            <!-- For Selenium Junit -->
+                            <parallel>methods</parallel>
+                            <threadCount>${parallel.test.count}</threadCount>
                             <includes>
                                 <include>**/*IT.class</include>
                             </includes>
@@ -366,16 +373,18 @@
                 <parallel.test.count>20</parallel.test.count>
             </properties>
         </profile>
+
         <profile>
             <id>prod-web-test</id>
             <properties>
-                <site.url>https://www.example.com</site.url>
+                <site.url>http://prod.example.com</site.url>
                 <browser.remote.driver>true</browser.remote.driver>
                 <build>${test-package}-web-test</build>
                 <test-package>@prod</test-package>
                 <parallel.test.count>20</parallel.test.count>
             </properties>
         </profile>
+
         <profile>
             <id>test-mobile-web-test</id>
             <properties>

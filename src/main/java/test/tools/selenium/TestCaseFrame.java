@@ -6,7 +6,6 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -136,10 +135,20 @@ public abstract class TestCaseFrame {
      * @return
      * @throws Exception
      */
-    public WebDriver createWebDriver(Scenario scenario) throws Exception {
-        //Read default browser type and version which will be used during test
+    public WebDriver createWebDriver(String scenario) throws Exception {
         createBrowserFromConfiguration();
         return this.createWebDriver(scenario, getBrowser(), getStartPage());
+    }
+
+    /**
+     * create web driver based on default browser values
+     * @param scenario
+     * @return
+     * @throws Exception
+     */
+    public WebDriver createWebDriver(Scenario scenario) throws Exception {
+        createBrowserFromConfiguration();
+        return this.createWebDriver(scenario.getName(), getBrowser(), getStartPage());
     }
 
     /**
@@ -158,7 +167,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      * @throws IOException
      */
-    public WebDriver createWebDriver(Scenario scenario, String baseUrl) throws Exception, IOException {
+    public WebDriver createWebDriver(String scenario, String baseUrl) throws Exception, IOException {
 
         return this.createWebDriver(scenario, getBrowser(), baseUrl);
     }
@@ -171,7 +180,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      * @throws IOException
      */
-    public WebDriver createWebDriver(Scenario scenario, Browser browser) throws Exception, IOException {
+    public WebDriver createWebDriver(String scenario, Browser browser) throws Exception, IOException {
 
         createWebDriver(scenario, browser, getStartPage(), 0);
 
@@ -187,7 +196,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      * @throws IOException
      */
-    public WebDriver createWebDriver(Scenario scenario, Browser browser, String pageUrl) throws Exception, IOException {
+    public WebDriver createWebDriver(String scenario, Browser browser, String pageUrl) throws Exception, IOException {
 
         createWebDriver(scenario, browser, pageUrl, 0);
 
@@ -204,7 +213,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      * @throws IOException
      */
-    public WebDriver createWebDriver(Scenario scenario, Browser browser, String pageUrl, long timeOutInSeconds) throws Exception, IOException {
+    public WebDriver createWebDriver(String scenario, Browser browser, String pageUrl, long timeOutInSeconds) throws Exception, IOException {
 
         System.out.println(String.format("URL :*%s*", new Object[]{pageUrl}));
 
@@ -301,7 +310,7 @@ public abstract class TestCaseFrame {
      * @return
      * @throws Exception
      */
-    private WebDriver createFirefoxDriver(Scenario scenario) throws Exception {
+    private WebDriver createFirefoxDriver(String scenario) throws Exception {
 
         FirefoxProfile firefoxProfile = new FirefoxProfile();
         firefoxProfile.setPreference("print.always_print_silent", true);
@@ -309,20 +318,15 @@ public abstract class TestCaseFrame {
         //firefoxProfile.setEnableNativeEvents(false);
 
         if (isRemote()) {
-
             DesiredCapabilities capabilities = DesiredCapabilities.firefox();
             capabilities.setBrowserName("firefox");
             capabilities.setCapability("firefox_profile", firefoxProfile.toJson());
             capabilities.setCapability("build", getConfigProperty("build"));
-            capabilities.setCapability("name", scenario.getName());
+            capabilities.setCapability("name", scenario);
             capabilities.setJavascriptEnabled(true);
 
             setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), capabilities));
             setFileDetector();
-        } else {
-            setFirefoxBrowserDriverLocation();
-            FirefoxDriver firefoxDriver = new FirefoxDriver();
-            setWebDriver(firefoxDriver);
         }
 
         return getWebDriver();
@@ -334,7 +338,7 @@ public abstract class TestCaseFrame {
      * @return
      * @throws Exception
      */
-    private WebDriver createChromeDriver(Scenario scenario) throws Exception {
+    private WebDriver createChromeDriver(String scenario) throws Exception {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");
@@ -364,7 +368,7 @@ public abstract class TestCaseFrame {
                 DesiredCapabilities capabilities = DesiredCapabilities.chrome();
                 capabilities.setCapability(ChromeOptions.CAPABILITY, options);
                 capabilities.setCapability("build", getConfigProperty("build"));
-                capabilities.setCapability("name", scenario.getName());
+                capabilities.setCapability("name", scenario);
                 capabilities.setJavascriptEnabled(true);
 
                 updateBrowserCapsFromConfig(capabilities);
@@ -402,22 +406,6 @@ public abstract class TestCaseFrame {
         System.setProperty("webdriver.chrome.driver", location);
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    private void setFirefoxBrowserDriverLocation() throws Exception {
-        String location = null;
-        if (OsUtility.isWindows()) {
-            location = getConfigProperty(PropertyNames.FIREFOX_DRV_LOC_WINDOWS);
-        } else if (OsUtility.isUnix()) {
-            location = getConfigProperty(PropertyNames.FIREFOX_DRV_LOC_LINUX);
-        } else if (OsUtility.isMac()) {
-            location = getConfigProperty(PropertyNames.FIREFOX_DRV_LOC_MAC);
-        }
-        System.setProperty("webdriver.gecko.driver", location);
-    }
-
     public String getConfigProperty(String key) throws Exception {
 
         return ConfigurationInstance.getInstance().getConfigProperty(key);
@@ -429,7 +417,7 @@ public abstract class TestCaseFrame {
      * @return
      * @throws Exception
      */
-    private WebDriver buildWebdriver(Scenario scenario) throws Exception {
+    private WebDriver buildWebdriver(String scenario) throws Exception {
         String chromeDriverLoc = null;
         WebDriver webDriver = null;
         DesiredCapabilities capability = null;
