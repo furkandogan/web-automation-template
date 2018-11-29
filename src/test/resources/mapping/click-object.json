@@ -1,0 +1,8 @@
+{
+  "GOOGLE'DA ARA BUTONU": {
+    "byMethod": "name",
+    "tag": "input",
+    "attrName": "@name",
+    "attrValue": "btnK"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "GOOGLE.COM SAYFASI": {
+    "byMethod": "id",
+    "tag": "*",
+    "attrName": "@id",
+    "attrValue": "hplogo"
+  },
+  "SPOR SONUCLARI SAYFASI": {
+    "byMethod": "xpath",
+    "tag": "*",
+    "attrName": "text()",
+    "attrValue": "Spor Sonuçları"
+  }
+}

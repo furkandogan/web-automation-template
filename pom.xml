@@ -37,6 +37,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!--default test-->
         <test-package>@prod</test-package>
@@ -224,7 +225,7 @@
             <plugin>
                 <groupId>com.github.temyers</groupId>
                 <artifactId>cucumber-jvm-parallel-plugin</artifactId>
-                <version>4.2.0</version>
+                <version>5.0.0</version>
                 <executions>
                     <execution>
                         <id>generateRunners</id>
@@ -236,7 +237,7 @@
                             <!-- Mandatory -->
                             <!-- List of package names to scan for glue code. -->
                             <glue>
-                                <package>test.tools.selenium.steps</package>
+                                <package>test.tools.selenium.cucumber.tr</package>
                             </glue>
                             <!-- These are optional, with the default values -->
                             <!-- Where to output the generated tests -->
