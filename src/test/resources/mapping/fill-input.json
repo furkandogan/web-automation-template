@@ -1,8 +1,0 @@
-{
-  "ARA": {
-    "byMethod": "name",
-    "tag":"input",
-    "attrName": "@name",
-    "attrValue":"q"
-  }
-}
