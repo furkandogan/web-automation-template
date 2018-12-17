@@ -27,10 +27,10 @@ public class SendKeysActions extends FindActions {
     public void sendKeysToElement(String attr, String inputValue) {
         WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
         if (XpathInjection.mapValue.getIsJsEnabled() != null && XpathInjection.mapValue.getIsJsEnabled() == true) {
-            sendKeysByElement(element,inputValue);
+            sendKeysByJsElement(element,inputValue);
             waitUntilJSReady();
         } else {
-            sendKeysByJsElement(element,inputValue);
+            sendKeysByElement(element,inputValue);
             waitUntilJSReady();
         }
     }
