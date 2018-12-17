@@ -29,7 +29,11 @@ public interface SeleniumBaseInterface {
 
     void uploadFileInputField(String attrName, String filePath);
 
-    void selectOptionField(String attrName, String visibleText);
+    void selectOptionFieldByVisibleText(String attrName, String visibleText);
+
+    void selectOptionValueFieldByValue(String attrName, String value);
+
+    void selectOptionValueFieldByIndex(String attrName, int index);
 
     void selectOptionFieldByContainText(String attrName, String visibleContainText);
 

@@ -218,12 +218,40 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
     }
 
     @Override
-    public void selectOptionField(String attrName, String visibleText) {
+    public void selectOptionFieldByVisibleText(String attrName, String visibleText) {
         try {
             SelectActions selectActions = new SelectActions(driver, wait);
             selectActions.selectElementByVisibleText(attrName, visibleText);
             extTest.log(Status.PASS, String.format("Options that is %s value is selected from the %s selectbox on the page", visibleText, attrName));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value is selected from the %s field on the page", visibleText, attrName));
+            driver.manage().addCookie(cookie);
+        } catch (Exception e) {
+            extTest.log(Status.FAIL, e.getMessage());
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Override
+    public void selectOptionValueFieldByValue(String attrName, String value) {
+        try {
+            SelectActions selectActions = new SelectActions(driver, wait);
+            selectActions.selectElementByValue(attrName, value);
+            extTest.log(Status.PASS, String.format("Options that is %s value is selected from the %s selectbox on the page", value, attrName));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value is selected from the %s field on the page", value, attrName));
+            driver.manage().addCookie(cookie);
+        } catch (Exception e) {
+            extTest.log(Status.FAIL, e.getMessage());
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Override
+    public void selectOptionValueFieldByIndex(String attrName, int index) {
+        try {
+            SelectActions selectActions = new SelectActions(driver, wait);
+            selectActions.selectElementByIndex(attrName, index);
+            extTest.log(Status.PASS, String.format("Options that is %s value is selected from the %s selectbox on the page", index, attrName));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value is selected from the %s field on the page", index, attrName));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());

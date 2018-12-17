@@ -131,7 +131,7 @@ public class SelectActions extends FindActions {
         waitOptionToBePresent(attr);
         List<WebElement> options = getOptionsFromElement(attr);
         for (WebElement option : options) {
-            if (options.contains(optionText)) {
+            if (option.getText().contains(optionText)) {
                 option.click();
                 break;
             }

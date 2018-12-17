@@ -312,7 +312,7 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
     /**
      * Example:
      * And Select options in the table from the selectbox on the page
-     * | cellItem1 | cellItem2 |
+     * | cellItem1 | cellItem2 | cellItem3 |
      */
     @Override
     @And("^Select options in the table from the selectbox on the page$")
@@ -320,11 +320,22 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
+            String cellItem3 = dataTableRow.getCells().get(2);
             try {
                 SelectActions selectActions = new SelectActions(driver, wait);
-                selectActions.selectElementByVisibleText(cellItem1, cellItem2);
-                extTest.log(Status.PASS, String.format("Options that is %s value from the table is selected from the %s selectbox on the page", cellItem2, cellItem1));
-                Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value from the table is selected from the %s field on the page", cellItem2, cellItem1));
+                switch (cellItem2) {
+                    case "text":
+                        selectActions.selectElementByVisibleText(cellItem1, cellItem3);
+                        break;
+                    case "value":
+                        selectActions.selectElementByValue(cellItem1, cellItem3);
+                        break;
+                    case "index":
+                        selectActions.selectElementByIndex(cellItem1, Integer.parseInt(cellItem3));
+                        break;
+                }
+                extTest.log(Status.PASS, String.format("Options that is %s value from the table is selected from the %s selectbox on the page", cellItem3, cellItem1));
+                Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value from the table is selected from the %s field on the page", cellItem3, cellItem1));
                 driver.manage().addCookie(cookie);
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());

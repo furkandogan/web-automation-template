@@ -310,7 +310,7 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
     /**
      * Example:
      * Diyelimki Sayfa üzerindeki seçim alanından tablodaki seçenekler seçilir
-     * | cellItem1 | cellItem2 |
+     * | cellItem1 | cellItem2 | cellItem3 |
      */
     @Override
     @Diyelimki("^Sayfa üzerindeki seçim alanından tablodaki seçenekler seçilir$")
@@ -318,11 +318,22 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
         for (DataTableRow dataTableRow : dataTable.getGherkinRows()) {
             String cellItem1 = dataTableRow.getCells().get(0);
             String cellItem2 = dataTableRow.getCells().get(1);
+            String cellItem3 = dataTableRow.getCells().get(2);
             try {
                 SelectActions selectActions = new SelectActions(driver, wait);
-                selectActions.selectElementByVisibleText(cellItem1, cellItem2);
-                extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından tablodaki %s değeri seçildi", cellItem1, cellItem2));
-                Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından tablodaki %s değeri seçildi", cellItem1, cellItem2));
+                switch (cellItem2) {
+                    case "text":
+                        selectActions.selectElementByVisibleText(cellItem1, cellItem3);
+                        break;
+                    case "value":
+                        selectActions.selectElementByValue(cellItem1, cellItem3);
+                        break;
+                    case "index":
+                        selectActions.selectElementByIndex(cellItem1, Integer.parseInt(cellItem3));
+                        break;
+                }
+                extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından tablodaki %s değeri seçildi", cellItem1, cellItem3));
+                Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından tablodaki %s değeri seçildi", cellItem1, cellItem3));
                 driver.manage().addCookie(cookie);
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());

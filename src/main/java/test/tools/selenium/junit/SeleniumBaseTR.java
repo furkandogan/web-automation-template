@@ -217,12 +217,40 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
     }
 
     @Override
-    public void selectOptionField(String attrName, String visibleText) {
+    public void selectOptionFieldByVisibleText(String attrName, String visibleText) {
         try {
             SelectActions selectActions = new SelectActions(driver, wait);
             selectActions.selectElementByVisibleText(attrName, visibleText);
             extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, visibleText));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, visibleText));
+            driver.manage().addCookie(cookie);
+        } catch (Exception e) {
+            extTest.log(Status.FAIL, e.getMessage());
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Override
+    public void selectOptionValueFieldByValue(String attrName, String value) {
+        try {
+            SelectActions selectActions = new SelectActions(driver, wait);
+            selectActions.selectElementByValue(attrName, value);
+            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, value));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, value));
+            driver.manage().addCookie(cookie);
+        } catch (Exception e) {
+            extTest.log(Status.FAIL, e.getMessage());
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Override
+    public void selectOptionValueFieldByIndex(String attrName, int index) {
+        try {
+            SelectActions selectActions = new SelectActions(driver, wait);
+            selectActions.selectElementByIndex(attrName, index);
+            extTest.log(Status.PASS, String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, index));
+            Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfa üzerindeki %s alanından %s değeri seçildi", attrName, index));
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
