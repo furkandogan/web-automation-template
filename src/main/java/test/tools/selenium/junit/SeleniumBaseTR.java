@@ -297,7 +297,7 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             if (patternAttr.equalsIgnoreCase("text")) {
                 Assert.assertTrue(presence.isTextEquals(attrName, dataToBeVerified.trim().toLowerCase()));
             } else {
-                presence.isAttrValueEquals(attrName, patternAttr, dataToBeVerified.trim().toLowerCase());
+                Assert.assertTrue(presence.isAttrValueEquals(attrName, patternAttr, dataToBeVerified.trim().toLowerCase()));
             }
             extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));

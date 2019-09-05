@@ -298,7 +298,7 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             if (patternAttr.equalsIgnoreCase("text")) {
                 Assert.assertTrue(presence.isTextEquals(attrName, dataToBeVerified.trim().toLowerCase()));
             } else {
-                presence.isAttrValueEquals(attrName, patternAttr, dataToBeVerified.trim().toLowerCase());
+                Assert.assertTrue(presence.isAttrValueEquals(attrName, patternAttr, dataToBeVerified.trim().toLowerCase()));
             }
             extTest.log(Status.PASS, String.format("The %s value of the element %s on the page was the same as the %s value in the table", patternAttr, attrName, dataToBeVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the element %s on the page was the same as the %s value in the table", patternAttr, attrName, dataToBeVerified));

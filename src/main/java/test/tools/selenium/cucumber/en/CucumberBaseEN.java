@@ -413,7 +413,7 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 if (cellItem2.equalsIgnoreCase("text")) {
                     Assert.assertTrue(presence.isTextEquals(cellItem1, cellItem3));
                 } else {
-                    presence.isAttrValueEquals(cellItem1, cellItem2, cellItem3);
+                    Assert.assertTrue(presence.isAttrValueEquals(cellItem1, cellItem2, cellItem3));
                 }
                 extTest.log(Status.PASS, String.format("The %s value of the element %s on the page was the same as the %s value in the table", cellItem2, cellItem1, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the element %s on the page was the same as the %s value in the table", cellItem2, cellItem1, cellItem3));

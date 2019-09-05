@@ -1,4 +1,4 @@
-package test.tools.selenium.cucumber.tr;
+package test.tools.selenium.cucumber.TR;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -411,7 +411,7 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 if (cellItem2.equalsIgnoreCase("text")) {
                     Assert.assertTrue(presence.isTextEquals(cellItem1, cellItem3));
                 } else {
-                    presence.isAttrValueEquals(cellItem1, cellItem2, cellItem3);
+                    Assert.assertTrue(presence.isAttrValueEquals(cellItem1, cellItem2, cellItem3));
                 }
                 extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değeri ile aynı olduğu görüldü", cellItem1, cellItem2, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değeri ile aynı olduğu görüldü", cellItem1, cellItem2, cellItem3));

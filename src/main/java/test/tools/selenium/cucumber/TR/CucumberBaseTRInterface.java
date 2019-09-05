@@ -1,4 +1,4 @@
-package test.tools.selenium.cucumber.tr;
+package test.tools.selenium.cucumber.TR;
 
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
