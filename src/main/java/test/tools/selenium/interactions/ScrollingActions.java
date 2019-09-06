@@ -2,8 +2,6 @@ package test.tools.selenium.interactions;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.internal.Coordinates;
-import org.openqa.selenium.internal.Locatable;
 
 public class ScrollingActions extends WaitingActions {
 
@@ -42,17 +40,6 @@ public class ScrollingActions extends WaitingActions {
     public void scrollToElement(WebElement scroll) {
         JavaScriptActions jsActions = new JavaScriptActions(driver);
         jsActions.executeJS("arguments[0].scrollIntoView(false);", scroll);
-    }
-
-    /**
-     * scrollTo WebElement
-     *
-     * @param element
-     */
-    public void scrollToElementCoordinate(WebElement element) {
-        Coordinates coordinate = (( Locatable ) element).getCoordinates();
-        coordinate.onPage();
-        coordinate.inViewPort();
     }
 
     /**

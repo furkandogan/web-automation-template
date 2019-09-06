@@ -16,11 +16,16 @@ public class ReportManager {
     private long instanceId = 0L;
 
     private  String reportBaseFolder = null;
+    private  String reportLogFolder = null;
     private  String reportImageFolder = null;
     private  String reportCastFolder = null;
 
     public  String getReportBaseFolder() {
         return reportBaseFolder;
+    }
+
+    public String getReportLogFolder() {
+        return reportLogFolder;
     }
 
     public  String getReportImageFolder() {
@@ -49,6 +54,13 @@ public class ReportManager {
 
             } else {
                 throw new Exception(String.format("report interactions folder [%s] could not created!!",instance.reportBaseFolder));
+            }
+
+            instance.reportLogFolder = String.format("%s%s%s",instance.reportBaseFolder,File.separator,"logs");
+            if(initReportFolders(instance.reportLogFolder)){
+
+            } else {
+                throw new Exception(String.format("report image folder [%s] could not created!!",instance.reportLogFolder));
             }
 
             instance.reportImageFolder = String.format("%s%s%s",instance.reportBaseFolder,File.separator,"images");

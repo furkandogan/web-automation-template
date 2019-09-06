@@ -3,13 +3,14 @@ package test.tools.selenium.report.extent;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.KlovReporter;
-import com.aventstack.extentreports.reporter.configuration.ChartLocation;
+import com.aventstack.extentreports.reporter.ExtentKlovReporter;
+import com.aventstack.extentreports.reporter.ExtentLoggerReporter;
 import com.aventstack.extentreports.reporter.configuration.Protocol;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import test.tools.selenium.TestCaseFrame;
+import cucumber.api.java.gl.E;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import test.tools.selenium.TestCaseFrame;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,31 +55,42 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
         extentReports.setReportUsesManualConfiguration(true);
 
         if (isKlovReporter()) {
-            KlovReporter klovReporter = new KlovReporter();
+            ExtentKlovReporter  klovReporter = new ExtentKlovReporter (getConfigProperty("report.title"),getConfigProperty("build"));
             klovReporter.initMongoDbConnection(getConfigProperty("klov.db"), Integer.parseInt(getConfigProperty("klov.db.port")));
-            klovReporter.setProjectName(getConfigProperty("report.title"));
-            klovReporter.setReportName(getConfigProperty("build"));
-            klovReporter.setKlovUrl(getConfigProperty("klov.url"));
+            klovReporter.initKlovServerConnection(getConfigProperty("klov.url"));
 
             extentReports.attachReporter(klovReporter);
         } else {
             ReportManager instance = ReportManager.getInstance();
             String reportBaseFolder = instance.getReportBaseFolder();
+            String reportLogFolder = instance.getReportLogFolder();
+
 
             ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(reportBaseFolder + "/index.html");
-            extentHtmlReporter.config().setChartVisibilityOnOpen(true);
+            //extentHtmlReporter.config().setChartVisibilityOnOpen(true);
             extentHtmlReporter.config().setDocumentTitle(getConfigProperty("report.title"));
             extentHtmlReporter.config().setEncoding("UTF-8");
             extentHtmlReporter.config().setProtocol(Protocol.HTTPS);
             extentHtmlReporter.config().setReportName(getConfigProperty("build"));
-            extentHtmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
+            //extentHtmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
             extentHtmlReporter.config().setTheme(Theme.STANDARD);
             extentHtmlReporter.config().setTimeStampFormat("mm/dd/yyyy hh:mm:ss a");
             extentHtmlReporter.config().setCSS("css-string");
             extentHtmlReporter.config().setJS("js-string");
-            extentHtmlReporter.setAppendExisting(true);
+            //extentHtmlReporter.setAppendExisting(true);
 
-            extentReports.attachReporter(extentHtmlReporter);
+            ExtentLoggerReporter extentLoggerReporter =  new ExtentLoggerReporter(reportLogFolder + "/log.html");
+            extentLoggerReporter.config().setDocumentTitle(getConfigProperty("report.title"));
+            extentLoggerReporter.config().setEncoding("UTF-8");
+            extentLoggerReporter.config().setProtocol(Protocol.HTTPS);
+            extentLoggerReporter.config().setReportName(getConfigProperty("build"));
+            //extentHtmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
+            extentLoggerReporter.config().setTheme(Theme.STANDARD);
+            extentLoggerReporter.config().setTimeStampFormat("mm/dd/yyyy hh:mm:ss a");
+            extentLoggerReporter.config().setCSS("css-string");
+            extentLoggerReporter.config().setJS("js-string");
+
+            extentReports.attachReporter(extentHtmlReporter,extentLoggerReporter);
         }
 
         return extentReports;

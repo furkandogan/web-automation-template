@@ -1,12 +1,10 @@
 package test.tools.selenium.report.extent;
 
-import com.aventstack.extentreports.utils.DateUtil;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ExtentedDateUtil extends DateUtil {
+public class ExtentedDateUtil {
 
     public static Date getDate(String date, String pattern) {
         SimpleDateFormat sdfDate = new SimpleDateFormat(pattern);
