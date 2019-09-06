@@ -418,6 +418,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("The %s value of the element %s on the page was the same as the %s value in the table", cellItem2, cellItem1, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the element %s on the page was the same as the %s value in the table", cellItem2, cellItem1, cellItem3));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -448,6 +451,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("The %s value of the %s element on the page contains the %s value in the table", cellItem2, cellItem1, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the %s element on the page contains the %s value in the table", cellItem2, cellItem1, cellItem3));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -478,6 +484,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("The %s value of the %s element on the page was the same as the %s value of the cached element %s", cellItem2, cellItem1, cellItem2, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the %s element on the page was the same as the %s value of the cached element %s", cellItem2, cellItem1, cellItem2, cellItem3));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -508,6 +517,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("The %s value of the element %s on the page was in the range of %s and %s", cellItem2, cellItem1, cellItem3, cellItem4));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the element %s on the page was in the range of %s and %s", cellItem2, cellItem1, cellItem3, cellItem4));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -566,6 +578,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("%s element not exist on page", cellItem1));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("%s element not exist on page", cellItem1));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -600,6 +615,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("Cached %s element not exist on page", cellItem1));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Cached %s element not exist on page", cellItem1));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -625,6 +643,9 @@ public class CucumberBaseEN extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, "The link address on the page is found to respond");
                 Cookie cookie = new Cookie("zaleniumMessage", "The link address on the page is found to respond");
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());

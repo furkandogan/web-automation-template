@@ -303,6 +303,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("The %s value of the element %s on the page was the same as the %s value in the table", patternAttr, attrName, dataToBeVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the element %s on the page was the same as the %s value in the table", patternAttr, attrName, dataToBeVerified));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -321,6 +324,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("The %s value of the %s element on the page contains the %s value in the table", patternAttr, attrName, dataToContainVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the %s element on the page contains the %s value in the table", patternAttr, attrName, dataToContainVerified));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -340,6 +346,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("The %s value of the %s element on the page was the same as the %s value of the cached element %s", patternAttr, attrName, patternAttr, dataToContainVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the %s element on the page was the same as the %s value of the cached element %s", patternAttr, attrName, patternAttr, dataToContainVerified));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -358,6 +367,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("The %s value of the element %s on the page was in the range of %s and %s", patternAttr, attrName, lowValue, highValue));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("The %s value of the element %s on the page was in the range of %s and %s", patternAttr, attrName, lowValue, highValue));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -394,6 +406,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("%s element not exist on page", attrName));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("%s element not exist on page", attrName));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -418,6 +433,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("Cached %s element not exist on page", attrName));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Cached %s element not exist on page", attrName));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -433,6 +451,9 @@ public class SeleniumBaseEN extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, "The link address on the page is found to respond");
             Cookie cookie = new Cookie("zaleniumMessage", "The link address on the page is found to respond");
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());

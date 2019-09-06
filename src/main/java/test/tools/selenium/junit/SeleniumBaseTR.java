@@ -302,6 +302,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToBeVerified));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -321,6 +324,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s değerini içerdiği görüldü", attrName, patternAttr, dataToContainVerified));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s değerini içerdiği görüldü", attrName, patternAttr, dataToContainVerified));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -340,6 +346,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, önbelleğe kaydedilen %s elementinin %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToContainVerified, patternAttr));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, önbelleğe kaydedilen %s elementinin %s değeri ile aynı olduğu görüldü", attrName, patternAttr, dataToContainVerified, patternAttr));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -358,6 +367,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s ve %s aralığında olduğu görüldü", attrName, patternAttr, lowValue, highValue));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s ve %s aralığında olduğu görüldü", attrName, patternAttr, lowValue, highValue));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -394,6 +406,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", attrName));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", attrName));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -418,6 +433,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", attrName));
             Cookie cookie = new Cookie("zaleniumMessage", String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", attrName));
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());
@@ -433,6 +451,9 @@ public class SeleniumBaseTR extends ExtentReportTestCaseFrame implements Seleniu
             extTest.log(Status.PASS, "Sayfada yer alan bağlantı adresinin yanıt verdiği görüldü");
             Cookie cookie = new Cookie("zaleniumMessage", "Sayfada yer alan bağlantı adresinin yanıt verdiği görüldü");
             driver.manage().addCookie(cookie);
+        } catch (AssertionError a) {
+            extTest.log(Status.FAIL, a.getMessage());
+            Assert.fail(a.getMessage());
         } catch (Exception e) {
             extTest.log(Status.FAIL, e.getMessage());
             Assert.fail(e.getMessage());

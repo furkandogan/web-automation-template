@@ -41,7 +41,7 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
         setExtentReports(createExtentsReportInstance());
         extTest = getExtentReports().createTest(scenario.getName());
         PageFactory.initElements(driver, WaitingActions.class);
-        if(Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))){
+        if (Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             galenTestInfos = new LinkedList<GalenTestInfo>();
         }
     }
@@ -416,6 +416,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değeri ile aynı olduğu görüldü", cellItem1, cellItem2, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değeri ile aynı olduğu görüldü", cellItem1, cellItem2, cellItem3));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -446,6 +449,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değerini içerdiği görüldü", cellItem1, cellItem2, cellItem3));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, tablodaki %s değerini içerdiği görüldü", cellItem1, cellItem2, cellItem3));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -476,6 +482,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, önbelleğe kaydedilen %s elementinin %s değeri ile aynı olduğu görüldü", cellItem1, cellItem2, cellItem3, cellItem2));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, önbelleğe kaydedilen %s elementinin %s değeri ile aynı olduğu görüldü", cellItem1, cellItem2, cellItem3, cellItem2));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -506,6 +515,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("Sayfada yer alan %s elementinin %s değeri, %s ve %s aralığında olduğu görüldü", cellItem1, cellItem2, cellItem3, cellItem4));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("Sayfada yer alan %s elementinin %s değeri, %s ve %s aralığında olduğu görüldü", cellItem1, cellItem2, cellItem3, cellItem4));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -564,6 +576,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", cellItem1));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", cellItem1));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -598,6 +613,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", cellItem1));
                 Cookie cookie = new Cookie("zaleniumMessage", String.format("%s elementinin sayfa üzerinde varolmadığı görüldü", cellItem1));
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -623,6 +641,9 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
                 extTest.log(Status.PASS, "Sayfada yer alan bağlantı adresinin yanıt verdiği görüldü");
                 Cookie cookie = new Cookie("zaleniumMessage", "Sayfada yer alan bağlantı adresinin yanıt verdiği görüldü");
                 driver.manage().addCookie(cookie);
+            } catch (AssertionError a) {
+                extTest.log(Status.FAIL, a.getMessage());
+                Assert.fail(a.getMessage());
             } catch (Exception e) {
                 extTest.log(Status.FAIL, e.getMessage());
                 Assert.fail(e.getMessage());
@@ -636,7 +657,7 @@ public class CucumberBaseTR extends ExtentReportTestCaseFrame implements Cucumbe
      */
     @Override
     public void teardown(Scenario scenario) throws Exception {
-        if(Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))){
+        if (Boolean.valueOf(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             new HtmlReportBuilder().build(galenTestInfos,
                     "target/galen-html-reports");
         }
