@@ -3,7 +3,7 @@
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>1.9</version>
+    <version>2.0</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
@@ -15,7 +15,7 @@
         <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-        <tag>web-automation-template-1.9</tag>
+        <tag>web-automation-template-2.0</tag>
     </scm>
 
     <developers>
@@ -144,7 +144,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.9.1</version>
+            <version>3.141.59</version>
         </dependency>
         <dependency>
             <groupId>com.galenframework</groupId>
