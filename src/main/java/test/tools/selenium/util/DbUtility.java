@@ -193,4 +193,46 @@ public class DbUtility {
 
     }
 
+    public void updateRowValue(String query,int row,String value) {
+        Connection pConn = this.getConnection();
+        try {
+            PreparedStatement stmt=pConn.prepareStatement(query);
+            for(int i=1; i<=row; i++){
+                stmt.setString(i, value);
+            }
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex) {
+            // TODO: handle exception
+        }
+
+    }
+
+    public void updateRowValue(String query,int row,int value) {
+        Connection pConn = this.getConnection();
+        try {
+            PreparedStatement stmt=pConn.prepareStatement(query);
+            for(int i=1; i<=row; i++){
+                stmt.setInt(i, value);
+            }
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex) {
+            // TODO: handle exception
+        }
+
+    }
+
+    public void deleteRowValue(String query) {
+        Connection pConn = this.getConnection();
+        try {
+
+            PreparedStatement st = pConn.prepareStatement(query);
+            st.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
 }
