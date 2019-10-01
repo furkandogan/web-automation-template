@@ -39,7 +39,7 @@ public class DbUtility {
      */
     public Connection initConnection() throws Exception {
 
-        Class.forName(PropertyNames.DB_DRIVER);
+        Class.forName(ConfigurationManager.getConfigProperty(PropertyNames.DB_DRIVER));
         String user = ConfigurationManager.getConfigProperty(PropertyNames.DB_USER);
         String password = ConfigurationManager.getConfigProperty(PropertyNames.DB_PS);
         String jdbcUrl = ConfigurationManager.getConfigProperty(PropertyNames.DB_JDBC_URL);
