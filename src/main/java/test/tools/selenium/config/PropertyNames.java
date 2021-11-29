@@ -10,6 +10,7 @@ public class PropertyNames {
     public static final String BROWSER_FIREFOX = "firefox";
     public static final String BROWSER_SAFARI = "safari";
     public static final String BROWSER_OPERA = "opera";
+    public static final String CHROME_HEADLESS = "chrome.headless";
     public static final String BROWSER_TYPE = "browser.type";
     public static final String BROWSER_MOBILE_TYPE = "browser.mobile.type";
     public static final String BROWSER_VERSION = "browser.version";

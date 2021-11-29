@@ -26,9 +26,6 @@ public class WaitingActions {
     public WaitingActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     }
 
     public void setFluentWait() {

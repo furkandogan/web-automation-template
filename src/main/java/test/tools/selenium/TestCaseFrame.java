@@ -1,12 +1,15 @@
 package test.tools.selenium;
 
-import cucumber.api.Scenario;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -18,8 +21,10 @@ import test.tools.selenium.util.OsUtility;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public abstract class TestCaseFrame {
 
@@ -116,12 +121,12 @@ public abstract class TestCaseFrame {
     public void setMobile(boolean mobile) {
         isMobile = mobile;
     }
-    
+
     public TestCaseFrame() {
         try {
-            setRemote(Boolean.valueOf(getConfigProperty(PropertyNames.BROWSER_REMOTE_DRIVER)));
+            setRemote(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_REMOTE_DRIVER)));
             setStartPage(getConfigProperty(PropertyNames.BASE_URL));
-            setMobile(Boolean.valueOf(getConfigProperty(PropertyNames.BROWSER_MOBILE_TYPE)));
+            setMobile(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_MOBILE_TYPE)));
             setSeleniumHubUrl(getConfigProperty(PropertyNames.SELENIUM_HUB_URL));
             setAppiumHubUrl(getConfigProperty(PropertyNames.APPIUM_HUB_URL));
         } catch (Exception e) {
@@ -131,6 +136,7 @@ public abstract class TestCaseFrame {
 
     /**
      * create web driver based on default browser values
+     *
      * @param scenario
      * @return
      * @throws Exception
@@ -141,18 +147,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     * create web driver based on default browser values
-     * @param scenario
-     * @return
-     * @throws Exception
-     */
-    public WebDriver createWebDriver(Scenario scenario) throws Exception {
-        createBrowserFromConfiguration();
-        return this.createWebDriver(scenario.getName(), getBrowser(), getStartPage());
-    }
-
-    /**
-     *
      * @throws Exception
      */
     private void createBrowserFromConfiguration() throws Exception {
@@ -160,7 +154,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @param scenario
      * @param baseUrl
      * @return
@@ -173,7 +166,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @param scenario
      * @param browser
      * @return
@@ -188,7 +180,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @param scenario
      * @param browser
      * @param pageUrl
@@ -204,7 +195,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @param scenario
      * @param browser
      * @param pageUrl
@@ -237,7 +227,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @return
      * @throws Exception
      */
@@ -251,7 +240,7 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *open the homepage
+     * open the homepage
      */
     public void openStartPage() {
         //getWebDriver().manage().window().maximize();
@@ -269,6 +258,7 @@ public abstract class TestCaseFrame {
 
     /**
      * Driver end
+     *
      * @param startTime
      */
     public void endDriverSession(long startTime) {
@@ -285,7 +275,6 @@ public abstract class TestCaseFrame {
 
 
     /**
-     *
      * @param capabilities
      */
     private void updateBrowserCapsFromConfig(DesiredCapabilities capabilities) {
@@ -305,7 +294,6 @@ public abstract class TestCaseFrame {
 
 
     /**
-     *
      * @param scenario
      * @return
      * @throws Exception
@@ -318,9 +306,9 @@ public abstract class TestCaseFrame {
         //firefoxProfile.setEnableNativeEvents(false);
 
         if (isRemote()) {
-            DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+            DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("firefox");
-            capabilities.setCapability("firefox_profile", firefoxProfile.toJson());
+            capabilities.setCapability("firefox_profile", firefoxProfile);
             capabilities.setCapability("build", getConfigProperty("build"));
             capabilities.setCapability("name", scenario);
             capabilities.setJavascriptEnabled(true);
@@ -333,7 +321,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @param scenario
      * @return
      * @throws Exception
@@ -341,21 +328,23 @@ public abstract class TestCaseFrame {
     private WebDriver createChromeDriver(String scenario) throws Exception {
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("test-type");
-        options.addArguments("disable-popup-blocking");
-        options.addArguments("ignore-certificate-errors");
-        options.addArguments("disable-translate");
-        options.addArguments("start-maximized");
-        options.addArguments("--window-size=1920,1080");
-        //options.addArguments("headless");
+        options.addArguments("test-type", "disable-popup-blocking", "ignore-certificate-errors", "disable-translate", "start-maximized");
+        options.addArguments(getConfigProperty(PropertyNames.BROWSER_CHROME));
+        options.setImplicitWaitTimeout(Duration.ofSeconds(10));
+        options.setScriptTimeout(Duration.ofSeconds(10));
+        options.setPageLoadTimeout(Duration.ofSeconds(60));
+        options.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        Map<String, Object> perfLogPrefs = new HashMap<String, Object>();
+        perfLogPrefs.put("traceCategories", "browser,devtools.timeline,devtools"); // comma-separated trace categories
+        options.setExperimentalOption("perfLoggingPrefs", perfLogPrefs);
 
         /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
 
         if (isRemote()) {
-
+            DesiredCapabilities capabilities = new DesiredCapabilities();
             if (isMobile()) {
-                DesiredCapabilities capabilities = new DesiredCapabilities();
                 updateBrowserCapsFromConfig(capabilities);
                 capabilities.setCapability("browserName", getConfigProperty(PropertyNames.BROWSER_TYPE));
                 capabilities.setCapability("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
@@ -365,7 +354,9 @@ public abstract class TestCaseFrame {
 
                 setWebDriver(new RemoteWebDriver(new URL(getAppiumHubUrl()), capabilities));
             } else {
-                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                LoggingPreferences logPrefs = new LoggingPreferences();
+                logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+                capabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
                 capabilities.setCapability(ChromeOptions.CAPABILITY, options);
                 capabilities.setCapability("build", getConfigProperty("build"));
                 capabilities.setCapability("name", scenario);
@@ -391,7 +382,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @throws Exception
      */
     private void setChromeBrowserDriverLocation() throws Exception {
@@ -412,7 +402,6 @@ public abstract class TestCaseFrame {
     }
 
     /**
-     *
      * @param scenario
      * @return
      * @throws Exception
@@ -448,7 +437,6 @@ public abstract class TestCaseFrame {
 
 
     /**
-     *
      * @param driver
      * @throws Exception
      */
