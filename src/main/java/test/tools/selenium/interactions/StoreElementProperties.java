@@ -1,11 +1,12 @@
 package test.tools.selenium.interactions;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 
-public class StoreElementProperties extends FindActions {
+public class StoreElementProperties extends WaitingActions {
 
     public StoreElementProperties(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -25,35 +26,35 @@ public class StoreElementProperties extends FindActions {
     }
 
     /**
-     * @param attr
+     * @param element
      * @return
      */
-    public HashMap<String, String> storeElementData(String attr) {
+    public HashMap<String, String> storeElementData(WebElement element, boolean hidden) {
         HashMap<String, String> attrTextList = new HashMap<>();
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
-        attrTextList.put(attr, getElementProperties.getText(attr));
+        attrTextList.put(element.toString(), getElementProperties.getText(element, hidden));
         setStringList(attrTextList);
         return getStringList();
     }
 
     /**
+     * @param element
      * @param attr
-     * @param patternAttr
      * @return
      */
-    public HashMap<String, String> storeElementData(String attr, String patternAttr) {
+    public HashMap<String, String> storeElementData(WebElement element, String attr, boolean hidden) {
         HashMap<String, String> attrTextList = new HashMap<>();
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
-        attrTextList.put(attr, getElementProperties.getAttribute(attr, patternAttr));
+        attrTextList.put(element.toString(), getElementProperties.getAttribute(element, attr, hidden));
         setStringList(attrTextList);
         return getStringList();
     }
 
     /**
-     * @param attr
+     * @param element
      * @return
      */
-    public String getStoreElementValue(String attr) {
-        return getStringList().get(attr);
+    public String getStoreElementValue(String element) {
+        return getStringList().get(element);
     }
 }

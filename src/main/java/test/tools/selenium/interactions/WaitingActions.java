@@ -1,17 +1,22 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class WaitingActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public FluentWait fluentWait;
 
 
     public WaitingActions(WebDriver driver) {
@@ -21,353 +26,162 @@ public class WaitingActions {
     public WaitingActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     }
 
-    /**
-     * Waiting for element presence by
-     *
-     * @param by
-     * @return
-     */
-    public WebElement waitForElementPresence(By by) {
-        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    public void setFluentWait() {
+        fluentWait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofSeconds(3))
+                .ignoring(NoSuchElementException.class);
     }
 
-    /**
-     * Waiting for elements presence by
-     *
-     * @param by
-     * @return
-     */
-    public List<WebElement> waitForElementsPresence(By by) {
-        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
-    }
-
-    /**
-     * Waiting for element clickable by
-     *
-     * @param by
-     */
-    public void waitForElementClickable(By by) {
-        wait.until(ExpectedConditions.elementToBeClickable(by));
-    }
-
-    /**
-     * Waiting for element clickable element
-     *
-     * @param element
-     */
-    public void waitForElementClickable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-    }
-
-    /**
-     * Waiting for element selectable element
-     *
-     * @param element
-     */
-    public void waitForElementSelectable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeSelected(element));
-    }
-
-    /**
-     * Waiting for element selectable by
-     *
-     * @param by
-     */
-    public void waitForElementSelectable(By by) {
-        wait.until(ExpectedConditions.elementToBeSelected(by));
-    }
-
-    /**
-     * Waiting for element visible element
-     *
-     * @param element
-     */
-    public void waitForElementVisible(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
-    /**
-     * Waiting for element visible by
-     *
-     * @param by
-     */
-    public void waitForElementVisible(By by) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-    }
-
-    /**
-     * Waiting for element invisible element
-     *
-     * @param element
-     */
-    public void waitForElementInVisible(WebElement element) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
-    }
-
-    /**
-     * Waiting for element invisible by
-     *
-     * @param by
-     */
-    public void waitForElementInVisible(By by) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
-    }
-
-    /**
-     * Waiting for Frame can be switchable element
-     *
-     * @param element
-     */
-    public void waitForFrameAvailableToSwitch(WebElement element) {
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(element));
-    }
-
-    /**
-     * Waiting for Frame can be switchable by
-     *
-     * @param by
-     */
-    public void waitForFrameAvailableToSwitch(By by) {
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
-    }
-
-    /**
-     * Waiting for Alert is Present
-     */
-    public void waitForAlertIsPresent() {
-        wait.until(ExpectedConditions.alertIsPresent());
-    }
-
-    /**
-     * Wait for attribute to be element
-     *
-     * @param element
-     * @param attr
-     * @param attrValue
-     */
-    public void waitForAttribute(WebElement element, String attr, String attrValue) {
-        wait.until(ExpectedConditions.attributeToBe(element, attr, attrValue));
-    }
-
-    /**
-     * Wait for attribute to be by
-     *
-     * @param by
-     * @param attr
-     * @param attrValue
-     */
-    public void waitForAttribute(By by, String attr, String attrValue) {
-        wait.until(ExpectedConditions.attributeToBe(by, attr, attrValue));
-    }
-
-    /**
-     * Wait for attribute contains element
-     *
-     * @param element
-     * @param attr
-     * @param attrValue
-     */
-    public void waitForAttributeContains(WebElement element, String attr, String attrValue) {
-        wait.until(ExpectedConditions.attributeContains(element, attr, attrValue));
-    }
-
-    /**
-     * Wait for attribute contains by
-     *
-     * @param by
-     * @param attr
-     * @param attrValue
-     */
-    public void waitForAttributeContains(By by, String attr, String attrValue) {
-        wait.until(ExpectedConditions.attributeContains(by, attr, attrValue));
-    }
-
-    /**
-     * Wait for attribute not empty
-     *
-     * @param element
-     * @param attr
-     */
-    public void waitForAttributeToBeNotEmpty(WebElement element, String attr) {
-        wait.until(ExpectedConditions.attributeToBeNotEmpty(element, attr));
-    }
-
-    /**
-     * Wait js return no exception
-     *
-     * @param javaScript
-     */
-    public void waitForJavaScriptThrowsNoExceptions(String javaScript) {
-        wait.until(ExpectedConditions.javaScriptThrowsNoExceptions(javaScript));
-    }
-
-    /**
-     * Wait js return value
-     *
-     * @param javaScript
-     */
-    public void waitForJsReturnsValue(String javaScript) {
-        wait.until(ExpectedConditions.jsReturnsValue(javaScript));
-    }
-
-    /**
-     * Wait for invisible elements
-     *
-     * @param elements
-     */
-    public void waitForElementsInVisible(List<WebElement> elements) {
-        wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
-    }
-
-    /**
-     * Wait for elements number
-     *
-     * @param by
-     * @param number
-     */
-    public void waitForElementsNumberOf(By by, int number) {
-        wait.until(ExpectedConditions.numberOfElementsToBe(by, number));
-    }
-
-
-    /**
-     * Wait for elements number less than
-     *
-     * @param by
-     * @param number
-     */
-    public void waitForElementsNumberOfLessThan(By by, int number) {
-        wait.until(ExpectedConditions.numberOfElementsToBeLessThan(by, number));
-    }
-
-    /**
-     * Wait for elements number more than
-     *
-     * @param by
-     * @param number
-     */
-    public void waitForElementsNumberOfMoreThan(By by, int number) {
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(by, number));
-    }
-
-    /**
-     * Wait for element selected
-     *
-     * @param element
-     */
-    public void waitElementToBeSelected(WebElement element) {
-        wait.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
-                .until(new ExpectedCondition<Boolean>() {
-                    public Boolean apply(WebDriver d) {
-                        Select select = new Select(element);
-                        //select.getAllSelectedOptions().isEmpty();
-                        return select.getAllSelectedOptions().size() != 0;
-                    }
-                });
-    }
-
-    /**
-     * Wait for text to be present in element
-     *
-     * @param element
-     */
-    public void waitTextToBePresent(WebElement element) {
-        wait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return element.getAttribute("value").length() != 0;
-            }
+    public void waitForAngularLoad() {
+        wait.until((ExpectedCondition<Boolean>) driver -> {
+            assert driver != null;
+            return Boolean.valueOf(((JavascriptExecutor) driver)
+                    .executeScript("return angular.element(document).injector().get('$http').pendingRequests.length === 0").toString());
         });
     }
 
-    /**
-     * jQuery is ready
-     */
-    public void waitForJQueryLoad() {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        ExpectedCondition<Boolean> jQueryLoad = driver -> (( Long ) (jsActions.getJSExecutor())
-                .executeScript("return jQuery.active") == 0);
-        boolean jqueryReady = ( Boolean ) jsActions.executeJS("return jQuery.active==0");
-        if (!jqueryReady) {
-            System.out.println("JQuery is NOT Ready!");
-            wait.until(jQueryLoad);
-        } else {
-            System.out.println("JQuery is Ready!");
-        }
+    public void waitUntilAngular5Ready() {
+        wait.until((ExpectedCondition<Boolean>) driver -> {
+            assert driver != null;
+            return Boolean.valueOf(((JavascriptExecutor) driver)
+                    .executeScript("return window.getAllAngularTestabilities().filter(x=>!x.isStable()).length === 1").toString());
+        });
     }
 
-    /**
-     *
-     */
-    public void waitForAngularLoad() {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        String angularReadyScript = "return angular.element(document).injector().get('$http').pendingRequests.length === 0";
-        ExpectedCondition<Boolean> angularLoad = driver -> Boolean.valueOf((( JavascriptExecutor ) driver)
-                .executeScript(angularReadyScript).toString());
-        boolean angularReady = Boolean.valueOf(jsActions.executeJS(angularReadyScript).toString());
-        if (!angularReady) {
-            System.out.println("ANGULAR is NOT Ready!");
-            wait.until(angularLoad);
-        } else {
-            System.out.println("ANGULAR is Ready!");
-        }
+    public void waitForValueIsPresent(WebElement element, String value) {
+        wait.until((ExpectedCondition<Boolean>) driver -> {
+            assert driver != null;
+            return Boolean.valueOf(((JavascriptExecutor) driver)
+                    .executeScript("return arguments[0].value === '" + value + "'", element).toString());
+        });
     }
 
-    /**
-     * Javascript is ready
-     */
+    public void waitForIsChecked(WebElement element) {
+        wait.until((ExpectedCondition<Boolean>) driver -> {
+            assert driver != null;
+            return Boolean.valueOf(((JavascriptExecutor) driver)
+                    .executeScript("return arguments[0].checked", element).toString());
+        });
+    }
+
     public void waitUntilJSReady() {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        ExpectedCondition<Boolean> jsLoad = driver -> (jsActions.getJSExecutor())
-                .executeScript("return document.readyState").toString().equals("complete");
-        boolean jsReady = ( Boolean ) jsActions.executeJS("return document.readyState").toString().equals("complete");
-        if (!jsReady) {
-            System.out.println("JS in NOT Ready!");
-            wait.until(jsLoad);
-        } else {
-            System.out.println("JS is Ready!");
-        }
+        wait.until((ExpectedCondition<Boolean>) driver -> {
+            assert driver != null;
+            return ((JavascriptExecutor) driver)
+                    .executeScript("return document.readyState").toString().equals("complete");
+        });
     }
 
-    /**
-     * jQuery is ready
-     */
-    public void waitUntilJQueryReady() {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        Boolean jQueryDefined = ( Boolean ) jsActions.executeJS("return typeof jQuery != 'undefined'");
-        if (jQueryDefined == true) {
-            waitForJQueryLoad();
-            waitUntilJSReady();
-        } else {
-            System.out.println("jQuery is not defined on this site!");
-        }
-    }
-
-    /**
-     * Angular is ready
-     */
     public void waitUntilAngularReady() {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        Boolean angularUnDefined = ( Boolean ) jsActions.executeJS("return window.angular === undefined");
+        Boolean angularUnDefined = (Boolean) ((JavascriptExecutor) driver)
+                .executeScript("return window.angular === undefined");
         if (!angularUnDefined) {
-            Boolean angularInjectorUnDefined = ( Boolean ) jsActions.executeJS("return angular.element(document).injector() === undefined");
+            Boolean angularInjectorUnDefined = (Boolean) ((JavascriptExecutor) driver)
+                    .executeScript("return angular.element(document).injector() === undefined");
             if (!angularInjectorUnDefined) {
                 waitForAngularLoad();
-            } else {
-                System.out.println("Angular injector is not defined on this site!");
             }
-        } else {
-            System.out.println("Angular is not defined on this site!");
         }
     }
 
-    /**
-     * jQuery and Angular is ready
-     */
-    public void waitJQueryAngular() {
-        waitUntilJQueryReady();
-        waitUntilAngularReady();
+    public static void checkPendingRequests(final String context, final EventFiringWebDriver driver) {
+        final int timeoutInNumberOfTries = 50;
+        try {
+            if (driver != null) {
+                System.out.println("Number of active calls " + context + ": ");
+                boolean timeout = true;
+                for (int i = 0; i < timeoutInNumberOfTries; i++) {
+                    Thread.sleep(100);
+                    final Object numberOfAjaxConnections = ((JavascriptExecutor) driver).executeScript("return window.openHTTPs");
+                    // return should be a number
+                    if (numberOfAjaxConnections instanceof Long) {
+                        final Long n = (Long) numberOfAjaxConnections;
+                        System.out.println(" " + n);
+                        if (n == 0L) {
+                            timeout = false;
+                            break;
+                        }
+                    } else {
+                        // If it's not a number, the page might have been freshly loaded indicating the monkey
+                        // patch is replaced or we haven't yet done the patch.
+                        monkeyPatchXMLHttpRequest(driver);
+                    }
+                }
+                if (timeout) {
+                    throw new RuntimeException("Pending XHR requests even after 50 times checking (100 msec) for:" + context);
+                }
+            } else {
+                System.out.println("Web driver: " + driver + " cannot execute javascript");
+            }
+        } catch (final InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void monkeyPatchXMLHttpRequest(final EventFiringWebDriver driver) {
+        try {
+            if (driver != null) {
+                final Object numberOfAjaxConnections = ((JavascriptExecutor) driver).executeScript("return window.openHTTPs");
+                if (numberOfAjaxConnections instanceof Long) {
+                    return;
+                }
+                final String script = "  (function() {" + "var oldOpen = XMLHttpRequest.prototype.open;" + "window.openHTTPs = 0;" +
+                        "XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {" + "window.openHTTPs++;" +
+                        "this.addEventListener('readystatechange', function() {" + "if(this.readyState == 4) {" + "window.openHTTPs--;" + "}" +
+                        "}, false);" + "oldOpen.call(this, method, url, async, user, pass);" + "}" + "})();";
+                ((JavascriptExecutor) driver).executeScript(script);
+            } else {
+                System.out.println("Web driver: " + null + " cannot execute javascript");
+            }
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void waitForAngular8Load() {
+        String angularReadyScript = "let pendingRequestCount = 0;\n" +
+                "let oldXHROpen = window.XMLHttpRequest.prototype.open;\n" +
+                "window.XMLHttpRequest.prototype.open = function (method, url, async, user, password) {\n" +
+                "  this.addEventListener('loadstart', function() {\n" +
+                "    pendingRequestCount++;\n" +
+                "  });\n" +
+                "  this.addEventListener('loadend', function() {\n" +
+                "    if(pendingRequestCount < 0) {\n" +
+                "      pendingRequestCount = 0;\n" +
+                "      return;\n" +
+                "    }\n" +
+                "    pendingRequestCount--;\n" +
+                "  });\n" +
+                "  return oldXHROpen.apply(this, arguments);\n" +
+                "}\n" +
+                "const getPendingRequestCount = async () => {\n" +
+                "  return new Promise((resolve, reject) => {\n" +
+                "    const timer = setInterval(() => {\n" +
+                "      if(pendingRequestCount === 0) {\n" +
+                "        clearInterval(timer);\n" +
+                "        resolve(true);\n" +
+                "      }\n" +
+                "    }, 100);\n" +
+                "  });\n" +
+                "}\n" +
+                "await getPendingRequestCount();\n" +
+                "return pendingRequestCount === 0 ? true : false;";
+        ExpectedCondition<Boolean> angularLoad = driver -> {
+            assert driver != null;
+            return Boolean.valueOf(((JavascriptExecutor) driver)
+                    .executeScript(angularReadyScript).toString());
+        };
+        boolean angularReady = Boolean.parseBoolean(((JavascriptExecutor) driver)
+                .executeScript(angularReadyScript).toString());
+        if (!angularReady) {
+            wait.until(angularLoad);
+        }
     }
 
 }

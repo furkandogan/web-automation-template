@@ -15,7 +15,7 @@ public class CustomRemoteWebDriver extends RemoteWebDriver implements TakesScree
         System.out.println(String.format("CustomRemoteWebDriver called. Selenium server address :%s", remoteAddress));
     }
 
-    @Override
+
     public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
         if (( Boolean ) getCapabilities().getCapability(CapabilityType.TAKES_SCREENSHOT)) {
             String screenShot = execute(DriverCommand.SCREENSHOT).getValue().toString();

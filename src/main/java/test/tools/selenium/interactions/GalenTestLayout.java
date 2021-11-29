@@ -4,6 +4,7 @@ import com.galenframework.api.Galen;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.model.LayoutReport;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 
@@ -11,8 +12,11 @@ import static java.util.Arrays.asList;
 
 public class GalenTestLayout extends WaitingActions {
 
-    public GalenTestLayout(WebDriver driver) {
-        super(driver);
+    public WebDriver driver;
+    public WebDriverWait wait;
+
+    public GalenTestLayout(WebDriver driver, WebDriverWait wait) {
+        super(driver, wait);
     }
 
     /**

@@ -1,40 +1,19 @@
 package test.tools.selenium.interactions;
 
-import test.tools.selenium.constants.XpathInjection;
-import test.tools.selenium.mapping.MapMethodType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static test.tools.selenium.constants.XpathInjection.createXpath;
+public class ClickActions extends WaitingActions {
 
-public class ClickActions extends FindActions {
-
-    MapMethodType mapMethodType = MapMethodType.CLICK_OBJECT;
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public ClickActions(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
-    }
-
-    /**
-     * Click to element that is visible or invisible
-     *
-     * @param attr
-     */
-    public void clickToElement(String attr) {
-        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
-        try {
-            if (XpathInjection.mapValue.getIsJsEnabled() != null && XpathInjection.mapValue.getIsJsEnabled() == true) {
-                clickByJs(element);
-                waitUntilJSReady();
-            } else {
-                clickByElement(element);
-                waitUntilJSReady();
-            }
-        } catch (WebDriverException e) {
-            javaScriptClicker(element);
-        }
     }
 
     /**
@@ -42,11 +21,22 @@ public class ClickActions extends FindActions {
      *
      * @param element
      */
-    public void clickByElement(WebElement element) {
-        waitForElementClickable(element);
+    public void click(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
 
+    /**
+     * Click to element that is visible
+     *
+     * @param xpath
+     */
+    public void click(By xpath) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+        wait.until(ExpectedConditions.elementToBeClickable(xpath));
+        driver.findElement(xpath).click();
+    }
 
     /**
      * Click to element that is invisible
@@ -54,20 +44,18 @@ public class ClickActions extends FindActions {
      * @param element
      */
     public void clickByJs(WebElement element) {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        jsActions.executeJS("arguments[0].click();", element);
+        wait.until(ExpectedConditions.invisibilityOf(element));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
     }
 
     /**
      * Click to element that is invisible
      *
-     * @param element
+     * @param xpath
      */
-    public void javaScriptClicker(WebElement element) {
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        jsActions.executeJS("var evt = document.createEvent('MouseEvents');"
-                + "evt.initMouseEvent('click',true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0,null);"
-                + "arguments[0].dispatchEvent(evt);", element);
+    public void clickByJs(By xpath) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", driver.findElement(xpath));
     }
 
 }

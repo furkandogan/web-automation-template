@@ -379,7 +379,7 @@ public abstract class TestCaseFrame {
         } else {
             if (isMobile()) {
                 Map<String, String> mobileEmulation = new HashMap<>();
-                mobileEmulation.put("deviceName", "Galaxy S5");
+                mobileEmulation.put("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
                 options.setExperimentalOption("mobileEmulation", mobileEmulation);
             }
             setChromeBrowserDriverLocation();

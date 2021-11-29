@@ -1,20 +1,19 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import test.tools.selenium.constants.XpathInjection;
-import test.tools.selenium.mapping.MapMethodType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static test.tools.selenium.constants.XpathInjection.createXpath;
+public class SelectActions extends WaitingActions {
 
-public class SelectActions extends FindActions {
-
-    MapMethodType mapMethodType = MapMethodType.SELECT_OPTION;
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public SelectActions(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -22,114 +21,125 @@ public class SelectActions extends FindActions {
 
 
     /**
-     * @param attr
+     * @param element
      */
-    public Select selectElement(String attr) {
-        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
-        waitElementToBeSelected(element);
-        return new Select(element);
-    }
-
-
-    /**
-     * @param attr
-     */
-    public WebElement getFirstSelectedOptionFromElement(String attr) {
-        return selectElement(attr).getFirstSelectedOption();
+    public WebElement getFirstSelectedOptionFromElement(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        return new Select(element).getFirstSelectedOption();
     }
 
     /**
-     * @param attr
+     * @param element
      */
-    public List<WebElement> getAllSelectedOptionsFromElement(String attr) {
-        return selectElement(attr).getAllSelectedOptions();
+    public List<WebElement> getAllSelectedOptionsFromElement(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        return new Select(element).getAllSelectedOptions();
     }
 
     /**
-     * @param attr
+     * @param element
      */
-    public List<WebElement> getOptionsFromElement(String attr) {
-        return selectElement(attr).getOptions();
-    }
-
-
-    /**
-     * @param attr
-     */
-    public void waitOptionToBePresent(String attr) {
-        wait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return getOptionsFromElement(attr).size() != 0;
-            }
-        });
+    public List<WebElement> getOptionsFromElement(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        return new Select(element).getOptions();
     }
 
     /**
-     * @param attr
-     * @param option
-     */
-    public void selectElementByVisibleText(String attr, String option) {
-        waitOptionToBePresent(attr);
-        selectElement(attr).selectByVisibleText(option);
-        waitTextToBePresent(selectElement(attr).getFirstSelectedOption());
-    }
-
-    /**
-     * @param attr
-     * @param option
-     */
-    public void deselectElementByVisibleText(String attr, String option) {
-        selectElement(attr).deselectByVisibleText(option);
-    }
-
-    /**
-     * @param attr
-     * @param index
-     */
-    public void selectElementByIndex(String attr, int index) {
-        waitOptionToBePresent(attr);
-        selectElement(attr).selectByIndex(index);
-    }
-
-    /**
-     * @param attr
-     * @param index
-     */
-    public void deselectElementByIndex(String attr, int index) {
-        selectElement(attr).deselectByIndex(index);
-    }
-
-    /**
-     * @param attr
+     * @param element
      * @param value
      */
-    public void selectElementByValue(String attr, String value) {
-        waitOptionToBePresent(attr);
-        selectElement(attr).selectByValue(value);
+    public void selectByValue(WebElement element, String value) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).selectByValue(value);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
     }
 
     /**
-     * @param attr
+     * @param xpath
      * @param value
      */
-    public void deselectElementByValue(String attr, String value) {
-        selectElement(attr).deselectByValue(value);
+    public void selectByValue(By xpath, String value) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+        new Select(driver.findElement(xpath)).selectByValue(value);
+        wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+    }
+
+    public void selectByValueByJs(WebElement element, String value) {
+        wait.until(ExpectedConditions.invisibilityOf(element));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "';", element);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
     }
 
     /**
-     * @param attr
+     * @param element
+     * @param text
      */
-    public void deselectElementAllOptions(String attr) {
-        selectElement(attr).deselectAll();
+    public void selectByVisibleText(WebElement element, String text) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).selectByVisibleText(text);
+        GetElementProperties g = new GetElementProperties(driver, wait);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
     }
 
     /**
-     * @param attr
+     * @param xpath
+     * @param text
+     */
+    public void selectByVisibleText(By xpath, String text) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+        WebElement element = driver.findElement(xpath);
+        new Select(element).selectByVisibleText(text);
+        GetElementProperties g = new GetElementProperties(driver, wait);
+        wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
+    }
+
+    /**
+     * @param element
+     * @param index
+     */
+    public void selectByIndex(WebElement element, int index) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).selectByIndex(index);
+        GetElementProperties g = new GetElementProperties(driver, wait);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
+    }
+
+    /**
+     * @param xpath
+     * @param index
+     */
+    public void selectByIndex(By xpath, int index) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+        WebElement element = driver.findElement(xpath);
+        new Select(element).selectByIndex(index);
+        GetElementProperties g = new GetElementProperties(driver, wait);
+        wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
+    }
+
+    /**
+     * @param element
      * @param optionText
      */
-    public void selectByVisibleContainText(String attr, String optionText) {
-        waitOptionToBePresent(attr);
-        List<WebElement> options = getOptionsFromElement(attr);
+    public void selectByVisibleContainText(WebElement element, String optionText) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        List<WebElement> options = getOptionsFromElement(element);
+        for (WebElement option : options) {
+            if (option.getText().contains(optionText)) {
+                option.click();
+                break;
+            }
+        }
+    }
+
+
+    /**
+     * @param xpath
+     * @param optionText
+     */
+    public void selectByVisibleContainText(By xpath, String optionText) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+        WebElement element = driver.findElement(xpath);
+        List<WebElement> options = getOptionsFromElement(element);
         for (WebElement option : options) {
             if (option.getText().contains(optionText)) {
                 option.click();
@@ -139,15 +149,47 @@ public class SelectActions extends FindActions {
     }
 
     /**
-     * @param attr
-     * @param mapLocationPointAttr
+     * @param element
+     * @param value
      */
-    public void selectMapPoint(String attr, String mapLocationPointAttr) {
-        String lat = getFirstSelectedOptionFromElement(attr).getAttribute("lat");
-        String lon = getFirstSelectedOptionFromElement(attr).getAttribute("lon");
-        WebElement element = findElement(XpathInjection.createXpath(mapLocationPointAttr, mapMethodType));
-        JavaScriptActions jsActions = new JavaScriptActions(driver);
-        jsActions.executeJS("arguments[0].setAttribute('value', arguments[1]);", element,
+    public void deselectElementByValue(WebElement element, String value) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).deselectByValue(value);
+    }
+
+    /**
+     * @param element
+     * @param text
+     */
+    public void deselectByVisibleText(WebElement element, String text) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).deselectByVisibleText(text);
+    }
+
+    /**
+     * @param element
+     * @param index
+     */
+    public void deselectByIndex(WebElement element, int index) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).deselectByIndex(index);
+    }
+
+    /**
+     * @param element
+     */
+    public void deselectElementAllOptions(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).deselectAll();
+    }
+
+    /**
+     * @param element
+     */
+    public void selectMapPoint(WebElement element) {
+        String lat = getFirstSelectedOptionFromElement(element).getAttribute("lat");
+        String lon = getFirstSelectedOptionFromElement(element).getAttribute("lon");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', arguments[1]);", element,
                 lat + "," + lon);
     }
 

@@ -1,15 +1,16 @@
 package test.tools.selenium.interactions;
 
-import test.tools.selenium.constants.XpathInjection;
-import test.tools.selenium.mapping.MapMethodType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static test.tools.selenium.constants.XpathInjection.createXpath;
+import java.util.List;
 
-public class GetElementProperties extends FindActions {
+public class GetElementProperties extends WaitingActions {
 
-    MapMethodType mapMethodType = MapMethodType.ELEMENT_DISPLAY;
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public GetElementProperties(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -18,61 +19,86 @@ public class GetElementProperties extends FindActions {
     /**
      * Get element attributeValue
      *
-     * @param attr
+     * @param element
      * @return
      */
-    public String getAttribute(String attr, String patternAttr) {
-        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getAttribute(patternAttr).trim().toLowerCase();
-    }
-
-    /**
-     * Get element value
-     *
-     * @param attr
-     * @return
-     */
-    public String getValue(String attr) {
-        return getAttribute(attr, "value");
+    public String getAttribute(WebElement element, String attr, boolean hidden) {
+        if (hidden) {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+        } else {
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }
+        return element.getAttribute(attr).trim().toLowerCase();
     }
 
     /**
      * Get element text
      *
-     * @param attr
+     * @param element
      * @return
      */
-    public String getText(String attr) {
-        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getText().trim().toLowerCase();
+    public String getValue(WebElement element, boolean hidden) {
+        return getAttribute(element, "value", hidden);
+    }
+
+    /**
+     * Get element text
+     *
+     * @param element
+     * @return
+     */
+    public String getText(WebElement element, boolean hidden) {
+        if (hidden) {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+        } else {
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }
+        return element.getText().trim().toLowerCase();
     }
 
     /**
      * Get element tag
      *
-     * @param attr
+     * @param element
      * @return
      */
-    public String getTagName(String attr) {
-        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getTagName().trim().toLowerCase();
+    public String getTagName(WebElement element, boolean hidden) {
+        if (hidden) {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+        } else {
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }
+        return element.getTagName().trim().toLowerCase();
     }
 
     /**
      * Get element cssValue
      *
-     * @param attr
+     * @param element
      * @return
      */
-    public String getCssValue(String attr, String value) {
-        return findElement(XpathInjection.createXpath(attr, mapMethodType)).getCssValue(value).trim().toLowerCase();
+    public String getCssValue(WebElement element, String value, boolean hidden) {
+        if (hidden) {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+        } else {
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }
+        return element.getCssValue(value).trim().toLowerCase();
     }
 
     /**
      * Get element list size
      *
-     * @param attr
+     * @param elements
      * @return
      */
-    public Integer getSize(String attr) {
-        return findElements(XpathInjection.createXpath(attr, mapMethodType)).size();
+    public Integer getSize(List<WebElement> elements, boolean hidden) {
+        if (hidden) {
+            wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
+        } else {
+            wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+        }
+        return elements.size();
     }
 
     /**

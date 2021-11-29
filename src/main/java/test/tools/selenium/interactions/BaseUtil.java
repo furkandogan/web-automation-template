@@ -1,24 +1,18 @@
 package test.tools.selenium.interactions;
 
-import test.tools.selenium.constants.XpathInjection;
-import test.tools.selenium.mapping.MapMethodType;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.text.ParseException;
 import java.text.RuleBasedCollator;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 import java.util.Set;
 
-import static test.tools.selenium.constants.XpathInjection.createXpath;
-
-public class BaseUtil extends FindActions {
-
-    MapMethodType mapMethodType = MapMethodType.FRAME_AND_WINDOW_OBJECT;
+public class BaseUtil extends WaitingActions {
 
     public BaseUtil(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -28,92 +22,19 @@ public class BaseUtil extends FindActions {
      * To change browser tab
      */
     public void changeTab() {
+        ((JavascriptExecutor) driver).executeScript("window.open()");
         ArrayList tabs = new ArrayList(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(tabs.size() - 1).toString());
-
-    }
-
-    /**
-     * Sleep seconds
-     *
-     * @param seconds
-     */
-    public void sleep(Integer seconds) {
-        long secondsLong = ( long ) seconds;
-        try {
-            Thread.sleep(secondsLong);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * refresh page
-     */
-    public void pageRefresh() {
-        try {
-            driver.navigate().refresh();
-        } catch (Exception e) {
-            Assert.fail(e.getMessage());
-        }
-    }
-
-    /**
-     * Open custom url
-     *
-     * @param url
-     */
-    public void openCustomUrlPage(String url) {
-        try {
-            driver.get(url);
-        } catch (Exception e) {
-            Assert.fail(e.getMessage());
-        }
-    }
-
-    /**
-     * Navigate to url
-     *
-     * @param url
-     */
-    public void navigateTo(String url) {
-        driver.navigate().to(url);
-    }
-
-    /**
-     * Refresh page
-     */
-    public void refreshTo() {
-        driver.navigate().refresh();
-    }
-
-
-    /**
-     * Go forward backs
-     */
-    public void goBack() {
-        driver.navigate().back();
-    }
-
-    /**
-     * Call the page
-     *
-     * @param page
-     */
-    public void callPage(String page) {
-        GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
-        driver.get(getElementProperties.getCurrentUrl() + page);
     }
 
     /**
      * Switch to frame
      *
-     * @param attr
+     * @param element
      */
-    public void switchToFrame(String attr) {
+    public void switchToFrame(WebElement element) {
         driver.switchTo().defaultContent();
-        driver.switchTo().frame(findElement(XpathInjection.createXpath(attr, mapMethodType)));
+        driver.switchTo().frame(element);
     }
 
     /**
@@ -122,7 +43,7 @@ public class BaseUtil extends FindActions {
      * @param acceptAndDismiss
      */
     public void alertPopup(boolean acceptAndDismiss) {
-        waitForAlertIsPresent();
+        wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
         if (acceptAndDismiss) {
             alert.accept();
@@ -134,10 +55,9 @@ public class BaseUtil extends FindActions {
     /**
      * Switch to windows
      *
-     * @param attr
+     * @param element
      */
-    public void switchWindowAndHandle(String attr) {
-        WebElement element = findElement(XpathInjection.createXpath(attr, mapMethodType));
+    public void switchWindowAndHandle(WebElement element) {
         Set<String> allWindows = driver.getWindowHandles();
         for (String selectWindow : allWindows) {
             driver.switchTo().window(selectWindow);
@@ -146,68 +66,6 @@ public class BaseUtil extends FindActions {
                 break;
             }
         }
-    }
-
-
-    /**
-     * Add cookie by parameter
-     *
-     * @param name
-     * @param value
-     * @param domain
-     * @param path
-     * @param expiry
-     */
-    public void addCookie(String name, String value, String domain, String path, Date expiry) {
-        driver.manage().addCookie(new Cookie(name, value, domain, path, expiry));
-    }
-
-    /**
-     * Delete cookie
-     *
-     * @param cookieName
-     */
-    public void deleteCookie(String cookieName) {
-        driver.manage().deleteCookieNamed(cookieName);
-    }
-
-
-    /**
-     * Desired length random string
-     *
-     * @param size
-     * @return
-     */
-    public String createRandomString(int size) {
-        return RandomStringUtils.randomAlphanumeric(size);
-    }
-
-    /**
-     * The desirable range random int
-     *
-     * @param start
-     * @param end
-     * @return
-     */
-    public int createRandomInteger(int start, int end) {
-        int randomNumber;
-        if (start > end) {
-            throw new IllegalArgumentException("Start cannot exceed End.");
-        } else {
-            Random random = new Random();
-            randomNumber = random.nextInt((end - start) + 1) + start;
-        }
-        return randomNumber;
-    }
-
-    /**
-     * The remove in text of number
-     *
-     * @param regexText
-     * @return
-     */
-    public String regexString(String regexText) {
-        return regexText.replaceAll("\\d", "");
     }
 
     /**
@@ -248,22 +106,16 @@ public class BaseUtil extends FindActions {
         return null;
     }
 
-
     /**
-     * Element null exception
+     * Highlight element with red color
      *
-     * @param by
-     * @param index
+     * @param element
      */
-
-    public void nullElementException(By by, int... index) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("ELEMENT (");
-        stringBuilder.append(by);
-        stringBuilder.append(",");
-        stringBuilder.append(index.length > 0 ? index[0] : "");
-        stringBuilder.append(") NOT EXISTS; AUTOMATION DATAS MAY BE INVALID!");
-        throw new NullPointerException(stringBuilder.toString());
+    public void highlightElement(WebElement element) {
+        if (element != null) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', arguments[1]);", element,
+                    "color: red; border: 3px solid red;");
+        }
     }
 
 }
