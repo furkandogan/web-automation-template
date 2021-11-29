@@ -3,7 +3,7 @@
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>3.0</version>
+    <version>3.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
@@ -15,7 +15,7 @@
         <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-        <tag>web-automation-template-3.0</tag>
+        <tag>web-automation-template-3.1</tag>
     </scm>
 
     <developers>
