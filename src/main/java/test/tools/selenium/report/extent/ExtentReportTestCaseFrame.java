@@ -7,7 +7,6 @@ import com.aventstack.extentreports.reporter.ExtentKlovReporter;
 import com.aventstack.extentreports.reporter.ExtentLoggerReporter;
 import com.aventstack.extentreports.reporter.configuration.Protocol;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import cucumber.api.java.gl.E;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import test.tools.selenium.TestCaseFrame;
@@ -55,7 +54,7 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
         extentReports.setReportUsesManualConfiguration(true);
 
         if (isKlovReporter()) {
-            ExtentKlovReporter  klovReporter = new ExtentKlovReporter (getConfigProperty("report.title"),getConfigProperty("build"));
+            ExtentKlovReporter klovReporter = new ExtentKlovReporter(getConfigProperty("report.title"), getConfigProperty("build"));
             klovReporter.initMongoDbConnection(getConfigProperty("klov.db"), Integer.parseInt(getConfigProperty("klov.db.port")));
             klovReporter.initKlovServerConnection(getConfigProperty("klov.url"));
 
@@ -79,7 +78,7 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
             extentHtmlReporter.config().setJS("js-string");
             //extentHtmlReporter.setAppendExisting(true);
 
-            ExtentLoggerReporter extentLoggerReporter =  new ExtentLoggerReporter(reportLogFolder + "/log.html");
+            ExtentLoggerReporter extentLoggerReporter = new ExtentLoggerReporter(reportLogFolder + "/log.html");
             extentLoggerReporter.config().setDocumentTitle(getConfigProperty("report.title"));
             extentLoggerReporter.config().setEncoding("UTF-8");
             extentLoggerReporter.config().setProtocol(Protocol.HTTPS);
@@ -90,7 +89,7 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
             extentLoggerReporter.config().setCSS("css-string");
             extentLoggerReporter.config().setJS("js-string");
 
-            extentReports.attachReporter(extentHtmlReporter,extentLoggerReporter);
+            extentReports.attachReporter(extentHtmlReporter, extentLoggerReporter);
         }
 
         return extentReports;
@@ -103,7 +102,7 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
      * @throws Exception
      */
     public String createScreenCapture(String captureName) throws Exception {
-        String screenShot = (( TakesScreenshot ) getWebDriver()).getScreenshotAs(OutputType.BASE64);
+        String screenShot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BASE64);
 
         byte[] btDataFile = Base64.getDecoder().decode(screenShot);
 
