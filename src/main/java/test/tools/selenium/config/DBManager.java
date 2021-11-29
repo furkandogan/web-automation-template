@@ -5,7 +5,7 @@ import test.tools.selenium.instances.DBConfigurationInstance;
 
 public class DBManager {
 
-    public static DbUtility getDb() throws Exception {
+    public static DbUtility getOracleDb() throws Exception {
 
         return DBConfigurationInstance.getInstance().getDbUtility();
     }

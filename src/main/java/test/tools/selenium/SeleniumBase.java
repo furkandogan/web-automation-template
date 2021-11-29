@@ -13,9 +13,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import test.tools.selenium.config.DBManager;
 import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.interactions.*;
 import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
+import test.tools.selenium.util.DbUtility;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,9 +28,12 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
     private WebDriverWait wait = null;
     private ExtentTest extTest = null;
     private List<GalenTestInfo> galenTestInfos = null;
+    private static DbUtility oracleDb = null;
 
     @BeforeClass
     public void setUp(String scenario) throws Exception {
+        oracleDb = DBManager.getOracleDb();
+        oracleDb.initConnectionPool();
         driver = createWebDriver(scenario);
         wait = getWait();
         setExtentReports(createExtentsReportInstance());
@@ -62,5 +67,6 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
             }
         }
         cleanUpWebDriver(driver);
+        oracleDb.closeConnectionPool();
     }
 }
