@@ -12,9 +12,9 @@
     </description>
 
     <scm>
-        <connection>scm:git:git://github.com/furkandogan/web-automation-template.git</connection>
-        <developerConnection>scm:git:ssh://github.com:furkandogan/web-automation-template.git</developerConnection>
-        <url>https://github.com/furkandogan/web-automation-template.git</url>
+        <connection>scm:git:git://git@github.com/furkandogan/web-automation-template.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:furkandogan/web-automation-template.git</developerConnection>
+        <url>https://git@github.com/furkandogan/web-automation-template.git</url>
         <tag>web-automation-template-3.0</tag>
     </scm>
 
