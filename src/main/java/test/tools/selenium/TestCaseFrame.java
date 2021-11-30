@@ -333,7 +333,6 @@ public abstract class TestCaseFrame {
         options.addArguments("ignore-certificate-errors");
         options.addArguments("disable-translate");
         options.addArguments("start-maximized");
-        options.addArguments(getConfigProperty(PropertyNames.BROWSER_CHROME));
         options.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
         options.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
         options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
