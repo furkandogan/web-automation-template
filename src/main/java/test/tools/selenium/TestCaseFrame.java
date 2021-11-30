@@ -328,7 +328,11 @@ public abstract class TestCaseFrame {
     private WebDriver createChromeDriver(String scenario) throws Exception {
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("test-type", "disable-popup-blocking", "ignore-certificate-errors", "disable-translate", "start-maximized");
+        options.addArguments("test-type");
+        options.addArguments("disable-popup-blocking");
+        options.addArguments("ignore-certificate-errors");
+        options.addArguments("disable-translate");
+        options.addArguments("start-maximized");
         options.addArguments(getConfigProperty(PropertyNames.BROWSER_CHROME));
         options.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
         options.setScriptTimeout(Duration.ofSeconds(Long.parseLong("browser.set.script.timeOut")));
