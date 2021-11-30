@@ -5,6 +5,7 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.logging.LogType;
@@ -338,9 +339,7 @@ public abstract class TestCaseFrame {
         options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
         options.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
         options.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
-        Map<String, Object> perfLogPrefs = new HashMap<String, Object>();
-        perfLogPrefs.put("traceCategories", "browser,devtools.timeline,devtools"); // comma-separated trace categories
-        options.setExperimentalOption("perfLoggingPrefs", perfLogPrefs);
+        options.setLogLevel(ChromeDriverLogLevel.ALL);
 
         /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
@@ -357,9 +356,6 @@ public abstract class TestCaseFrame {
 
                 setWebDriver(new RemoteWebDriver(new URL(getAppiumHubUrl()), capabilities));
             } else {
-                LoggingPreferences logPrefs = new LoggingPreferences();
-                logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
-                capabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
                 capabilities.setCapability(ChromeOptions.CAPABILITY, options);
                 capabilities.setCapability("build", getConfigProperty("build"));
                 capabilities.setCapability("name", scenario);
