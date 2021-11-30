@@ -335,8 +335,8 @@ public abstract class TestCaseFrame {
         options.addArguments("start-maximized");
         options.addArguments(getConfigProperty(PropertyNames.BROWSER_CHROME));
         options.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
-        options.setScriptTimeout(Duration.ofSeconds(Long.parseLong("browser.set.script.timeOut")));
-        options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong("browser.page.load.timeOut")));
+        options.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
+        options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
         options.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
         options.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
         Map<String, Object> perfLogPrefs = new HashMap<String, Object>();
