@@ -10,13 +10,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PresenceOfQualification extends WaitingActions {
+public class PresenceOfQualification {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
     public PresenceOfQualification(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     /**

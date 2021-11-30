@@ -10,13 +10,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class SelectActions extends WaitingActions {
+public class SelectActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
     public SelectActions(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
 

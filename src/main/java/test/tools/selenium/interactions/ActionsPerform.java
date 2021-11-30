@@ -6,13 +6,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ActionsPerform extends WaitingActions{
+public class ActionsPerform {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
     public ActionsPerform(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     /**

@@ -231,7 +231,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      */
     private WebDriverWait createWebDriverWait() throws Exception {
-        Long tm = Long.valueOf(this.getConfigProperty("browser.driver.wait.timeout"));
+        Long tm = Long.valueOf(this.getConfigProperty("browser.wait.timeout"));
         setTimeOutInSeconds(tm.longValue());
         WebDriverWait driverWait = new WebDriverWait(getWebDriver(), getTimeOutInSeconds());
         setWait(driverWait);
@@ -330,11 +330,11 @@ public abstract class TestCaseFrame {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type", "disable-popup-blocking", "ignore-certificate-errors", "disable-translate", "start-maximized");
         options.addArguments(getConfigProperty(PropertyNames.BROWSER_CHROME));
-        options.setImplicitWaitTimeout(Duration.ofSeconds(10));
-        options.setScriptTimeout(Duration.ofSeconds(10));
-        options.setPageLoadTimeout(Duration.ofSeconds(60));
+        options.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
+        options.setScriptTimeout(Duration.ofSeconds(Long.parseLong("browser.set.script.timeOut")));
+        options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong("browser.page.load.timeOut")));
         options.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        options.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
         Map<String, Object> perfLogPrefs = new HashMap<String, Object>();
         perfLogPrefs.put("traceCategories", "browser,devtools.timeline,devtools"); // comma-separated trace categories
         options.setExperimentalOption("perfLoggingPrefs", perfLogPrefs);

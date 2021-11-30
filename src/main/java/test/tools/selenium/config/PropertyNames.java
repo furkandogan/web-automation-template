@@ -33,7 +33,6 @@ public class PropertyNames {
     public static final String BASE_URL = "site.url";
 
     public static final String REPORT_FOLDER = "report.folder";
-    public static final String EXCEL_FILE_PATH = "excel.file.path";
 
 }
 

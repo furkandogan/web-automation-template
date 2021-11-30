@@ -7,13 +7,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class GetElementProperties extends WaitingActions {
+public class GetElementProperties {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
     public GetElementProperties(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     /**

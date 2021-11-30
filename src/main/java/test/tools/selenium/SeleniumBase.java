@@ -30,7 +30,6 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
     private List<GalenTestInfo> galenTestInfos = null;
     private static DbUtility oracleDb = null;
 
-    @BeforeClass
     public void setUp(String scenario) throws Exception {
         oracleDb = DBManager.getOracleDb();
         oracleDb.initConnectionPool();
@@ -44,7 +43,6 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
         }
     }
 
-    @AfterClass
     public void teardown(String scenario) throws Exception {
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             new HtmlReportBuilder().build(galenTestInfos,

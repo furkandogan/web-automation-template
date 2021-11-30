@@ -6,13 +6,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SendKeysActions extends WaitingActions{
+public class SendKeysActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
     public SendKeysActions(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     /**

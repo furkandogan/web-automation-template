@@ -10,13 +10,14 @@ import java.io.IOException;
 
 import static java.util.Arrays.asList;
 
-public class GalenTestLayout extends WaitingActions {
+public class GalenTestLayout {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
     public GalenTestLayout(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     /**

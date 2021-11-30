@@ -12,10 +12,14 @@ import java.text.RuleBasedCollator;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class BaseUtil extends WaitingActions {
+public class BaseUtil {
+
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public BaseUtil(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     /**

@@ -6,10 +6,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 
-public class StoreElementProperties extends WaitingActions {
+public class StoreElementProperties {
+    
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public StoreElementProperties(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
+        this.driver = driver;
+        this.wait = wait;
     }
 
     private HashMap<String, String> stringList = null;
