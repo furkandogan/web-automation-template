@@ -7,9 +7,20 @@ import test.tools.selenium.config.PropertyNames;
 import java.sql.*;
 public class DbUtility {
 
-    private Connection connection = null;
-    private Statement statement = null;
     private ComboPooledDataSource dataSource = null;
+    private Connection connection = null;
+    private String dbDriver = null;
+    private String jdbcUrl = null;
+    private String user = null;
+    private String password = null;
+
+    public ComboPooledDataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(ComboPooledDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public Connection getConnection() {
         return connection;
@@ -19,27 +30,56 @@ public class DbUtility {
         this.connection = connection;
     }
 
-    public Statement getStatement() {
-        return statement;
+    public String getDbDriver() {
+        return dbDriver;
     }
 
-    public void setStatement(Statement statement) {
-        this.statement = statement;
+    public void setDbDriver(String dbDriver) {
+        this.dbDriver = dbDriver;
+    }
+
+    public String getJdbcUrl() {
+        return jdbcUrl;
+    }
+
+    public void setJdbcUrl(String jdbcUrl) {
+        this.jdbcUrl = jdbcUrl;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public DbUtility() {
+        try {
+            setDbDriver(ConfigurationManager.getConfigProperty(PropertyNames.DB_DRIVER));
+            setUser(ConfigurationManager.getConfigProperty(PropertyNames.DB_USER));
+            setPassword(ConfigurationManager.getConfigProperty(PropertyNames.DB_PS));
+            setJdbcUrl(ConfigurationManager.getConfigProperty(PropertyNames.DB_JDBC_URL));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ComboPooledDataSource initConnectionPool() throws Exception {
 
-        Class.forName(ConfigurationManager.getConfigProperty(PropertyNames.DB_DRIVER));
-        String user = ConfigurationManager.getConfigProperty(PropertyNames.DB_USER);
-        String password = ConfigurationManager.getConfigProperty(PropertyNames.DB_PS);
-        String jdbcUrl = ConfigurationManager.getConfigProperty(PropertyNames.DB_JDBC_URL);
-
-        String driverName = "oracle.jdbc.driver.OracleDriver";
-        Class.forName(driverName);
+        Class.forName(getDbDriver());
         dataSource = new ComboPooledDataSource();
-        dataSource.setJdbcUrl(jdbcUrl);
-        dataSource.setUser(user);
-        dataSource.setPassword(password);
+        dataSource.setJdbcUrl(getJdbcUrl());
+        dataSource.setUser(getUser());
+        dataSource.setPassword(getPassword());
         dataSource.setIdleConnectionTestPeriod(60 * 5);
         dataSource.setMinPoolSize(3);
         dataSource.setInitialPoolSize(3);
@@ -49,17 +89,17 @@ public class DbUtility {
         return dataSource;
     }
 
-    public Connection initConnection() throws Exception {
+    public Connection initConnectionFromPool() throws Exception {
 
         connection = dataSource.getConnection();
 
         return connection;
     }
 
-    public Connection initConnection(String dbDriver, String user, String password, String jdbcUrl) throws Exception {
+    public Connection initConnection() throws Exception {
 
-        Class.forName(dbDriver);
-        connection = DriverManager.getConnection(jdbcUrl, user, password);
+        Class.forName(getDbDriver());
+        connection = DriverManager.getConnection(getJdbcUrl(), getUser(), getPassword());
 
         return connection;
     }
