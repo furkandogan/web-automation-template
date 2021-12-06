@@ -56,6 +56,21 @@ public class DbUtility {
         return connection;
     }
 
+    public Connection initConnection(String dbDriver, String user, String password, String jdbcUrl) throws Exception {
+
+        Class.forName(dbDriver);
+        connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+        return connection;
+    }
+
+    public void disConnect() throws SQLException {
+
+        if (connection != null) {
+            connection.close();
+        }
+    }
+
     public void disConnect(Connection connection) throws SQLException {
 
         if (connection != null) {

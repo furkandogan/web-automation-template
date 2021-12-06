@@ -339,7 +339,7 @@ public abstract class TestCaseFrame {
         options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
         options.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
         options.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
-        options.setLogLevel(ChromeDriverLogLevel.ALL);
+        options.setLogLevel(ChromeDriverLogLevel.fromString(getConfigProperty("chrome.log.level")));
 
         /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
