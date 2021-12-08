@@ -23,11 +23,15 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        element.clear();
-        element.sendKeys(value);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-        element.sendKeys(Keys.TAB);
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            element.clear();
+            element.sendKeys(value);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+            element.sendKeys(Keys.TAB);
+        } catch (StaleElementReferenceException e) {
+            sendKeys(element,value);
+        }
     }
 
     /**
@@ -37,12 +41,16 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(By xpath, String value) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
-        element.clear();
-        element.sendKeys(value);
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-        element.sendKeys(Keys.TAB);
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            WebElement element = driver.findElement(xpath);
+            element.clear();
+            element.sendKeys(value);
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+            element.sendKeys(Keys.TAB);
+        } catch (StaleElementReferenceException e) {
+            sendKeys(xpath,value);
+        }
     }
 
     /**
@@ -52,9 +60,13 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(WebElement element, String value) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        try {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        } catch (StaleElementReferenceException e) {
+            sendKeysByJs(element,value);
+        }
     }
 
     /**
@@ -64,32 +76,12 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(By xpath, String value) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", driver.findElement(xpath));
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-    }
-
-    /**
-     * Sendkeys input element by action perform
-     *
-     * @param element
-     * @param value
-     *
-     */
-    public void sendKeysByActions(WebElement element, String value) {
-        String browser = System.getProperty("browser");
-        if (!StringUtils.isEmpty(browser) && browser.contains("safari")) {
-            ActionsPerform actionsPerform = new ActionsPerform(driver, wait);
-            actionsPerform.moveToElement(element);
-            ClickActions clickActions = new ClickActions(driver, wait);
-            clickActions.clickByJs(element);
-            element.sendKeys(value);
-        } else {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.click();
-            actions.sendKeys(value);
-            actions.build().perform();
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", driver.findElement(xpath));
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+        } catch (StaleElementReferenceException e) {
+            sendKeysByJs(xpath,value);
         }
     }
 

@@ -43,6 +43,21 @@ public class PresenceOfQualification {
     }
 
     /**
+     * Qualification to control the exist
+     *
+     * @param element
+     * @return
+     */
+    public boolean isElementExist(WebElement element) {
+        try {
+            element.isDisplayed();
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    /**
      * Text Equals Control
      *
      * @param element

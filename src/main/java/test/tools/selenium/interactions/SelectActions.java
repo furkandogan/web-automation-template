@@ -1,9 +1,6 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,24 +22,36 @@ public class SelectActions {
      * @param element
      */
     public WebElement getFirstSelectedOptionFromElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return new Select(element).getFirstSelectedOption();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return new Select(element).getFirstSelectedOption();
+        } catch (StaleElementReferenceException e) {
+            return getFirstSelectedOptionFromElement(element);
+        }
     }
 
     /**
      * @param element
      */
     public List<WebElement> getAllSelectedOptionsFromElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return new Select(element).getAllSelectedOptions();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return new Select(element).getAllSelectedOptions();
+        } catch (StaleElementReferenceException e) {
+            return getAllSelectedOptionsFromElement(element);
+        }
     }
 
     /**
      * @param element
      */
     public List<WebElement> getOptionsFromElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return new Select(element).getOptions();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return new Select(element).getOptions();
+        } catch (StaleElementReferenceException e) {
+            return getOptionsFromElement(element);
+        }
     }
 
     /**
@@ -50,9 +59,13 @@ public class SelectActions {
      * @param value
      */
     public void selectByValue(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).selectByValue(value);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).selectByValue(value);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        } catch (StaleElementReferenceException e) {
+            selectByValue(element,value);
+        }
     }
 
     /**
@@ -60,15 +73,42 @@ public class SelectActions {
      * @param value
      */
     public void selectByValue(By xpath, String value) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        new Select(driver.findElement(xpath)).selectByValue(value);
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            new Select(driver.findElement(xpath)).selectByValue(value);
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+        } catch (StaleElementReferenceException e) {
+            selectByValue(xpath,value);
+        }
     }
 
+    /**
+     * @param element
+     * @param value
+     */
     public void selectByValueByJs(WebElement element, String value) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "';", element);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        try {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        } catch (StaleElementReferenceException e) {
+            selectByValueByJs(element,value);
+        }
+    }
+
+
+    /**
+     * @param xpath
+     * @param value
+     */
+    public void selectByValueByJs(By xpath, String value) {
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", driver.findElement(xpath));
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+        } catch (StaleElementReferenceException e) {
+            selectByValueByJs(xpath,value);
+        }
     }
 
     /**
@@ -76,10 +116,13 @@ public class SelectActions {
      * @param text
      */
     public void selectByVisibleText(WebElement element, String text) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).selectByVisibleText(text);
-        GetElementProperties g = new GetElementProperties(driver, wait);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).selectByVisibleText(text);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
+        } catch (StaleElementReferenceException e) {
+            selectByVisibleText(element,text);
+        }
     }
 
     /**
@@ -87,11 +130,14 @@ public class SelectActions {
      * @param text
      */
     public void selectByVisibleText(By xpath, String text) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Select(element).selectByVisibleText(text);
-        GetElementProperties g = new GetElementProperties(driver, wait);
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Select(element).selectByVisibleText(text);
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
+        } catch (StaleElementReferenceException e) {
+            selectByVisibleText(xpath,text);
+        }
     }
 
     /**
@@ -99,10 +145,13 @@ public class SelectActions {
      * @param index
      */
     public void selectByIndex(WebElement element, int index) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).selectByIndex(index);
-        GetElementProperties g = new GetElementProperties(driver, wait);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).selectByIndex(index);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
+        } catch (StaleElementReferenceException e) {
+            selectByIndex(element,index);
+        }
     }
 
     /**
@@ -110,11 +159,14 @@ public class SelectActions {
      * @param index
      */
     public void selectByIndex(By xpath, int index) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Select(element).selectByIndex(index);
-        GetElementProperties g = new GetElementProperties(driver, wait);
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Select(element).selectByIndex(index);
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
+        } catch (StaleElementReferenceException e) {
+            selectByIndex(xpath,index);
+        }
     }
 
     /**
@@ -122,13 +174,17 @@ public class SelectActions {
      * @param optionText
      */
     public void selectByVisibleContainText(WebElement element, String optionText) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        List<WebElement> options = getOptionsFromElement(element);
-        for (WebElement option : options) {
-            if (option.getText().contains(optionText)) {
-                option.click();
-                break;
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            List<WebElement> options = getOptionsFromElement(element);
+            for (WebElement option : options) {
+                if (option.getText().contains(optionText)) {
+                    option.click();
+                    break;
+                }
             }
+        } catch (StaleElementReferenceException e) {
+            selectByVisibleContainText(element,optionText);
         }
     }
 
@@ -138,14 +194,18 @@ public class SelectActions {
      * @param optionText
      */
     public void selectByVisibleContainText(By xpath, String optionText) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
-        List<WebElement> options = getOptionsFromElement(element);
-        for (WebElement option : options) {
-            if (option.getText().contains(optionText)) {
-                option.click();
-                break;
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            WebElement element = driver.findElement(xpath);
+            List<WebElement> options = getOptionsFromElement(element);
+            for (WebElement option : options) {
+                if (option.getText().contains(optionText)) {
+                    option.click();
+                    break;
+                }
             }
+        } catch (StaleElementReferenceException e) {
+            selectByVisibleContainText(xpath,optionText);
         }
     }
 
@@ -154,8 +214,12 @@ public class SelectActions {
      * @param value
      */
     public void deselectElementByValue(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).deselectByValue(value);
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).deselectByValue(value);
+        } catch (StaleElementReferenceException e) {
+            deselectElementByValue(element,value);
+        }
     }
 
     /**
@@ -163,8 +227,12 @@ public class SelectActions {
      * @param text
      */
     public void deselectByVisibleText(WebElement element, String text) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).deselectByVisibleText(text);
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).deselectByVisibleText(text);
+        } catch (StaleElementReferenceException e) {
+            deselectByVisibleText(element,text);
+        }
     }
 
     /**
@@ -172,16 +240,24 @@ public class SelectActions {
      * @param index
      */
     public void deselectByIndex(WebElement element, int index) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).deselectByIndex(index);
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).deselectByIndex(index);
+        } catch (StaleElementReferenceException e) {
+            deselectByIndex(element,index);
+        }
     }
 
     /**
      * @param element
      */
     public void deselectElementAllOptions(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        new Select(element).deselectAll();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            new Select(element).deselectAll();
+        } catch (StaleElementReferenceException e) {
+            deselectElementAllOptions(element);
+        }
     }
 
     /**

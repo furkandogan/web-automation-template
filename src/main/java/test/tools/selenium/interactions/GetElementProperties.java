@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,12 +25,16 @@ public class GetElementProperties {
      * @return
      */
     public String getAttribute(WebElement element, String attr, boolean hidden) {
-        if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-        } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+        try {
+            if (hidden) {
+                wait.until(ExpectedConditions.invisibilityOf(element));
+            } else {
+                wait.until(ExpectedConditions.visibilityOf(element));
+            }
+            return element.getAttribute(attr).trim().toLowerCase();
+        } catch (StaleElementReferenceException e) {
+            return getAttribute(element, attr, hidden);
         }
-        return element.getAttribute(attr).trim().toLowerCase();
     }
 
     /**
@@ -49,12 +54,16 @@ public class GetElementProperties {
      * @return
      */
     public String getText(WebElement element, boolean hidden) {
-        if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-        } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+        try {
+            if (hidden) {
+                wait.until(ExpectedConditions.invisibilityOf(element));
+            } else {
+                wait.until(ExpectedConditions.visibilityOf(element));
+            }
+            return element.getText().trim().toLowerCase();
+        } catch (StaleElementReferenceException e) {
+            return getText(element, hidden);
         }
-        return element.getText().trim().toLowerCase();
     }
 
     /**
@@ -64,12 +73,16 @@ public class GetElementProperties {
      * @return
      */
     public String getTagName(WebElement element, boolean hidden) {
-        if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-        } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+        try {
+            if (hidden) {
+                wait.until(ExpectedConditions.invisibilityOf(element));
+            } else {
+                wait.until(ExpectedConditions.visibilityOf(element));
+            }
+            return element.getTagName().trim().toLowerCase();
+        } catch (StaleElementReferenceException e) {
+            return getTagName(element, hidden);
         }
-        return element.getTagName().trim().toLowerCase();
     }
 
     /**
@@ -79,12 +92,16 @@ public class GetElementProperties {
      * @return
      */
     public String getCssValue(WebElement element, String value, boolean hidden) {
-        if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-        } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+        try {
+            if (hidden) {
+                wait.until(ExpectedConditions.invisibilityOf(element));
+            } else {
+                wait.until(ExpectedConditions.visibilityOf(element));
+            }
+            return element.getCssValue(value).trim().toLowerCase();
+        } catch (StaleElementReferenceException e) {
+            return getCssValue(element, value, hidden);
         }
-        return element.getCssValue(value).trim().toLowerCase();
     }
 
     /**
@@ -94,12 +111,16 @@ public class GetElementProperties {
      * @return
      */
     public Integer getSize(List<WebElement> elements, boolean hidden) {
-        if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
-        } else {
-            wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+        try {
+            if (hidden) {
+                wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
+            } else {
+                wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+            }
+            return elements.size();
+        } catch (StaleElementReferenceException e) {
+            return getSize(elements, hidden);
         }
-        return elements.size();
     }
 
     /**
