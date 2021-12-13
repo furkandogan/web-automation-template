@@ -137,13 +137,9 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
     /***
      *
      * @param extentReport
-     * @param extentTest
      */
-    public void cleanUp(ExtentReports extentReport, ExtentTest extentTest) {
+    public void cleanUp(ExtentReports extentReport) {
         if (extentReport != null) {
-            if (extentTest != null) {
-                getExtentReports().flush();
-            }
             getExtentReports().flush();
         }
     }

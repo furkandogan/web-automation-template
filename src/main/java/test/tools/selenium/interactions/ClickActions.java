@@ -1,6 +1,9 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,13 +23,9 @@ public class ClickActions {
      * @param element
      */
     public void click(WebElement element) {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(element));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-            element.click();
-        } catch (StaleElementReferenceException e) {
-            click(element);
-        }
+        wait.until(ExpectedConditions.visibilityOf(element));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
     }
 
     /**
@@ -35,13 +34,9 @@ public class ClickActions {
      * @param xpath
      */
     public void click(By xpath) {
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-            wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            driver.findElement(xpath).click();
-        } catch (StaleElementReferenceException e) {
-            click(xpath);
-        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+        wait.until(ExpectedConditions.elementToBeClickable(xpath));
+        driver.findElement(xpath).click();
     }
 
     /**
@@ -50,12 +45,8 @@ public class ClickActions {
      * @param element
      */
     public void clickByJs(WebElement element) {
-        try {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
-        } catch (StaleElementReferenceException e) {
-            clickByJs(element);
-        }
+        wait.until(ExpectedConditions.invisibilityOf(element));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
     }
 
     /**
@@ -64,12 +55,8 @@ public class ClickActions {
      * @param xpath
      */
     public void clickByJs(By xpath) {
-        try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", driver.findElement(xpath));
-        } catch (StaleElementReferenceException e) {
-            clickByJs(xpath);
-        }
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", driver.findElement(xpath));
     }
 
 }
