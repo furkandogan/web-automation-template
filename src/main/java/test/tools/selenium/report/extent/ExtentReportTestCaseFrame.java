@@ -17,18 +17,18 @@ import java.util.Base64;
 
 public class ExtentReportTestCaseFrame extends TestCaseFrame {
 
-    private ExtentReports extentReports = null;
-    private boolean isKlovReporter = false;
+    private static ExtentReports extentReports = null;
+    private static boolean isKlovReporter = false;
 
-    public ExtentReports getExtentReports() {
+    public static ExtentReports getExtentReports() {
         return extentReports;
     }
 
-    public void setExtentReports(ExtentReports extentReports) {
-        this.extentReports = extentReports;
+    public static void setExtentReports(ExtentReports extentReports) {
+        ExtentReportTestCaseFrame.extentReports = extentReports;
     }
 
-    public boolean isKlovReporter() {
+    public static boolean isKlovReporter() {
         return isKlovReporter;
     }
 
@@ -48,7 +48,7 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
      * @return
      * @throws Exception
      */
-    public ExtentReports createExtentsReportInstance() throws Exception {
+    public static ExtentReports createExtentsReportInstance() throws Exception {
 
         ExtentReports extentReports = new ExtentReports();
         extentReports.setReportUsesManualConfiguration(true);
@@ -138,7 +138,7 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
      *
      * @param extentReport
      */
-    public void cleanUp(ExtentReports extentReport) {
+    public static void cleanUp(ExtentReports extentReport) {
         if (extentReport != null) {
             getExtentReports().flush();
         }

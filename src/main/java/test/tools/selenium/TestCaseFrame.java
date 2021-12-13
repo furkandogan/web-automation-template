@@ -395,7 +395,7 @@ public abstract class TestCaseFrame {
         System.setProperty("webdriver.chrome.driver", location);
     }
 
-    public String getConfigProperty(String key) throws Exception {
+    public static String getConfigProperty(String key) throws Exception {
 
         return ConfigurationInstance.getInstance().getConfigProperty(key);
     }
