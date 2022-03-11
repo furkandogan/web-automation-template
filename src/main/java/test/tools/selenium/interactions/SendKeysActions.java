@@ -25,7 +25,6 @@ public class SendKeysActions {
         element.clear();
         element.sendKeys(value);
         wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-        element.sendKeys(Keys.TAB);
     }
 
     /**
@@ -40,7 +39,6 @@ public class SendKeysActions {
         element.clear();
         element.sendKeys(value);
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-        element.sendKeys(Keys.TAB);
     }
 
     /**

@@ -20,11 +20,11 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
     private WebDriver driver = null;
     private WebDriverWait wait = null;
     private ExtentTest extTest = null;
-    private static List<GalenTestInfo> galenTestInfos = null;
-    private static DbUtility oracleDb = null;
+    private List<GalenTestInfo> galenTestInfos = null;
+    private DbUtility oracleDb = null;
 
     //@BeforeSuite
-    public static void setUpSuite() throws Exception {
+    public void setUpSuite() throws Exception {
         oracleDb = DBManager.getOracleDb();
         oracleDb.initConnectionPool();
         setExtentReports(createExtentsReportInstance());
@@ -61,7 +61,7 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
 
 
     //@AfterSuite
-    public static void tearDownSuite() throws Exception {
+    public void tearDownSuite() throws Exception {
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             new HtmlReportBuilder().build(galenTestInfos,
                     "target/galen-html-reports");
