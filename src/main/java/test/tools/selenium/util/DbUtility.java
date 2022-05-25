@@ -80,11 +80,14 @@ public class DbUtility {
         dataSource.setJdbcUrl(getJdbcUrl());
         dataSource.setUser(getUser());
         dataSource.setPassword(getPassword());
-        dataSource.setIdleConnectionTestPeriod(60 * 5);
-        dataSource.setMinPoolSize(3);
+        dataSource.setTestConnectionOnCheckin(true);
+        dataSource.setTestConnectionOnCheckout(true);
         dataSource.setInitialPoolSize(3);
-        dataSource.setAcquireIncrement(1);
-        dataSource.setMaxPoolSize(10);
+        dataSource.setMinPoolSize(3);
+        dataSource.setMaxPoolSize(20);
+        dataSource.setMaxStatements(50);
+        dataSource.setAcquireIncrement(2);
+        dataSource.setIdleConnectionTestPeriod(300);
 
         return dataSource;
     }
