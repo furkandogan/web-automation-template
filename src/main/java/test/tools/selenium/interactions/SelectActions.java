@@ -14,10 +14,12 @@ public class SelectActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ActionsAPI actionsAPI;
 
     public SelectActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
+        actionsAPI = new ActionsAPI(driver,wait);
     }
 
 
@@ -25,7 +27,7 @@ public class SelectActions {
      * @param element
      */
     public WebElement getFirstSelectedOptionFromElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         return new Select(element).getFirstSelectedOption();
     }
 
@@ -33,8 +35,7 @@ public class SelectActions {
      * @param element
      */
     public List<WebElement> getAllSelectedOptionsFromElement(WebElement element) {
-
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         return new Select(element).getAllSelectedOptions();
     }
 
@@ -42,7 +43,7 @@ public class SelectActions {
      * @param element
      */
     public List<WebElement> getOptionsFromElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         return new Select(element).getOptions();
     }
 
@@ -51,7 +52,7 @@ public class SelectActions {
      * @param value
      */
     public void selectByValue(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).selectByValue(value);
         wait.until(ExpectedConditions.attributeToBe(element, "value", value));
     }
@@ -61,8 +62,7 @@ public class SelectActions {
      * @param value
      */
     public void selectByValue(By xpath, String value) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        new Select(driver.findElement(xpath)).selectByValue(value);
+        new Select(actionsAPI.scrollToVisibleElement(xpath)).selectByValue(value);
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
     }
 
@@ -71,7 +71,7 @@ public class SelectActions {
      * @param value
      */
     public void selectByValueByJs(WebElement element, String value) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
+        actionsAPI.scrollToInvisibleElement(element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
         wait.until(ExpectedConditions.attributeToBe(element, "value", value));
     }
@@ -82,8 +82,7 @@ public class SelectActions {
      * @param value
      */
     public void selectByValueByJs(By xpath, String value) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", driver.findElement(xpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", actionsAPI.scrollToInvisibleElement(xpath));
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
     }
 
@@ -92,7 +91,7 @@ public class SelectActions {
      * @param text
      */
     public void selectByVisibleText(WebElement element, String text) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).selectByVisibleText(text);
         wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
     }
@@ -102,8 +101,7 @@ public class SelectActions {
      * @param text
      */
     public void selectByVisibleText(By xpath, String text) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
+        WebElement element = actionsAPI.scrollToVisibleElement(xpath);
         new Select(element).selectByVisibleText(text);
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
     }
@@ -113,7 +111,7 @@ public class SelectActions {
      * @param index
      */
     public void selectByIndex(WebElement element, int index) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).selectByIndex(index);
         wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
     }
@@ -123,8 +121,7 @@ public class SelectActions {
      * @param index
      */
     public void selectByIndex(By xpath, int index) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
+        WebElement element = actionsAPI.scrollToVisibleElement(xpath);
         new Select(element).selectByIndex(index);
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
     }
@@ -134,7 +131,7 @@ public class SelectActions {
      * @param optionText
      */
     public void selectByVisibleContainText(WebElement element, String optionText) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         List<WebElement> options = getOptionsFromElement(element);
         for (WebElement option : options) {
             if (option.getText().contains(optionText)) {
@@ -150,8 +147,7 @@ public class SelectActions {
      * @param optionText
      */
     public void selectByVisibleContainText(By xpath, String optionText) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
+        WebElement element = actionsAPI.scrollToVisibleElement(xpath);
         List<WebElement> options = getOptionsFromElement(element);
         for (WebElement option : options) {
             if (option.getText().contains(optionText)) {
@@ -166,7 +162,7 @@ public class SelectActions {
      * @param value
      */
     public void deselectElementByValue(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).deselectByValue(value);
     }
 
@@ -175,7 +171,7 @@ public class SelectActions {
      * @param text
      */
     public void deselectByVisibleText(WebElement element, String text) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).deselectByVisibleText(text);
     }
 
@@ -184,7 +180,7 @@ public class SelectActions {
      * @param index
      */
     public void deselectByIndex(WebElement element, int index) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).deselectByIndex(index);
     }
 
@@ -192,7 +188,7 @@ public class SelectActions {
      * @param element
      */
     public void deselectElementAllOptions(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         new Select(element).deselectAll();
     }
 
@@ -200,6 +196,7 @@ public class SelectActions {
      * @param element
      */
     public void selectMapPoint(WebElement element) {
+        actionsAPI.scrollToVisibleElement(element);
         String lat = getFirstSelectedOptionFromElement(element).getAttribute("lat");
         String lon = getFirstSelectedOptionFromElement(element).getAttribute("lon");
         ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', arguments[1]);", element,

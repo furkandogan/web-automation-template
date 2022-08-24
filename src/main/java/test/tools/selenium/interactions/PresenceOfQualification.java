@@ -27,7 +27,7 @@ public class PresenceOfQualification {
      * @return
      */
     public boolean isElementDisplayed(WebElement element) {
-        return wait.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
+        return wait.ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOf(element)).isDisplayed();
     }
 
@@ -38,7 +38,7 @@ public class PresenceOfQualification {
      * @return
      */
     public boolean isElementEnabled(WebElement element) {
-        return wait.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
+        return wait.ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOf(element)).isEnabled();
     }
 

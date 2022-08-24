@@ -11,10 +11,12 @@ public class GetElementProperties {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ActionsAPI actionsAPI;
 
     public GetElementProperties(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
+        actionsAPI = new ActionsAPI(driver,wait);
     }
 
     /**
@@ -25,9 +27,9 @@ public class GetElementProperties {
      */
     public String getAttribute(WebElement element, String attr, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
+            actionsAPI.scrollToInvisibleElement(element);
         } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+            actionsAPI.scrollToVisibleElement(element);
         }
         return element.getAttribute(attr).trim().toLowerCase();
     }
@@ -50,9 +52,9 @@ public class GetElementProperties {
      */
     public String getText(WebElement element, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
+            actionsAPI.scrollToInvisibleElement(element);
         } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+            actionsAPI.scrollToVisibleElement(element);
         }
         return element.getText().trim().toLowerCase();
     }
@@ -65,9 +67,9 @@ public class GetElementProperties {
      */
     public String getTagName(WebElement element, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
+            actionsAPI.scrollToInvisibleElement(element);
         } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+            actionsAPI.scrollToVisibleElement(element);
         }
         return element.getTagName().trim().toLowerCase();
     }
@@ -80,9 +82,9 @@ public class GetElementProperties {
      */
     public String getCssValue(WebElement element, String value, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
+            actionsAPI.scrollToInvisibleElement(element);
         } else {
-            wait.until(ExpectedConditions.visibilityOf(element));
+            actionsAPI.scrollToVisibleElement(element);
         }
         return element.getCssValue(value).trim().toLowerCase();
     }

@@ -8,10 +8,12 @@ public class SendKeysActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ActionsAPI actionsAPI;
 
     public SendKeysActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
+        actionsAPI = new ActionsAPI(driver,wait);
     }
 
     /**
@@ -21,7 +23,7 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        actionsAPI.scrollToVisibleElement(element);
         element.clear();
         element.sendKeys(value);
         wait.until(ExpectedConditions.attributeToBe(element, "value", value));
@@ -34,8 +36,7 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(By xpath, String value) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
+        WebElement element = actionsAPI.scrollToVisibleElement(xpath);
         element.clear();
         element.sendKeys(value);
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
@@ -48,7 +49,7 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(WebElement element, String value) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
+        actionsAPI.scrollToInvisibleElement(element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
         wait.until(ExpectedConditions.attributeToBe(element, "value", value));
     }
@@ -60,8 +61,7 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(By xpath, String value) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", driver.findElement(xpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", actionsAPI.scrollToInvisibleElement(xpath));
         wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
     }
 

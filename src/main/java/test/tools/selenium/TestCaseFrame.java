@@ -1,5 +1,6 @@
 package test.tools.selenium;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.Platform;
@@ -7,13 +8,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.instances.ConfigurationInstance;
@@ -25,13 +27,13 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 public abstract class TestCaseFrame {
 
     private Browser browser = null;
     private WebDriver webDriver = null;
     private WebDriverWait wait = null;
+    private FluentWait fluentWait;
     private String startPage = null;
     private String seleniumHubUrl = null;
     private String appiumHubUrl = null;
@@ -39,15 +41,15 @@ public abstract class TestCaseFrame {
     private boolean isRemote = false;
     private boolean isMobile = false;
 
-    private long timeOutInSeconds = 60;
-    private long implicitlyWaitTimeOut = 30;
+    private Duration timeOutInSeconds = Duration.ofSeconds(60);
+    private Duration implicitlyWaitTimeOut =  Duration.ofSeconds(60);
 
 
-    public long getTimeOutInSeconds() {
+    public Duration getTimeOutInSeconds() {
         return timeOutInSeconds;
     }
 
-    public void setTimeOutInSeconds(long timeOutInSeconds) {
+    public void setTimeOutInSeconds(Duration timeOutInSeconds) {
         this.timeOutInSeconds = timeOutInSeconds;
     }
 
@@ -75,11 +77,11 @@ public abstract class TestCaseFrame {
         this.wait = wait;
     }
 
-    public long getImplicitlyWaitTimeOut() {
+    public Duration getImplicitlyWaitTimeOut() {
         return implicitlyWaitTimeOut;
     }
 
-    public void setImplicitlyWaitTimeOut(long implicitlyWaitTimeOut) {
+    public void setImplicitlyWaitTimeOut(Duration implicitlyWaitTimeOut) {
         implicitlyWaitTimeOut = implicitlyWaitTimeOut;
     }
 
@@ -232,12 +234,19 @@ public abstract class TestCaseFrame {
      * @throws Exception
      */
     private WebDriverWait createWebDriverWait() throws Exception {
-        Long tm = Long.valueOf(this.getConfigProperty("browser.wait.timeout"));
-        setTimeOutInSeconds(tm.longValue());
+        Duration tm = Duration.ofSeconds(Long.valueOf(this.getConfigProperty("browser.wait.timeout")));
+        setTimeOutInSeconds(tm);
         WebDriverWait driverWait = new WebDriverWait(getWebDriver(), getTimeOutInSeconds());
         setWait(driverWait);
 
         return driverWait;
+    }
+
+    public void createFluentWait(Object object) {
+        fluentWait = new FluentWait<>(getWebDriver())
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofSeconds(3))
+                .ignoring((Class<? extends Throwable>) object);
     }
 
     /**
@@ -274,10 +283,8 @@ public abstract class TestCaseFrame {
         }
     }
 
-
-    /**
-     * @param capabilities
-     */
+    /** @deprecated */
+    @Deprecated
     private void updateBrowserCapsFromConfig(DesiredCapabilities capabilities) {
 
         if (browser.getName() != null) {
@@ -301,21 +308,31 @@ public abstract class TestCaseFrame {
      */
     private WebDriver createFirefoxDriver(String scenario) throws Exception {
 
-        FirefoxProfile firefoxProfile = new FirefoxProfile();
-        firefoxProfile.setPreference("print.always_print_silent", true);
-        firefoxProfile.setPreference("print.show print progress", false);
-        //firefoxProfile.setEnableNativeEvents(false);
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        firefoxOptions.addArguments("test-type");
+        firefoxOptions.addArguments("disable-popup-blocking");
+        firefoxOptions.addArguments("ignore-certificate-errors");
+        firefoxOptions.addArguments("disable-translate");
+        firefoxOptions.addArguments("start-maximized");
+        firefoxOptions.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
+        firefoxOptions.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
+        firefoxOptions.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
+        firefoxOptions.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
+        firefoxOptions.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
+        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.fromString(getConfigProperty("chrome.log.level")));
 
         if (isRemote()) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("firefox");
-            capabilities.setCapability("firefox_profile", firefoxProfile);
+            capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, firefoxOptions);
             capabilities.setCapability("build", getConfigProperty("build"));
             capabilities.setCapability("name", scenario);
-            capabilities.setJavascriptEnabled(true);
 
             setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), capabilities));
-            setFileDetector();
+        } else {
+            WebDriverManager.firefoxdriver().setup();
+            FirefoxDriver firefoxDriver = new FirefoxDriver();
+            setWebDriver(firefoxDriver);
         }
 
         return getWebDriver();
@@ -328,18 +345,18 @@ public abstract class TestCaseFrame {
      */
     private WebDriver createChromeDriver(String scenario) throws Exception {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("test-type");
-        options.addArguments("disable-popup-blocking");
-        options.addArguments("ignore-certificate-errors");
-        options.addArguments("disable-translate");
-        options.addArguments("start-maximized");
-        options.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
-        options.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
-        options.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
-        options.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
-        options.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
-        options.setLogLevel(ChromeDriverLogLevel.fromString(getConfigProperty("chrome.log.level")));
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("test-type");
+        chromeOptions.addArguments("disable-popup-blocking");
+        chromeOptions.addArguments("ignore-certificate-errors");
+        chromeOptions.addArguments("disable-translate");
+        chromeOptions.addArguments("start-maximized");
+        chromeOptions.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
+        chromeOptions.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
+        chromeOptions.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
+        chromeOptions.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
+        chromeOptions.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
+        chromeOptions.setLogLevel(ChromeDriverLogLevel.fromString(getConfigProperty("chrome.log.level")));
 
         /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
@@ -347,52 +364,31 @@ public abstract class TestCaseFrame {
         if (isRemote()) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             if (isMobile()) {
-                updateBrowserCapsFromConfig(capabilities);
                 capabilities.setCapability("browserName", getConfigProperty(PropertyNames.BROWSER_TYPE));
                 capabilities.setCapability("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
                 capabilities.setCapability("version", getConfigProperty(PropertyNames.BROWSER_DEVICE_VERSION));
                 capabilities.setCapability("platformName", getConfigProperty(PropertyNames.BROWSER_PLATFORM));
-                capabilities.setJavascriptEnabled(true);
 
                 setWebDriver(new RemoteWebDriver(new URL(getAppiumHubUrl()), capabilities));
             } else {
-                capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
                 capabilities.setCapability("build", getConfigProperty("build"));
                 capabilities.setCapability("name", scenario);
-                capabilities.setJavascriptEnabled(true);
-
-                updateBrowserCapsFromConfig(capabilities);
 
                 setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), capabilities));
             }
-
         } else {
             if (isMobile()) {
                 Map<String, String> mobileEmulation = new HashMap<>();
                 mobileEmulation.put("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
-                options.setExperimentalOption("mobileEmulation", mobileEmulation);
+                chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
             }
-            setChromeBrowserDriverLocation();
-            ChromeDriver chromeDriver = new ChromeDriver(options);
+            WebDriverManager.chromedriver().setup();
+            ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
             setWebDriver(chromeDriver);
         }
 
         return getWebDriver();
-    }
-
-    /**
-     * @throws Exception
-     */
-    private void setChromeBrowserDriverLocation() throws Exception {
-        String location = null;
-        if (OsUtility.isWindows()) {
-            location = getConfigProperty(PropertyNames.CHROME_DRV_LOC_WINDOWS);
-        } else if (OsUtility.isUnix()) {
-            location = getConfigProperty(PropertyNames.CHROME_DRV_LOC_LINUX);
-        } else if (OsUtility.isMac()) {
-            location = getConfigProperty(PropertyNames.CHROME_DRV_LOC_MAC);
-        }
-        System.setProperty("webdriver.chrome.driver", location);
     }
 
     public static String getConfigProperty(String key) throws Exception {
@@ -418,7 +414,7 @@ public abstract class TestCaseFrame {
         System.out.println(String.format("REMOTE :*%s*", isRemote));
 
         //test on which browser?
-        if (PropertyNames.BROWSER_CHROME.equalsIgnoreCase(browser.getName())) {
+        if ("chrome".equalsIgnoreCase(browser.getName())) {
             //test on Chrome
             createChromeDriver(scenario);
         } else if ("firefox".equalsIgnoreCase(browser.getName())

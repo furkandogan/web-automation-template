@@ -12,6 +12,7 @@ import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
 import test.tools.selenium.util.DbUtility;
 
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
     private List<GalenTestInfo> galenTestInfos = null;
     private DbUtility oracleDb = null;
 
-    //@BeforeSuite
+    //@BeforeAll
     public void setUpSuite() throws Exception {
         oracleDb = DBManager.getOracleDb();
         oracleDb.initConnectionPool();
@@ -33,14 +34,15 @@ public class SeleniumBase extends ExtentReportTestCaseFrame {
         }
     }
 
-    //@BeforeTest
+    //@BeforeEach
     public void setUpTest(String scenario) throws Exception {
         driver = createWebDriver(scenario);
         wait = getWait();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         extTest = getExtentReports().createTest(scenario);
     }
 
-    //@AfterTest
+    //@AfterEach
     public void tearDownTest(String scenario) throws Exception {
         if (extTest != null) {
             boolean scenarioIsFailed = extTest.getStatus().equals(Status.PASS);

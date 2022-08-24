@@ -6,15 +6,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import test.v6.A;
 
 public class ClickActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ActionsAPI actionsAPI;
 
     public ClickActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
+        actionsAPI = new ActionsAPI(driver,wait);
     }
 
     /**
@@ -23,8 +26,7 @@ public class ClickActions {
      * @param element
      */
     public void click(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+        actionsAPI.scrollToVisibleElement(element);
         element.click();
     }
 
@@ -34,9 +36,7 @@ public class ClickActions {
      * @param xpath
      */
     public void click(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        driver.findElement(xpath).click();
+        actionsAPI.scrollToVisibleElement(xpath).click();
     }
 
     /**
@@ -45,7 +45,7 @@ public class ClickActions {
      * @param element
      */
     public void clickByJs(WebElement element) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
+        actionsAPI.scrollToInvisibleElement(element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
     }
 
@@ -55,8 +55,7 @@ public class ClickActions {
      * @param xpath
      */
     public void clickByJs(By xpath) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", driver.findElement(xpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", actionsAPI.scrollToInvisibleElement(xpath));
     }
 
 }
