@@ -1,5 +1,7 @@
 package test.tools.selenium.interactions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.PointerInput;
@@ -13,6 +15,8 @@ import java.time.Duration;
 import java.util.Collections;
 
 public class ActionsAPI {
+
+    final static Logger logger = LogManager.getLogger(ActionsAPI.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -33,46 +37,68 @@ public class ActionsAPI {
      * @param element
      */
     public void scrollToVisibleElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .scrollToElement(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .scrollToElement(element)
+                    .perform();
+            logger.info("Scrolled to element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public WebElement scrollToVisibleElement(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .scrollToElement(element)
-                .perform();
-        return element;
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .scrollToElement(element)
+                    .perform();
+            logger.info("Scrolled to element: {} ", element);
+            return element;
+        } catch (Exception e) {
+            logger.error(e);
+            return null;
+        }
     }
 
     /**
      * @param element
      */
     public void scrollToInvisibleElement(WebElement element) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
-        new Actions(driver)
-                .scrollToElement(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            new Actions(driver)
+                    .scrollToElement(element)
+                    .perform();
+            logger.info("Scrolled to element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public WebElement scrollToInvisibleElement(By xpath) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .scrollToElement(element)
-                .perform();
-        return element;
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .scrollToElement(element)
+                    .perform();
+            logger.info("Scrolled to element: {} ", element);
+            return element;
+        } catch (Exception e) {
+            logger.error(e);
+            return null;
+        }
     }
 
     /**
@@ -84,12 +110,36 @@ public class ActionsAPI {
      * @param deltaX
      */
     public void scrollByGivenAmount(WebElement element, int deltaX) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        int deltaY = element.getRect().y;
-        new Actions(driver)
-                .scrollByAmount(deltaX, deltaY)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            int deltaY = element.getRect().y;
+            new Actions(driver)
+                    .scrollByAmount(deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    /**
+     * @param xpath
+     * @param deltaX
+     */
+    public void scrollByGivenAmount(By xpath, int deltaX) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            int deltaY = element.getRect().y;
+            new Actions(driver)
+                    .scrollByAmount(deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -105,12 +155,37 @@ public class ActionsAPI {
      * @param deltaY
      */
     public void scrollFromAnElementByAGivenAmount(WebElement element, int deltaX, int deltaY) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element);
-        new Actions(driver)
-                .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element);
+            new Actions(driver)
+                    .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    /**
+     * @param xpath
+     * @param deltaX
+     * @param deltaY
+     */
+    public void scrollFromAnElementByAGivenAmount(By xpath, int deltaX, int deltaY) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element);
+            new Actions(driver)
+                    .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -130,12 +205,39 @@ public class ActionsAPI {
      * @param deltaY
      */
     public void scrollFromAnElementWithAnOffset(WebElement element, int xOffset, int yOffset, int deltaX, int deltaY) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element, xOffset, yOffset);
-        new Actions(driver)
-                .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element, xOffset, yOffset);
+            new Actions(driver)
+                    .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    /**
+     * @param xpath
+     * @param xOffset
+     * @param yOffset
+     * @param deltaX
+     * @param deltaY
+     */
+    public void scrollFromAnElementWithAnOffset(By xpath, int xOffset, int yOffset, int deltaX, int deltaY) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element, xOffset, yOffset);
+            new Actions(driver)
+                    .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -145,11 +247,16 @@ public class ActionsAPI {
      * the page will be scrolled by the provided delta x and delta y values.
      * Note that if the offset from the upper left corner of the viewport falls outside of the screen, it will result in an exception.
      */
-    public void scrollFromAnOffsetOfOriginByGivenAmount(int xOffset, int yOffset) {
-        WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromViewport(xOffset, yOffset);
-        new Actions(driver)
-                .scrollFromOrigin(scrollOrigin, 0, 200)
-                .perform();
+    public void scrollFromAnOffsetOfOriginByGivenAmount(int xOffset, int yOffset, int deltaX, int deltaY) {
+        try {
+            WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromViewport(xOffset, yOffset);
+            new Actions(driver)
+                    .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
+                    .perform();
+            logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {}", xOffset, yOffset, deltaX, deltaY);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -159,23 +266,33 @@ public class ActionsAPI {
      * @param element
      */
     public void clickAndHold(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .clickAndHold(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .clickAndHold(element)
+                    .perform();
+            logger.info("Clicked and held to element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public void clickAndHold(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .clickAndHold(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .clickAndHold(element)
+                    .perform();
+            logger.info("Clicked and held to element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -185,23 +302,33 @@ public class ActionsAPI {
      * @param element
      */
     public void clickAndRelease(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .click(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .click(element)
+                    .perform();
+            logger.info("Clicked to element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public void clickAndRelease(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .click(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .click(element)
+                    .perform();
+            logger.info("Clicked to element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -211,49 +338,69 @@ public class ActionsAPI {
      * @param element
      */
     public void contextClick(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .contextClick(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .contextClick(element)
+                    .perform();
+            logger.info("Clicked to right click on element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public void contextClick(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .contextClick(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .contextClick(element)
+                    .perform();
+            logger.info("Clicked to right click on element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * There is no convenience method for this, it is just pressing and releasing mouse button 3
      */
     public void backClick() {
-        PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
+        try {
+            PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
 
-        Sequence actions = new Sequence(mouse, 0)
-                .addAction(mouse.createPointerDown(PointerInput.MouseButton.BACK.asArg()))
-                .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
+            Sequence actions = new Sequence(mouse, 0)
+                    .addAction(mouse.createPointerDown(PointerInput.MouseButton.BACK.asArg()))
+                    .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
 
-        ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            logger.info("Clicked to back click");
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * There is no convenience method for this, it is just pressing and releasing mouse button 4
      */
     public void forwardClick() {
-        PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
+        try {
+            PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
 
-        Sequence actions = new Sequence(mouse, 0)
-                .addAction(mouse.createPointerDown(PointerInput.MouseButton.FORWARD.asArg()))
-                .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
+            Sequence actions = new Sequence(mouse, 0)
+                    .addAction(mouse.createPointerDown(PointerInput.MouseButton.FORWARD.asArg()))
+                    .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
 
-        ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            logger.info("Clicked to forward click");
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -262,23 +409,33 @@ public class ActionsAPI {
      * @param element
      */
     public void doubleClick(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .doubleClick(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .doubleClick(element)
+                    .perform();
+            logger.info("Clicked to double click on element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public void doubleClick(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .doubleClick(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .doubleClick(element)
+                    .perform();
+            logger.info("Clicked to double click on element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -289,23 +446,33 @@ public class ActionsAPI {
      * @param element
      */
     public void moveToElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .moveToElement(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .moveToElement(element)
+                    .perform();
+            logger.info("Moved on element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
     public void moveToElement(By xpath) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .moveToElement(element)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .moveToElement(element)
+                    .perform();
+            logger.info("Moved on element: {} ", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -317,24 +484,34 @@ public class ActionsAPI {
      * @param xOffset
      * @param yOffset
      */
-    public void moveByOffset(WebElement element, int xOffset, int yOffset) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .moveToElement(element, xOffset, yOffset)
-                .perform();
+    public void moveByOffsetFromElement(WebElement element, int xOffset, int yOffset) {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .moveToElement(element, xOffset, yOffset)
+                    .perform();
+            logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
      * @param xpath
      */
-    public void moveByOffset(By xpath, int xOffset, int yOffset) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .moveToElement(element, xOffset, yOffset)
-                .perform();
+    public void moveByOffsetFromElement(By xpath, int xOffset, int yOffset) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .moveToElement(element, xOffset, yOffset)
+                    .perform();
+            logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -344,12 +521,17 @@ public class ActionsAPI {
      * @param yOffset
      */
     public void moveByOffsetFromViewport(int xOffset, int yOffset) {
-        PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
+        try {
+            PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
 
-        Sequence actions = new Sequence(mouse, 0)
-                .addAction(mouse.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), xOffset, yOffset));
+            Sequence actions = new Sequence(mouse, 0)
+                    .addAction(mouse.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), xOffset, yOffset));
 
-        ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -363,10 +545,15 @@ public class ActionsAPI {
      * @param xOffset
      * @param yOffset
      */
-    public void moveByOffsetFromCurrentPointerLocation(int xOffset, int yOffset) {
-        new Actions(driver)
-                .moveByOffset(xOffset, yOffset)
-                .perform();
+    public void moveByOffset(int xOffset, int yOffset) {
+        try {
+            new Actions(driver)
+                    .moveByOffset(xOffset, yOffset)
+                    .perform();
+            logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -377,13 +564,18 @@ public class ActionsAPI {
      * @param droppable
      */
     public void dragAndDropOnElement(WebElement draggable, WebElement droppable) {
-        wait.until(ExpectedConditions.visibilityOf(draggable));
-        wait.until(ExpectedConditions.elementToBeClickable(draggable));
-        wait.until(ExpectedConditions.visibilityOf(droppable));
-        wait.until(ExpectedConditions.elementToBeClickable(droppable));
-        new Actions(driver)
-                .dragAndDrop(draggable, droppable)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(draggable));
+            wait.until(ExpectedConditions.elementToBeClickable(draggable));
+            wait.until(ExpectedConditions.visibilityOf(droppable));
+            wait.until(ExpectedConditions.elementToBeClickable(droppable));
+            new Actions(driver)
+                    .dragAndDrop(draggable, droppable)
+                    .perform();
+            logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -394,15 +586,20 @@ public class ActionsAPI {
      * @param droppable
      */
     public void dragElement(WebElement draggable, WebElement droppable) {
-        wait.until(ExpectedConditions.visibilityOf(draggable));
-        wait.until(ExpectedConditions.elementToBeClickable(draggable));
-        wait.until(ExpectedConditions.visibilityOf(droppable));
-        wait.until(ExpectedConditions.elementToBeClickable(droppable));
-        Rectangle start = draggable.getRect();
-        Rectangle finish = droppable.getRect();
-        new Actions(driver)
-                .dragAndDropBy(draggable, finish.getX() - start.getX(), finish.getY() - start.getY())
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(draggable));
+            wait.until(ExpectedConditions.elementToBeClickable(draggable));
+            wait.until(ExpectedConditions.visibilityOf(droppable));
+            wait.until(ExpectedConditions.elementToBeClickable(droppable));
+            Rectangle start = draggable.getRect();
+            Rectangle finish = droppable.getRect();
+            new Actions(driver)
+                    .dragAndDropBy(draggable, finish.getX() - start.getX(), finish.getY() - start.getY())
+                    .perform();
+            logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -413,9 +610,14 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeys(String value) {
-        new Actions(driver)
-                .sendKeys(value)
-                .perform();
+        try {
+            new Actions(driver)
+                    .sendKeys(value)
+                    .perform();
+            logger.info("Sent value: {}", value);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -427,11 +629,16 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeys(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .sendKeys(element, value)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .sendKeys(element, value)
+                    .perform();
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -439,12 +646,17 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeys(By xpath, String value) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .sendKeys(element, value)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .sendKeys(element, value)
+                    .perform();
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -455,15 +667,20 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeysWithPause(WebElement element, String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        new Actions(driver)
-                .moveToElement(element)
-                .pause(Duration.ofSeconds(1))
-                .clickAndHold()
-                .pause(Duration.ofSeconds(1))
-                .sendKeys(value)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            new Actions(driver)
+                    .moveToElement(element)
+                    .pause(Duration.ofSeconds(1))
+                    .clickAndHold()
+                    .pause(Duration.ofSeconds(1))
+                    .sendKeys(value)
+                    .perform();
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -471,16 +688,21 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeysWithPause(By xpath, String value) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
-        wait.until(ExpectedConditions.elementToBeClickable(xpath));
-        WebElement element = driver.findElement(xpath);
-        new Actions(driver)
-                .moveToElement(element)
-                .pause(Duration.ofSeconds(1))
-                .clickAndHold()
-                .pause(Duration.ofSeconds(1))
-                .sendKeys(value)
-                .perform();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
+            wait.until(ExpectedConditions.elementToBeClickable(xpath));
+            WebElement element = driver.findElement(xpath);
+            new Actions(driver)
+                    .moveToElement(element)
+                    .pause(Duration.ofSeconds(1))
+                    .clickAndHold()
+                    .pause(Duration.ofSeconds(1))
+                    .sendKeys(value)
+                    .perform();
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -533,13 +755,13 @@ public class ActionsAPI {
      * unicode values have been assigned to other keyboard keys for use with Selenium.
      * Each language has its own way to reference these keys;the full list can be found https://www.w3.org/TR/webdriver/#keyboard-actions.
      */
-    public void keyDown(){
+    public void keyDown() {
         new Actions(driver)
                 .keyDown(Keys.SHIFT)
                 .perform();
     }
 
-    public void keyUp(){
+    public void keyUp() {
         new Actions(driver)
                 .keyUp(Keys.SHIFT)
                 .perform();

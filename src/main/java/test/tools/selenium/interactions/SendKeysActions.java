@@ -1,10 +1,17 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SendKeysActions {
+
+    final static Logger logger = LogManager.getLogger(SendKeysActions.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -13,7 +20,7 @@ public class SendKeysActions {
     public SendKeysActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
-        actionsAPI = new ActionsAPI(driver,wait);
+        actionsAPI = new ActionsAPI(driver, wait);
     }
 
     /**
@@ -23,10 +30,15 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(WebElement element, String value) {
-        actionsAPI.scrollToVisibleElement(element);
-        element.clear();
-        element.sendKeys(value);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        try {
+            actionsAPI.scrollToVisibleElement(element);
+            element.clear();
+            element.sendKeys(value);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -36,10 +48,15 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(By xpath, String value) {
-        WebElement element = actionsAPI.scrollToVisibleElement(xpath);
-        element.clear();
-        element.sendKeys(value);
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+        try {
+            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element.clear();
+            element.sendKeys(value);
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -49,9 +66,14 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(WebElement element, String value) {
-        actionsAPI.scrollToInvisibleElement(element);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
-        wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+        try {
+            actionsAPI.scrollToInvisibleElement(element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
+            wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -61,8 +83,14 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(By xpath, String value) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", actionsAPI.scrollToInvisibleElement(xpath));
-        wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+        try {
+            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
+            wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+            logger.info("Sent value: {} to element: {} ", value, element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
 }

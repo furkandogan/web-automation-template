@@ -9,7 +9,7 @@ Add your project's pom.xml this dependency
         <dependency>
             <groupId>com.github.furkandogan</groupId>
             <artifactId>web-automation-template</artifactId>
-            <version>3.0</version>
+            <version>5.5</version>
         </dependency>
     ```
 

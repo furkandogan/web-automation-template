@@ -8,10 +8,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.HasDevTools;
+import org.openqa.selenium.devtools.v103.emulation.Emulation;
+import org.openqa.selenium.devtools.v103.performance.Performance;
+import org.openqa.selenium.devtools.v103.performance.model.Metric;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -25,8 +30,8 @@ import test.tools.selenium.util.OsUtility;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 public abstract class TestCaseFrame {
 
@@ -42,7 +47,9 @@ public abstract class TestCaseFrame {
     private boolean isMobile = false;
 
     private Duration timeOutInSeconds = Duration.ofSeconds(60);
-    private Duration implicitlyWaitTimeOut =  Duration.ofSeconds(60);
+    private Duration implicitlyWaitTimeOut = Duration.ofSeconds(60);
+
+    private List<Metric> metricList;
 
 
     public Duration getTimeOutInSeconds() {
@@ -242,13 +249,6 @@ public abstract class TestCaseFrame {
         return driverWait;
     }
 
-    public void createFluentWait(Object object) {
-        fluentWait = new FluentWait<>(getWebDriver())
-                .withTimeout(Duration.ofSeconds(30))
-                .pollingEvery(Duration.ofSeconds(3))
-                .ignoring((Class<? extends Throwable>) object);
-    }
-
     /**
      * open the homepage
      */
@@ -283,7 +283,9 @@ public abstract class TestCaseFrame {
         }
     }
 
-    /** @deprecated */
+    /**
+     * @deprecated
+     */
     @Deprecated
     private void updateBrowserCapsFromConfig(DesiredCapabilities capabilities) {
 
@@ -357,7 +359,6 @@ public abstract class TestCaseFrame {
         chromeOptions.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
         chromeOptions.setLogLevel(ChromeDriverLogLevel.fromString(getConfigProperty("chrome.log.level")));
-
         /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
 
@@ -379,15 +380,44 @@ public abstract class TestCaseFrame {
             }
         } else {
             if (isMobile()) {
-                Map<String, String> mobileEmulation = new HashMap<>();
-                mobileEmulation.put("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
-                chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+                DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
+                devTools.createSession();
+                devTools.send(Emulation.setDeviceMetricsOverride(Integer.valueOf(getConfigProperty("chrome.width")),
+                        Integer.valueOf(getConfigProperty("chrome.height")),
+                        Integer.valueOf(getConfigProperty("device.scale.factor")),
+                        true,
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty()));
             }
             WebDriverManager.chromedriver().setup();
             ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
             setWebDriver(chromeDriver);
         }
 
+        if (Boolean.parseBoolean(getConfigProperty("chrome.performance.metrics"))) {
+            DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
+            devTools.createSession();
+            devTools.send(Performance.enable(Optional.empty()));
+            metricList = devTools.send(Performance.getMetrics());
+        }
+
+        if (Boolean.parseBoolean(getConfigProperty("chrome.geo.location"))) {
+            setWebDriver(new Augmenter().augment(getWebDriver()));
+
+            DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
+            devTools.createSession();
+
+            devTools.send(Emulation.setGeolocationOverride(Optional.of(Long.parseLong(getConfigProperty("chrome.geo.latitude"))),
+                    Optional.of(Long.parseLong(getConfigProperty("chrome.geo.longitude"))),
+                    Optional.of(Long.parseLong(getConfigProperty("chrome.geo.accuracy")))));
+        }
         return getWebDriver();
     }
 
@@ -440,6 +470,11 @@ public abstract class TestCaseFrame {
         if (driver != null) {
             driver.close();
             driver.quit();
+        }
+        if (Boolean.parseBoolean(getConfigProperty("chrome.performance.metrics"))) {
+            for (Metric m : metricList) {
+                System.out.println(m.getName() + " = " + m.getValue());
+            }
         }
     }
 

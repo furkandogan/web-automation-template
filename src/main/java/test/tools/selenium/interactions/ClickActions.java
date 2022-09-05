@@ -1,14 +1,16 @@
 package test.tools.selenium.interactions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.v6.A;
 
 public class ClickActions {
+
+    final static Logger logger = LogManager.getLogger(ClickActions.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -17,7 +19,7 @@ public class ClickActions {
     public ClickActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
-        actionsAPI = new ActionsAPI(driver,wait);
+        actionsAPI = new ActionsAPI(driver, wait);
     }
 
     /**
@@ -26,8 +28,13 @@ public class ClickActions {
      * @param element
      */
     public void click(WebElement element) {
-        actionsAPI.scrollToVisibleElement(element);
-        element.click();
+        try {
+            actionsAPI.scrollToVisibleElement(element);
+            element.click();
+            logger.info("Clicked to element: {}", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -36,7 +43,13 @@ public class ClickActions {
      * @param xpath
      */
     public void click(By xpath) {
-        actionsAPI.scrollToVisibleElement(xpath).click();
+        try {
+            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element.click();
+            logger.info("Clicked to element: {}", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -45,8 +58,13 @@ public class ClickActions {
      * @param element
      */
     public void clickByJs(WebElement element) {
-        actionsAPI.scrollToInvisibleElement(element);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+        try {
+            actionsAPI.scrollToInvisibleElement(element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+            logger.info("Clicked to element: {}", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -55,7 +73,13 @@ public class ClickActions {
      * @param xpath
      */
     public void clickByJs(By xpath) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", actionsAPI.scrollToInvisibleElement(xpath));
+        try {
+            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+            logger.info("Clicked to element: {}", element);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
 }

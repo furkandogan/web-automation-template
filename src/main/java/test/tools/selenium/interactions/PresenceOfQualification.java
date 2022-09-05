@@ -1,6 +1,5 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,9 +51,20 @@ public class PresenceOfQualification {
         try {
             element.isDisplayed();
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * Text Equals Control
+     *
+     * @param element
+     * @param text
+     * @return
+     */
+    public boolean isTextEquals(WebElement element, String text) {
+        return this.isTextEquals(element, text, false);
     }
 
     /**
@@ -81,6 +91,17 @@ public class PresenceOfQualification {
      * @param text
      * @return
      */
+    public boolean isTextContains(WebElement element, String text) {
+        return this.isTextContains(element, text, false);
+    }
+
+    /**
+     * Text Contains Control
+     *
+     * @param element
+     * @param text
+     * @return
+     */
     public boolean isTextContains(WebElement element, String text, boolean hidden) {
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
         String elementText = getElementProperties.getText(element, hidden);
@@ -89,6 +110,17 @@ public class PresenceOfQualification {
         } else {
             return elementText.contains(text);
         }
+    }
+
+    /**
+     * Value Equals Control
+     *
+     * @param element
+     * @param value
+     * @return
+     */
+    public boolean isValueEquals(WebElement element, String value) {
+        return this.isValueEquals(element, value, false);
     }
 
     /**
@@ -116,6 +148,18 @@ public class PresenceOfQualification {
      * @param value
      * @return
      */
+    public boolean isAttrValueEquals(WebElement element, String attr, String value) {
+        return this.isAttrValueEquals(element, attr, value, false);
+    }
+
+    /**
+     * Attribute Value Equals Control
+     *
+     * @param element
+     * @param attr
+     * @param value
+     * @return
+     */
     public boolean isAttrValueEquals(WebElement element, String attr, String value, boolean hidden) {
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
         String elementText = getElementProperties.getAttribute(element, attr, hidden);
@@ -127,7 +171,19 @@ public class PresenceOfQualification {
     }
 
     /**
-     * Text Contains Control
+     * Attribute Value Contains Control
+     *
+     * @param element
+     * @param attr
+     * @param attrValue
+     * @return
+     */
+    public boolean isAttrValueContains(WebElement element, String attr, String attrValue) {
+        return this.isAttrValueContains(element, attr, attrValue, false);
+    }
+
+    /**
+     * Attribute Value Contains Control
      *
      * @param element
      * @param attr
@@ -152,6 +208,18 @@ public class PresenceOfQualification {
      * @param high
      * @return
      */
+    public boolean rangeText(WebElement element, int low, int high) {
+        return this.rangeText(element, low, high, false);
+    }
+
+    /**
+     * Range text
+     *
+     * @param element
+     * @param low
+     * @param high
+     * @return
+     */
     public boolean rangeText(WebElement element, int low, int high, boolean hidden) {
         GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
         String elementText = getElementProperties.getText(element, hidden);
@@ -161,6 +229,19 @@ public class PresenceOfQualification {
             int elementTextValue = Integer.parseInt(elementText);
             return low <= elementTextValue && elementTextValue <= high;
         }
+    }
+
+    /**
+     * Range attribute value
+     *
+     * @param element
+     * @param attr
+     * @param low
+     * @param high
+     * @return
+     */
+    public boolean rangeAttrValue(WebElement element, String attr, int low, int high) {
+        return this.rangeAttrValue(element, attr, low, high, false);
     }
 
     /**
@@ -199,6 +280,16 @@ public class PresenceOfQualification {
         }
     }
 
+    /**
+     * Placeholder alanının kontrolü sağlanır.
+     *
+     * @param element
+     * @param value
+     * @return
+     */
+    public boolean checkPlaceHolder(WebElement element, String value) {
+        return this.checkPlaceHolder(element, value, false);
+    }
 
     /**
      * Placeholder alanının kontrolü sağlanır.
