@@ -1,23 +1,16 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.HasAuthentication;
+import org.openqa.selenium.UsernameAndPassword;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.events.DomMutationEvent;
-import org.openqa.selenium.logging.HasLogEvents;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import static org.openqa.selenium.devtools.events.CdpEventTypes.domMutation;
 
 public class BiDiAPI {
 
@@ -45,7 +38,6 @@ public class BiDiAPI {
     /**
      * Some applications make use of browser authentication to secure pages.
      * With Selenium, you can automate the input of basic auth credentials whenever they arise.
-     *
      *
      * @param webdriver
      * @param username

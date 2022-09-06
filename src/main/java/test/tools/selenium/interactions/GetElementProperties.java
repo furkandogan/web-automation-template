@@ -1,5 +1,7 @@
 package test.tools.selenium.interactions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class GetElementProperties {
+
+    final static Logger logger = LogManager.getLogger(GetElementProperties.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -32,7 +36,9 @@ public class GetElementProperties {
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
-        return element.getAttribute(attr).trim().toLowerCase();
+        String elementAttr = element.getAttribute(attr).trim().toLowerCase();
+        logger.info("Attribute value: {} of element: {}", elementAttr, element);
+        return elementAttr;
     }
 
     /**
@@ -48,7 +54,9 @@ public class GetElementProperties {
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
-        return element.getAttribute(attr).trim().toLowerCase();
+        String elementAttr = element.getAttribute(attr).trim().toLowerCase();
+        logger.info("Attribute value: {} of element: {}", elementAttr, element);
+        return elementAttr;
     }
 
     /**
@@ -124,7 +132,9 @@ public class GetElementProperties {
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
-        return element.getText().trim().toLowerCase();
+        String elementText = element.getText().trim().toLowerCase();
+        logger.info("Text: {} of element: {}", elementText, element);
+        return elementText;
     }
 
     /**
@@ -140,7 +150,9 @@ public class GetElementProperties {
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
-        return element.getText().trim().toLowerCase();
+        String elementText = element.getText().trim().toLowerCase();
+        logger.info("Text: {} of element: {}", elementText, element);
+        return elementText;
     }
 
     /**
@@ -175,7 +187,9 @@ public class GetElementProperties {
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
-        return element.getTagName().trim().toLowerCase();
+        String elementTagName = element.getTagName().trim().toLowerCase();
+        logger.info("Tag name: {} of element: {}", elementTagName, element);
+        return elementTagName;
     }
 
     /**
@@ -191,7 +205,9 @@ public class GetElementProperties {
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
-        return element.getTagName().trim().toLowerCase();
+        String elementTagName = element.getTagName().trim().toLowerCase();
+        logger.info("Tag name: {} of element: {}", elementTagName, element);
+        return elementTagName;
     }
 
     /**
@@ -226,7 +242,9 @@ public class GetElementProperties {
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
-        return element.getCssValue(value).trim().toLowerCase();
+        String elementCssValue= element.getCssValue(value).trim().toLowerCase();
+        logger.info("Css value: {} of element: {}", elementCssValue, element);
+        return elementCssValue;
     }
 
     /**
@@ -242,7 +260,9 @@ public class GetElementProperties {
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
-        return element.getCssValue(value).trim().toLowerCase();
+        String elementCssValue= element.getCssValue(value).trim().toLowerCase();
+        logger.info("Css value: {} of element: {}", elementCssValue, element);
+        return elementCssValue;
     }
 
     /**
@@ -267,7 +287,27 @@ public class GetElementProperties {
         } else {
             wait.until(ExpectedConditions.visibilityOfAllElements(elements));
         }
-        return elements.size();
+        Integer elementsSize= elements.size();
+        logger.info("Size: {} of elements: {}", elementsSize, elements);
+        return elementsSize;
+    }
+
+    /**
+     * Get element list size
+     *
+     * @param xpath
+     * @return
+     */
+    public Integer getSize(By xpath, boolean hidden) {
+        List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
+        if (hidden) {
+            wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
+        } else {
+            wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+        }
+        Integer elementsSize= elements.size();
+        logger.info("Size: {} of elements: {}", elementsSize, elements);
+        return elementsSize;
     }
 
     /**
@@ -276,6 +316,7 @@ public class GetElementProperties {
      * @return
      */
     public String getCurrentUrl() {
+        logger.info("Current url: {}", driver.getCurrentUrl().trim());
         return driver.getCurrentUrl().trim();
     }
 
@@ -285,6 +326,7 @@ public class GetElementProperties {
      * @return
      */
     public String getPageSource() {
+        logger.info("Page source: {}", driver.getPageSource());
         return driver.getPageSource();
     }
 
@@ -294,6 +336,7 @@ public class GetElementProperties {
      * @return
      */
     public String getTitle() {
+        logger.info("Title: {}", driver.getTitle());
         return driver.getTitle();
     }
 
@@ -304,6 +347,7 @@ public class GetElementProperties {
      * @return
      */
     public Integer getLenght(String value) {
+        logger.info("Value length: {}", value.length());
         return value.length();
     }
 

@@ -16,11 +16,13 @@ public class SendKeysActions {
     public WebDriver driver;
     public WebDriverWait wait;
     public ActionsAPI actionsAPI;
+    public SimpleActions simpleActions;
 
     public SendKeysActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
         actionsAPI = new ActionsAPI(driver, wait);
+        simpleActions = new SimpleActions(driver,wait);
     }
 
     /**
@@ -37,6 +39,7 @@ public class SendKeysActions {
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -48,13 +51,15 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeys(By xpath, String value) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToVisibleElement(xpath);
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -72,6 +77,7 @@ public class SendKeysActions {
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -83,12 +89,14 @@ public class SendKeysActions {
      * @param value
      */
     public void sendKeysByJs(By xpath, String value) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToInvisibleElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }

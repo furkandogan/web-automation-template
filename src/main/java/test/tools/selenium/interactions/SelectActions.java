@@ -19,11 +19,13 @@ public class SelectActions {
     public WebDriver driver;
     public WebDriverWait wait;
     public ActionsAPI actionsAPI;
+    public SimpleActions simpleActions;
 
     public SelectActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
         actionsAPI = new ActionsAPI(driver, wait);
+        simpleActions = new SimpleActions(driver,wait);
     }
 
 
@@ -62,6 +64,7 @@ public class SelectActions {
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -71,12 +74,14 @@ public class SelectActions {
      * @param value
      */
     public void selectByValue(By xpath, String value) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToVisibleElement(xpath);
             new Select(element).selectByValue(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -92,6 +97,7 @@ public class SelectActions {
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -102,12 +108,14 @@ public class SelectActions {
      * @param value
      */
     public void selectByValueByJs(By xpath, String value) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToInvisibleElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -123,6 +131,7 @@ public class SelectActions {
             wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
             logger.info("Selected text: {} from element: {} ", text, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -132,12 +141,14 @@ public class SelectActions {
      * @param text
      */
     public void selectByVisibleText(By xpath, String text) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToVisibleElement(xpath);
             new Select(element).selectByVisibleText(text);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
             logger.info("Selected text: {} from element: {} ", text, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -153,6 +164,7 @@ public class SelectActions {
             wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
             logger.info("Selected index: {} from element: {} ", index, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -162,12 +174,14 @@ public class SelectActions {
      * @param index
      */
     public void selectByIndex(By xpath, int index) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToVisibleElement(xpath);
             new Select(element).selectByIndex(index);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
             logger.info("Selected index: {} from element: {} ", index, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -187,6 +201,7 @@ public class SelectActions {
                 }
                 logger.info("Selected text: {} from element: {} ", optionText, element);
             } catch (Exception e) {
+                simpleActions.highlightElement(element);
                 logger.error(e);
             }
         }
@@ -208,6 +223,7 @@ public class SelectActions {
                 }
                 logger.info("Selected text: {} from element: {} ", optionText, element);
             } catch (Exception e) {
+                simpleActions.highlightElement(element);
                 logger.error(e);
             }
         }
@@ -223,6 +239,7 @@ public class SelectActions {
             new Select(element).deselectByValue(value);
             logger.info("Deselected value: {} from element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -237,6 +254,7 @@ public class SelectActions {
             new Select(element).deselectByVisibleText(text);
             logger.info("Deselected text: {} from element: {} ", text, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -251,6 +269,7 @@ public class SelectActions {
             new Select(element).deselectByIndex(index);
             logger.info("Deselected index: {} from element: {} ", index, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -264,6 +283,7 @@ public class SelectActions {
             new Select(element).deselectAll();
             logger.info("Deselected all options from element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -280,6 +300,7 @@ public class SelectActions {
                     lat + "," + lon);
             logger.info("Selected coordinates lat: {} - lon: {} from element: {} ", lat, lon, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }

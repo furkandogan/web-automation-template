@@ -15,11 +15,13 @@ public class ClickActions {
     public WebDriver driver;
     public WebDriverWait wait;
     public ActionsAPI actionsAPI;
+    public SimpleActions simpleActions;
 
     public ClickActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
         actionsAPI = new ActionsAPI(driver, wait);
+        simpleActions = new SimpleActions(driver,wait);
     }
 
     /**
@@ -33,6 +35,7 @@ public class ClickActions {
             element.click();
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -43,11 +46,13 @@ public class ClickActions {
      * @param xpath
      */
     public void click(By xpath) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToVisibleElement(xpath);
             element.click();
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -63,6 +68,7 @@ public class ClickActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }
@@ -73,11 +79,13 @@ public class ClickActions {
      * @param xpath
      */
     public void clickByJs(By xpath) {
+        WebElement element = null;
         try {
-            WebElement element = actionsAPI.scrollToVisibleElement(xpath);
+            element = actionsAPI.scrollToInvisibleElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
             logger.error(e);
         }
     }

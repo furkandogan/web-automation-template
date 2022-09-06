@@ -12,12 +12,12 @@ import java.text.RuleBasedCollator;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class BaseUtil {
+public class SimpleActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
-    public BaseUtil(WebDriver driver, WebDriverWait wait) {
+    public SimpleActions(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
     }
@@ -65,7 +65,7 @@ public class BaseUtil {
         Set<String> allWindows = driver.getWindowHandles();
         for (String selectWindow : allWindows) {
             driver.switchTo().window(selectWindow);
-            PresenceOfQualification presence = new PresenceOfQualification(driver, wait);
+            IsActions presence = new IsActions(driver, wait);
             if (presence.isElementDisplayed(element)) {
                 break;
             }

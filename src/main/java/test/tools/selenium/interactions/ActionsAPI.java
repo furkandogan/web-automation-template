@@ -43,7 +43,7 @@ public class ActionsAPI {
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
-            logger.info("Scrolled to element: {} ", element);
+            logger.info("Found and scrolled to element: {} ", element);
         } catch (Exception e) {
             logger.error(e);
         }
