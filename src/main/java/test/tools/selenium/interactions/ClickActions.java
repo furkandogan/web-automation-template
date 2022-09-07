@@ -65,7 +65,7 @@ public class ClickActions {
      */
     public void clickByJs(WebElement element) {
         try {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class ClickActions {
         try {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {

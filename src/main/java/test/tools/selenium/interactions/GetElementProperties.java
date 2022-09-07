@@ -34,7 +34,7 @@ public class GetElementProperties {
     public String getAttribute(WebElement element, String attr, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -54,7 +54,7 @@ public class GetElementProperties {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
@@ -133,7 +133,7 @@ public class GetElementProperties {
     public String getText(WebElement element, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -153,7 +153,7 @@ public class GetElementProperties {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
@@ -191,7 +191,7 @@ public class GetElementProperties {
     public String getTagName(WebElement element, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -211,7 +211,7 @@ public class GetElementProperties {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
@@ -249,7 +249,7 @@ public class GetElementProperties {
     public String getCssValue(WebElement element, String value, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -269,7 +269,7 @@ public class GetElementProperties {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
