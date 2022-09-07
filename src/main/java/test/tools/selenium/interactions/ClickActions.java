@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ClickActions {
@@ -64,7 +65,7 @@ public class ClickActions {
      */
     public void clickByJs(WebElement element) {
         try {
-            actionsAPI.scrollToInvisibleElement(element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
@@ -81,7 +82,9 @@ public class ClickActions {
     public void clickByJs(By xpath) {
         WebElement element = null;
         try {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {

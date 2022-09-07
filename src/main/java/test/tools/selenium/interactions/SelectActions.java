@@ -92,7 +92,7 @@ public class SelectActions {
      */
     public void selectByValueByJs(WebElement element, String value) {
         try {
-            actionsAPI.scrollToInvisibleElement(element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             logger.info("Selected value: {} from element: {} ", value, element);
@@ -110,7 +110,9 @@ public class SelectActions {
     public void selectByValueByJs(By xpath, String value) {
         WebElement element = null;
         try {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             logger.info("Selected value: {} from element: {} ", value, element);

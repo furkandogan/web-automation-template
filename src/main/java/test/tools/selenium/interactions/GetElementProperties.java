@@ -3,6 +3,7 @@ package test.tools.selenium.interactions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,7 +33,8 @@ public class GetElementProperties {
      */
     public String getAttribute(WebElement element, String attr, boolean hidden) {
         if (hidden) {
-            actionsAPI.scrollToInvisibleElement(element);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -50,7 +52,9 @@ public class GetElementProperties {
     public String getAttribute(By xpath, String attr, boolean hidden) {
         WebElement element;
         if (hidden) {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
@@ -128,7 +132,8 @@ public class GetElementProperties {
      */
     public String getText(WebElement element, boolean hidden) {
         if (hidden) {
-            actionsAPI.scrollToInvisibleElement(element);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -146,7 +151,9 @@ public class GetElementProperties {
     public String getText(By xpath, boolean hidden) {
         WebElement element;
         if (hidden) {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
@@ -183,7 +190,8 @@ public class GetElementProperties {
      */
     public String getTagName(WebElement element, boolean hidden) {
         if (hidden) {
-            actionsAPI.scrollToInvisibleElement(element);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -201,7 +209,9 @@ public class GetElementProperties {
     public String getTagName(By xpath, boolean hidden) {
         WebElement element;
         if (hidden) {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
@@ -238,7 +248,8 @@ public class GetElementProperties {
      */
     public String getCssValue(WebElement element, String value, boolean hidden) {
         if (hidden) {
-            actionsAPI.scrollToInvisibleElement(element);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             actionsAPI.scrollToVisibleElement(element);
         }
@@ -256,7 +267,9 @@ public class GetElementProperties {
     public String getCssValue(By xpath, String value, boolean hidden) {
         WebElement element;
         if (hidden) {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         } else {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }

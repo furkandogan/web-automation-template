@@ -72,7 +72,7 @@ public class SendKeysActions {
      */
     public void sendKeysByJs(WebElement element, String value) {
         try {
-            actionsAPI.scrollToInvisibleElement(element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             logger.info("Sent value: {} to element: {} ", value, element);
@@ -91,7 +91,9 @@ public class SendKeysActions {
     public void sendKeysByJs(By xpath, String value) {
         WebElement element = null;
         try {
-            element = actionsAPI.scrollToInvisibleElement(xpath);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             logger.info("Sent value: {} to element: {} ", value, element);

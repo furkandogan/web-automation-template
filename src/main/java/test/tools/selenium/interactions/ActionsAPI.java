@@ -69,39 +69,6 @@ public class ActionsAPI {
     }
 
     /**
-     * @param element
-     */
-    public void scrollToInvisibleElement(WebElement element) {
-        try {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            new Actions(driver)
-                    .scrollToElement(element)
-                    .perform();
-            logger.info("Scrolled to element: {} ", element);
-        } catch (Exception e) {
-            logger.error(e);
-        }
-    }
-
-    /**
-     * @param xpath
-     */
-    public WebElement scrollToInvisibleElement(By xpath) {
-        try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            WebElement element = driver.findElement(xpath);
-            new Actions(driver)
-                    .scrollToElement(element)
-                    .perform();
-            logger.info("Scrolled to element: {} ", element);
-            return element;
-        } catch (Exception e) {
-            logger.error(e);
-            return null;
-        }
-    }
-
-    /**
      * This is the second most common scenario for scrolling.
      * Pass in an delta x and a delta y value for how much to scroll in the right and down directions.
      * Negative values represent left and up, respectively.
