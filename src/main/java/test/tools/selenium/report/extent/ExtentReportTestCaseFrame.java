@@ -15,7 +15,6 @@ import java.io.FileOutputStream;
 import java.util.Base64;
 
 public class ExtentReportTestCaseFrame extends TestCaseFrame {
-
     private static ExtentReports extentReports = null;
     private static boolean isKlovReporter = false;
 
@@ -26,12 +25,11 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
     public static void setExtentReports(ExtentReports extentReports) {
         ExtentReportTestCaseFrame.extentReports = extentReports;
     }
-
     public static boolean isKlovReporter() {
         return isKlovReporter;
     }
 
-    public void setKlovReporter(boolean klovReporter) {
+    public static void setKlovReporter(boolean klovReporter) {
         isKlovReporter = klovReporter;
     }
 
