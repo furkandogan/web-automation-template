@@ -16,7 +16,6 @@ import java.util.Base64;
 
 public class ExtentReportTestCaseFrame extends TestCaseFrame {
     private static ExtentReports extentReports = null;
-    private static boolean isKlovReporter = false;
 
     public static ExtentReports getExtentReports() {
         return extentReports;
@@ -25,20 +24,8 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
     public static void setExtentReports(ExtentReports extentReports) {
         ExtentReportTestCaseFrame.extentReports = extentReports;
     }
-    public static boolean isKlovReporter() {
-        return isKlovReporter;
-    }
-
-    public static void setKlovReporter(boolean klovReporter) {
-        isKlovReporter = klovReporter;
-    }
 
     public ExtentReportTestCaseFrame() {
-        try {
-            setKlovReporter(Boolean.valueOf(getConfigProperty("klov.reporter")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -50,13 +37,14 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
         ExtentReports extentReports = new ExtentReports();
         extentReports.setReportUsesManualConfiguration(true);
 
-        if (isKlovReporter()) {
+        if (Boolean.valueOf(getConfigProperty("klov.reporter"))) {
             ExtentKlovReporter klovReporter = new ExtentKlovReporter(getConfigProperty("report.title"), getConfigProperty("build"));
             klovReporter.initMongoDbConnection(getConfigProperty("klov.db"), Integer.parseInt(getConfigProperty("klov.db.port")));
             klovReporter.initKlovServerConnection(getConfigProperty("klov.url"));
 
             extentReports.attachReporter(klovReporter);
-        } else {
+        }
+        if (Boolean.valueOf(getConfigProperty("spark.reporter"))) {
             ReportManager instance = ReportManager.getInstance();
             String reportBaseFolder = instance.getReportBaseFolder();
 
