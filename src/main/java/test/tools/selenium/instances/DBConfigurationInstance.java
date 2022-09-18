@@ -9,7 +9,6 @@ public class DBConfigurationInstance {
 
     private long instanceId = 0L;
 
-
     private DbUtility dbUtility = null;
 
 

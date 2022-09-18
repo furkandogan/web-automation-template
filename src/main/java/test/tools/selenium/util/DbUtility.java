@@ -1,6 +1,8 @@
 package test.tools.selenium.util;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import test.tools.selenium.config.ConfigurationManager;
 import test.tools.selenium.config.PropertyNames;
 
@@ -12,19 +14,20 @@ import java.util.TimerTask;
 
 public class DbUtility {
 
-    private ComboPooledDataSource cpds = null;
+    final static Logger logger = LogManager.getLogger(DbUtility.class);
+    private DataSource ds = null;
     private Connection connection = null;
     private String dbDriver = null;
     private String jdbcUrl = null;
     private String username = null;
     private String password = null;
 
-    public ComboPooledDataSource getDataSource() {
-        return cpds;
+    public DataSource getDataSource() {
+        return ds;
     }
 
-    public void setDataSource(ComboPooledDataSource cpds) {
-        this.cpds = cpds;
+    public void setDataSource(DataSource ds) {
+        this.ds = ds;
     }
 
     public Connection getConnection() {
@@ -78,53 +81,42 @@ public class DbUtility {
         }
     }
 
-    public ComboPooledDataSource initConnectionPool() throws Exception {
-        try {
-            Class.forName(getDbDriver());
-            cpds = new ComboPooledDataSource();
-            cpds.setJdbcUrl(getJdbcUrl());
-            cpds.setUser(getUser());
-            cpds.setPassword(getPassword());
-            cpds.setTestConnectionOnCheckin(true);
-            cpds.setTestConnectionOnCheckout(true);
-            cpds.setInitialPoolSize(3);
-            cpds.setMinPoolSize(3);
-            cpds.setMaxPoolSize(20);
-            cpds.setMaxIdleTime(600);
-            cpds.setMaxStatements(50);
-            cpds.setAcquireIncrement(2);
-            cpds.setIdleConnectionTestPeriod(300);
+    public DataSource initConnectionPool() throws Exception {
+        ds = new DataSource();
+        ds.setDriverClassName(getDbDriver());
+        ds.setUrl(getJdbcUrl());
+        ds.setUsername(getUser());
+        ds.setPassword(getPassword());
+        ds.setInitialSize(5);
+        ds.setMinIdle(1);
+        ds.setMaxActive(100);
+        ds.setMaxIdle(10);
 
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    try {
-                        if (cpds.getNumBusyConnections() > 0) {
-                            System.out.println(String.format("[CONNECTION POOL] [{%s}], Max: {%d}, Busy: {%d}, Idle: {%d}",
-                                    username,
-                                    cpds.getNumConnections(),
-                                    cpds.getNumBusyConnections(),
-                                    cpds.getNumIdleConnections())
-                            );
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    if (ds.getNumActive() > 0) {
+                        logger.info(String.format("[CONNECTION POOL] [{%s}], Max: {%d}, Busy: {%d}, Idle: {%d}",
+                                username,
+                                ds.getMaxActive(),
+                                ds.getNumActive(),
+                                ds.getNumIdle())
+                        );
                     }
+                } catch (Exception e) {
+                    logger.error(e);
                 }
-            }, 1000, 1000);
+            }
+        }, 1000, 1000);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return cpds;
+        return ds;
     }
 
     public Connection initConnectionFromPool() throws Exception {
 
-        connection = cpds.getConnection();
+        connection = ds.getConnection();
         connection.setAutoCommit(false);
         return connection;
     }
@@ -153,8 +145,8 @@ public class DbUtility {
 
     public void closeConnectionPool() throws SQLException {
 
-        if (cpds != null) {
-            cpds.close();
+        if (ds != null) {
+            ds.close();
         }
     }
 
