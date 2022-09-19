@@ -379,26 +379,27 @@ public abstract class TestCaseFrame {
                 setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), capabilities));
             }
         } else {
-            if (isMobile()) {
-                DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
-                devTools.createSession();
-                devTools.send(Emulation.setDeviceMetricsOverride(Integer.valueOf(getConfigProperty("chrome.width")),
-                        Integer.valueOf(getConfigProperty("chrome.height")),
-                        Integer.valueOf(getConfigProperty("device.scale.factor")),
-                        true,
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty()));
-            }
             WebDriverManager.chromedriver().setup();
             ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
             setWebDriver(chromeDriver);
+        }
+
+        if (isMobile()) {
+            DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
+            devTools.createSession();
+            devTools.send(Emulation.setDeviceMetricsOverride(Integer.valueOf(getConfigProperty("chrome.width")),
+                    Integer.valueOf(getConfigProperty("chrome.height")),
+                    Integer.valueOf(getConfigProperty("device.scale.factor")),
+                    true,
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty()));
         }
 
         if (Boolean.parseBoolean(getConfigProperty("chrome.performance.metrics"))) {
