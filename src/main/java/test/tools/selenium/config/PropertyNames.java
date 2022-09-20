@@ -9,7 +9,8 @@ public class PropertyNames {
     public static final String CHROME_HEADLESS = "chrome.headless";
     public static final String FIREFOX_HEADLESS = "firefox.headless";
     public static final String BROWSER_TYPE = "browser.type";
-    public static final String BROWSER_MOBILE_TYPE = "browser.mobile.type";
+    public static final String BROWSER_MOBILE_DEVICE = "browser.mobile.device";
+    public static final String BROWSER_MOBILE_EMULATION = "browser.mobile.emulation";
     public static final String BROWSER_VERSION = "browser.version";
     public static final String BROWSER_PLATFORM = "browser.platform";
     public static final String BROWSER_DEVICE = "browser.device.name";

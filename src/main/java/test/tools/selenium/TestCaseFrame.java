@@ -44,7 +44,8 @@ public abstract class TestCaseFrame {
     private String appiumHubUrl = null;
 
     private boolean isRemote = false;
-    private boolean isMobile = false;
+    private boolean isMobileDevice = false;
+    private boolean isMobileEmulation = false;
 
     private Duration timeOutInSeconds = Duration.ofSeconds(60);
     private Duration implicitlyWaitTimeOut = Duration.ofSeconds(60);
@@ -124,19 +125,28 @@ public abstract class TestCaseFrame {
         this.appiumHubUrl = appiumHubUrl;
     }
 
-    public boolean isMobile() {
-        return isMobile;
+    public boolean isMobileDevice() {
+        return isMobileEmulation;
     }
 
-    public void setMobile(boolean mobile) {
-        isMobile = mobile;
+    public void setMobileDevice(boolean mobileDevice) {
+        isMobileDevice = mobileDevice;
+    }
+
+    public boolean isMobileEmulation() {
+        return isMobileEmulation;
+    }
+
+    public void setMobileEmulation(boolean mobileEmulation) {
+        isMobileEmulation = mobileEmulation;
     }
 
     public TestCaseFrame() {
         try {
             setRemote(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_REMOTE_DRIVER)));
             setStartPage(getConfigProperty(PropertyNames.BASE_URL));
-            setMobile(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_MOBILE_TYPE)));
+            setMobileDevice(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_MOBILE_DEVICE)));
+            setMobileEmulation(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_MOBILE_EMULATION)));
             setSeleniumHubUrl(getConfigProperty(PropertyNames.SELENIUM_HUB_URL));
             setAppiumHubUrl(getConfigProperty(PropertyNames.APPIUM_HUB_URL));
         } catch (Exception e) {
@@ -364,7 +374,7 @@ public abstract class TestCaseFrame {
 
         if (isRemote()) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            if (isMobile()) {
+            if (isMobileDevice()) {
                 capabilities.setCapability("browserName", getConfigProperty(PropertyNames.BROWSER_TYPE));
                 capabilities.setCapability("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
                 capabilities.setCapability("version", getConfigProperty(PropertyNames.BROWSER_DEVICE_VERSION));
@@ -384,7 +394,7 @@ public abstract class TestCaseFrame {
             setWebDriver(chromeDriver);
         }
 
-        if (isMobile()) {
+        if (isMobileEmulation()) {
             DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
             devTools.createSession();
             devTools.send(Emulation.setDeviceMetricsOverride(Integer.valueOf(getConfigProperty("chrome.width")),
