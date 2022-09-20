@@ -126,7 +126,7 @@ public abstract class TestCaseFrame {
     }
 
     public boolean isMobileDevice() {
-        return isMobileEmulation;
+        return isMobileDevice;
     }
 
     public void setMobileDevice(boolean mobileDevice) {
