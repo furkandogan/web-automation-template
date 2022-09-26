@@ -375,18 +375,28 @@ public abstract class TestCaseFrame {
         if (isRemote()) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             if (isMobileDevice()) {
-                capabilities.setCapability("browserName", getConfigProperty(PropertyNames.BROWSER_TYPE));
-                capabilities.setCapability("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
-                capabilities.setCapability("version", getConfigProperty(PropertyNames.BROWSER_DEVICE_VERSION));
                 capabilities.setCapability("platformName", getConfigProperty(PropertyNames.BROWSER_PLATFORM));
+                capabilities.setCapability("automationName", getConfigProperty(PropertyNames.BROWSER_AUTOMATION_NAME));
+                capabilities.setCapability("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
+                if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.IOS))){
+                    //for ios
+                    capabilities.setCapability("udid", getConfigProperty(PropertyNames.UDID));
+                    capabilities.setCapability("bundledId", getConfigProperty(PropertyNames.BUNDLE_ID));
+                }else if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.ANDROID))){
+                    //for android
+                    capabilities.setCapability("app", getConfigProperty(PropertyNames.UDID));
+                    capabilities.setCapability("appPackage", getConfigProperty(PropertyNames.BUNDLE_ID));
+                    capabilities.setCapability("appActivity", getConfigProperty(PropertyNames.BUNDLE_ID));
+                }
 
                 setWebDriver(new RemoteWebDriver(new URL(getAppiumHubUrl()), capabilities));
             } else {
                 capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-                capabilities.setCapability("build", getConfigProperty("build"));
-                capabilities.setCapability("name", scenario);
+                //for zalenium
+                //capabilities.setCapability("build", getConfigProperty("build"));
+                //capabilities.setCapability("name", scenario);
 
-                setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), capabilities));
+                setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), chromeOptions));
             }
         } else {
             WebDriverManager.chromedriver().setup();

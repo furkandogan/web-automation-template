@@ -13,9 +13,13 @@ public class PropertyNames {
     public static final String BROWSER_MOBILE_EMULATION = "browser.mobile.emulation";
     public static final String BROWSER_VERSION = "browser.version";
     public static final String BROWSER_PLATFORM = "browser.platform";
+    public static final String BROWSER_AUTOMATION_NAME = "browser.automation.name";
     public static final String BROWSER_DEVICE = "browser.device.name";
-    public static final String BROWSER_DEVICE_VERSION = "browser.device.version";
-
+    public static final String UDID = "udid";
+    public static final String BUNDLE_ID = "bundleId";
+    public static final String APP = "app";
+    public static final String APP_PACKAGE = "app.package";
+    public static final String APP_ACTIVITY = "app.activity";
     public static final String DB_DRIVER = "db.driver";
     public static final String DB_SERVER = "db.server";
     public static final String DB_USER = "db.user";
