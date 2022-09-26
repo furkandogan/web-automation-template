@@ -395,6 +395,7 @@ public abstract class TestCaseFrame {
         }
 
         if (isMobileEmulation()) {
+            setWebDriver(new Augmenter().augment(getWebDriver()));
             DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
             devTools.createSession();
             devTools.send(Emulation.setDeviceMetricsOverride(Integer.valueOf(getConfigProperty("chrome.width")),
@@ -413,6 +414,7 @@ public abstract class TestCaseFrame {
         }
 
         if (Boolean.parseBoolean(getConfigProperty("chrome.performance.metrics"))) {
+            setWebDriver(new Augmenter().augment(getWebDriver()));
             DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
             devTools.createSession();
             devTools.send(Performance.enable(Optional.empty()));
@@ -421,10 +423,8 @@ public abstract class TestCaseFrame {
 
         if (Boolean.parseBoolean(getConfigProperty("chrome.geo.location"))) {
             setWebDriver(new Augmenter().augment(getWebDriver()));
-
             DevTools devTools = ((HasDevTools) getWebDriver()).getDevTools();
             devTools.createSession();
-
             devTools.send(Emulation.setGeolocationOverride(Optional.of(Long.parseLong(getConfigProperty("chrome.geo.latitude"))),
                     Optional.of(Long.parseLong(getConfigProperty("chrome.geo.longitude"))),
                     Optional.of(Long.parseLong(getConfigProperty("chrome.geo.accuracy")))));

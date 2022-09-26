@@ -4,8 +4,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentKlovReporter;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.aventstack.extentreports.reporter.configuration.Protocol;
-import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.aventstack.extentreports.reporter.configuration.ViewName;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import test.tools.selenium.TestCaseFrame;
@@ -48,16 +47,18 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
             ReportManager instance = ReportManager.getInstance();
             String reportBaseFolder = instance.getReportBaseFolder();
 
-            ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportBaseFolder + "/index.html");
-            extentSparkReporter.config().setDocumentTitle(getConfigProperty("report.title"));
-            extentSparkReporter.config().setEncoding("UTF-8");
-            extentSparkReporter.config().setProtocol(Protocol.HTTPS);
-            extentSparkReporter.config().setReportName(getConfigProperty("build"));
-            extentSparkReporter.config().setTheme(Theme.STANDARD);
-            extentSparkReporter.config().setTimeStampFormat("mm/dd/yyyy hh:mm:ss a");
-            extentSparkReporter.config().setCss("css-string");
-            extentSparkReporter.config().setJs("js-string");
-            extentSparkReporter.config().setOfflineMode(true);
+            ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportBaseFolder + "/spark.html")
+                    .viewConfigurer()
+                    .viewOrder()
+                    .as(new ViewName[]{
+                            ViewName.DASHBOARD,
+                            ViewName.TEST,
+                            ViewName.AUTHOR,
+                            ViewName.DEVICE,
+                            ViewName.EXCEPTION,
+                            ViewName.LOG
+                    })
+                    .apply();
 
             extentReports.attachReporter(extentSparkReporter);
         }
@@ -82,7 +83,23 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
         FileOutputStream osf = new FileOutputStream(of);
         osf.write(btDataFile);
         osf.flush();
-        String imagePath = "images/" + of.getName();
+        String imagePath = of.getPath();
+        return imagePath;
+    }
+
+
+    public String createScreenCast(String castName) throws Exception {
+        String screenShot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BASE64);
+
+        byte[] btDataFile = Base64.getDecoder().decode(screenShot);
+
+        String cast = String.format("%s%s%s.mp4", ReportManager.getInstance().getReportCastFolder(), File.separator, (castName + System.currentTimeMillis()));
+
+        File of = new File(cast);
+        FileOutputStream osf = new FileOutputStream(of);
+        osf.write(btDataFile);
+        osf.flush();
+        String imagePath = of.getPath();
         return imagePath;
     }
 
@@ -97,6 +114,24 @@ public class ExtentReportTestCaseFrame extends TestCaseFrame {
             //add screen capture
             String capturedFilePath = createScreenCapture(captureName);
             extentTest.addScreenCaptureFromPath(capturedFilePath, captureName);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /***
+     *
+     * @param extentTest
+     * @param castName
+     */
+    public void logScreenCast(ExtentTest extentTest, String castName) {
+
+        try {
+            //add screen capture
+            String castedFilePath = createScreenCapture(castName);
+            extentTest.addScreenCaptureFromPath(castedFilePath, castName);
 
         } catch (Exception e) {
             e.printStackTrace();
