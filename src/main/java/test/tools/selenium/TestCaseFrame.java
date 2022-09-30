@@ -10,9 +10,9 @@ import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v103.emulation.Emulation;
-import org.openqa.selenium.devtools.v103.performance.Performance;
-import org.openqa.selenium.devtools.v103.performance.model.Metric;
+import org.openqa.selenium.devtools.v106.emulation.Emulation;
+import org.openqa.selenium.devtools.v106.performance.Performance;
+import org.openqa.selenium.devtools.v106.performance.model.Metric;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -378,11 +378,11 @@ public abstract class TestCaseFrame {
                 capabilities.setCapability("platformName", getConfigProperty(PropertyNames.BROWSER_PLATFORM));
                 capabilities.setCapability("automationName", getConfigProperty(PropertyNames.BROWSER_AUTOMATION_NAME));
                 capabilities.setCapability("deviceName", getConfigProperty(PropertyNames.BROWSER_DEVICE));
-                if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.IOS))){
+                if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.IOS))) {
                     //for ios
                     capabilities.setCapability("udid", getConfigProperty(PropertyNames.UDID));
                     capabilities.setCapability("bundledId", getConfigProperty(PropertyNames.BUNDLE_ID));
-                }else if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.ANDROID))){
+                } else if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.ANDROID))) {
                     //for android
                     capabilities.setCapability("app", getConfigProperty(PropertyNames.UDID));
                     capabilities.setCapability("appPackage", getConfigProperty(PropertyNames.BUNDLE_ID));
@@ -391,11 +391,6 @@ public abstract class TestCaseFrame {
 
                 setWebDriver(new RemoteWebDriver(new URL(getAppiumHubUrl()), capabilities));
             } else {
-                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-                //for zalenium
-                //capabilities.setCapability("build", getConfigProperty("build"));
-                //capabilities.setCapability("name", scenario);
-
                 setWebDriver(new RemoteWebDriver(new URL(getSeleniumHubUrl()), chromeOptions));
             }
         } else {
