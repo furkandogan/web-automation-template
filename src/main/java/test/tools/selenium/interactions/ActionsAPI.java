@@ -14,12 +14,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ActionsAPI {
 
     final static Logger logger = LogManager.getLogger(ActionsAPI.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public SimpleActions simpleActions;
 
     public ActionsAPI(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
@@ -46,6 +49,7 @@ public class ActionsAPI {
             logger.info("Found and scrolled to element: {} ", element);
         } catch (Exception e) {
             logger.error(e);
+            fail(e);
         }
     }
 
