@@ -1,4 +1,4 @@
-package test.tools.selenium;
+package test.tools.selenium.extensions;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

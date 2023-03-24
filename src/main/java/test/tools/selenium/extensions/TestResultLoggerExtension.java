@@ -1,32 +1,27 @@
-package test.tools.selenium;
+package test.tools.selenium.extensions;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.aventstack.extentreports.Status;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.*;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.config.ConfigurationManager;
 import test.tools.selenium.config.DBManager;
 import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
 import test.tools.selenium.util.DbUtility;
 
-import java.time.Duration;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class SeleniumBase extends ExtentReportTestCaseFrame implements TestWatcher, BeforeAllCallback, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
+public class TestResultLoggerExtension extends ExtentReportTestCaseFrame implements TestWatcher, BeforeAllCallback, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
 
-    final static Logger logger = LogManager.getLogger(SeleniumBase.class);
+    final static Logger logger = LogManager.getLogger(TestResultLoggerExtension.class);
 
     public static DbUtility oracleDb = null;
     public WebDriver driver = null;
