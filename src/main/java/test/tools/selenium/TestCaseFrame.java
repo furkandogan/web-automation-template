@@ -363,6 +363,7 @@ public abstract class TestCaseFrame {
         chromeOptions.addArguments("ignore-certificate-errors");
         chromeOptions.addArguments("disable-translate");
         chromeOptions.addArguments("start-maximized");
+        chromeOptions.addArguments("--remote-allow-origins=*");
         chromeOptions.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
         chromeOptions.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
         chromeOptions.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
