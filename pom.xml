@@ -3,7 +3,7 @@
 
     <groupId>com.github.furkandogan</groupId>
     <artifactId>web-automation-template</artifactId>
-    <version>6.1.2-SNAPSHOT</version>
+    <version>6.1.2</version>
     <packaging>jar</packaging>
 
     <name>Web Automation Template</name>
@@ -15,7 +15,7 @@
         <connection>scm:git:git@github.com:furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:git@github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-        <tag>web-automation-template</tag>
+        <tag>web-automation-template-6.1.2</tag>
     </scm>
 
     <developers>
@@ -224,6 +224,12 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
             <version>3.12.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
