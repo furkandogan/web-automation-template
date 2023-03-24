@@ -15,7 +15,7 @@
         <connection>scm:git:git@github.com:furkandogan/web-automation-template.git</connection>
         <developerConnection>scm:git:git@github.com:furkandogan/web-automation-template.git</developerConnection>
         <url>https://github.com/furkandogan/web-automation-template.git</url>
-        <tag>web-automation-template-6.1.2</tag>
+        <tag>web-automation-template-6.1.1</tag>
     </scm>
 
     <developers>
