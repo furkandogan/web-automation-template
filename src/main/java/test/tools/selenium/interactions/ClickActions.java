@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -15,14 +16,16 @@ public class ClickActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ExtentTest extentTest;
     public ActionsAPI actionsAPI;
     public SimpleActions simpleActions;
 
-    public ClickActions(WebDriver driver, WebDriverWait wait) {
+    public ClickActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
-        actionsAPI = new ActionsAPI(driver, wait);
-        simpleActions = new SimpleActions(driver,wait);
+        this.extentTest = extentTest;
+        actionsAPI = new ActionsAPI(driver, wait, extentTest);
+        simpleActions = new SimpleActions(driver, wait, extentTest);
     }
 
     /**
@@ -34,9 +37,11 @@ public class ClickActions {
         try {
             actionsAPI.scrollToVisibleElement(element);
             element.click();
+            extentTest.pass(String.format("Clicked to element: {}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -51,9 +56,11 @@ public class ClickActions {
         try {
             element = actionsAPI.scrollToVisibleElement(xpath);
             element.click();
+            extentTest.pass(String.format("Clicked to element: {}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -67,9 +74,11 @@ public class ClickActions {
         try {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+            extentTest.pass(String.format("Clicked to element: {}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -86,9 +95,11 @@ public class ClickActions {
             element = driver.findElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+            extentTest.pass(String.format("Clicked to element: {}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }

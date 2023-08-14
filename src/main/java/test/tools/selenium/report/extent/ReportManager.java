@@ -17,7 +17,6 @@ public class ReportManager {
 
     private  String reportBaseFolder = null;
     private  String reportImageFolder = null;
-    private  String reportCastFolder = null;
 
     public  String getReportBaseFolder() {
         return reportBaseFolder;
@@ -25,10 +24,6 @@ public class ReportManager {
 
     public  String getReportImageFolder() {
         return reportImageFolder;
-    }
-
-    public  String getReportCastFolder() {
-        return reportCastFolder;
     }
 
 
@@ -57,16 +52,6 @@ public class ReportManager {
             } else {
                 throw new Exception(String.format("report image folder [%s] could not created!!",instance.reportImageFolder));
             }
-
-            instance.reportCastFolder = String.format("%s%s%s",instance.reportBaseFolder,File.separator,"videos");
-            if(initReportFolders(instance.reportCastFolder)){
-
-            } else {
-                throw new Exception(String.format("report cast folder [%s] could not created!!",instance.reportCastFolder));
-            }
-
-            /*String reportTitle = ConfigurationInstance.getInstance().getConfigProperty("report.title");
-            instance.extentTest = instance.extentReports.startTest(reportTitle);*/
 
         }
 

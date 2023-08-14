@@ -1,20 +1,23 @@
 package test.tools.selenium.interactions;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
+import com.aventstack.extentreports.ExtentTest;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class WaitingActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ExtentTest extentTest;
     public FluentWait fluentWait;
     public ActionsAPI actionsAPI;
 
@@ -23,10 +26,11 @@ public class WaitingActions {
         this.driver = driver;
     }
 
-    public WaitingActions(WebDriver driver, WebDriverWait wait) {
+    public WaitingActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
-        actionsAPI = new ActionsAPI(driver, wait);
+        this.extentTest = extentTest;
+        actionsAPI = new ActionsAPI(driver, wait, extentTest);
     }
 
     public void fluentWaitUntil(Object object, final By locator) {

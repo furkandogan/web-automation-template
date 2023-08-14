@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -16,10 +17,12 @@ public class SimpleActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ExtentTest extentTest;
 
-    public SimpleActions(WebDriver driver, WebDriverWait wait) {
+    public SimpleActions(WebDriver driver, WebDriverWait wait,ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
+        this.extentTest = extentTest;
     }
 
     /**
@@ -65,7 +68,7 @@ public class SimpleActions {
         Set<String> allWindows = driver.getWindowHandles();
         for (String selectWindow : allWindows) {
             driver.switchTo().window(selectWindow);
-            IsActions presence = new IsActions(driver, wait);
+            IsActions presence = new IsActions(driver, wait,extentTest);
             if (presence.isElementDisplayed(element)) {
                 break;
             }

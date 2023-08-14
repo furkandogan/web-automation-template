@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -14,19 +15,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 public class ActionsAPI {
 
     final static Logger logger = LogManager.getLogger(ActionsAPI.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ExtentTest extentTest;
     public SimpleActions simpleActions;
 
-    public ActionsAPI(WebDriver driver, WebDriverWait wait) {
+    public ActionsAPI(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
+        this.extentTest = extentTest;
+        simpleActions = new SimpleActions(driver, wait, extentTest);
     }
 
     /**
@@ -46,10 +48,12 @@ public class ActionsAPI {
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
+            extentTest.pass(String.format("Found and scrolled to element: {} ", element));
             logger.info("Found and scrolled to element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
-            fail(e);
         }
     }
 
@@ -57,16 +61,20 @@ public class ActionsAPI {
      * @param xpath
      */
     public WebElement scrollToVisibleElement(By xpath) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
+            extentTest.pass(String.format("Scrolled to element: {} ", element));
             logger.info("Scrolled to element: {} ", element);
             return element;
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
             return null;
         }
@@ -88,8 +96,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled to deltaX: {} on element: {} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -99,16 +110,20 @@ public class ActionsAPI {
      * @param deltaX
      */
     public void scrollByGivenAmount(By xpath, int deltaX) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             int deltaY = element.getRect().y;
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled to deltaX: {} on element: {} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -133,8 +148,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -145,16 +163,20 @@ public class ActionsAPI {
      * @param deltaY
      */
     public void scrollFromAnElementByAGivenAmount(By xpath, int deltaX, int deltaY) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element);
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -183,8 +205,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -197,16 +222,20 @@ public class ActionsAPI {
      * @param deltaY
      */
     public void scrollFromAnElementWithAnOffset(By xpath, int xOffset, int yOffset, int deltaX, int deltaY) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element, xOffset, yOffset);
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -224,8 +253,10 @@ public class ActionsAPI {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            extentTest.pass(String.format("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {}", xOffset, yOffset, deltaX, deltaY));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {}", xOffset, yOffset, deltaX, deltaY);
         } catch (Exception e) {
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -243,8 +274,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .clickAndHold(element)
                     .perform();
+            extentTest.pass(String.format("Clicked and held to element: {} ", element));
             logger.info("Clicked and held to element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -253,15 +287,19 @@ public class ActionsAPI {
      * @param xpath
      */
     public void clickAndHold(By xpath) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .clickAndHold(element)
                     .perform();
+            extentTest.pass(String.format("Clicked and held to element: {} ", element));
             logger.info("Clicked and held to element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -279,8 +317,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .click(element)
                     .perform();
+            extentTest.pass(String.format("Clicked to element: {} ", element));
             logger.info("Clicked to element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -289,15 +330,19 @@ public class ActionsAPI {
      * @param xpath
      */
     public void clickAndRelease(By xpath) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .click(element)
                     .perform();
+            extentTest.pass(String.format("Clicked to element: {} ", element));
             logger.info("Clicked to element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -315,8 +360,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .contextClick(element)
                     .perform();
+            extentTest.pass(String.format("Clicked to right click on element: {} ", element));
             logger.info("Clicked to right click on element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -325,15 +373,19 @@ public class ActionsAPI {
      * @param xpath
      */
     public void contextClick(By xpath) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .contextClick(element)
                     .perform();
+            extentTest.pass(String.format("Clicked to right click on element: {} ", element));
             logger.info("Clicked to right click on element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -350,8 +402,10 @@ public class ActionsAPI {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            extentTest.pass("Clicked to back click");
             logger.info("Clicked to back click");
         } catch (Exception e) {
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -368,8 +422,10 @@ public class ActionsAPI {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            extentTest.pass("Clicked to forward click");
             logger.info("Clicked to forward click");
         } catch (Exception e) {
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -386,8 +442,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .doubleClick(element)
                     .perform();
+            extentTest.pass(String.format("Clicked to double click on element: {} ", element));
             logger.info("Clicked to double click on element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -396,15 +455,19 @@ public class ActionsAPI {
      * @param xpath
      */
     public void doubleClick(By xpath) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .doubleClick(element)
                     .perform();
+            extentTest.pass(String.format("Clicked to double click on element: {} ", element));
             logger.info("Clicked to double click on element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -423,8 +486,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
+            extentTest.pass(String.format("Moved on element: {} ", element));
             logger.info("Moved on element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -433,15 +499,19 @@ public class ActionsAPI {
      * @param xpath
      */
     public void moveToElement(By xpath) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
+            extentTest.pass(String.format("Moved on element: {} ", element));
             logger.info("Moved on element: {} ", element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -462,8 +532,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
+            extentTest.pass(String.format("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -472,15 +545,19 @@ public class ActionsAPI {
      * @param xpath
      */
     public void moveByOffsetFromElement(By xpath, int xOffset, int yOffset) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
+            extentTest.pass(String.format("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -499,8 +576,10 @@ public class ActionsAPI {
                     .addAction(mouse.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), xOffset, yOffset));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            extentTest.pass(String.format("Moved xOffset: {}, yOffset: {}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
         } catch (Exception e) {
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -521,8 +600,10 @@ public class ActionsAPI {
             new Actions(driver)
                     .moveByOffset(xOffset, yOffset)
                     .perform();
+            extentTest.pass(String.format("Moved xOffset: {}, yOffset: {}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
         } catch (Exception e) {
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -543,8 +624,12 @@ public class ActionsAPI {
             new Actions(driver)
                     .dragAndDrop(draggable, droppable)
                     .perform();
+            extentTest.pass(String.format("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
         } catch (Exception e) {
+            simpleActions.highlightElement(draggable);
+            simpleActions.highlightElement(droppable);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -567,8 +652,12 @@ public class ActionsAPI {
             new Actions(driver)
                     .dragAndDropBy(draggable, finish.getX() - start.getX(), finish.getY() - start.getY())
                     .perform();
+            extentTest.pass(String.format("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
         } catch (Exception e) {
+            simpleActions.highlightElement(draggable);
+            simpleActions.highlightElement(droppable);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -585,8 +674,10 @@ public class ActionsAPI {
             new Actions(driver)
                     .sendKeys(value)
                     .perform();
+            extentTest.pass(String.format("Sent value: {}", value));
             logger.info("Sent value: {}", value);
         } catch (Exception e) {
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -606,8 +697,11 @@ public class ActionsAPI {
             new Actions(driver)
                     .sendKeys(element, value)
                     .perform();
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -617,15 +711,19 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeys(By xpath, String value) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .sendKeys(element, value)
                     .perform();
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -648,8 +746,11 @@ public class ActionsAPI {
                     .pause(Duration.ofSeconds(1))
                     .sendKeys(value)
                     .perform();
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -659,10 +760,11 @@ public class ActionsAPI {
      * @param value
      */
     public void sendKeysWithPause(By xpath, String value) {
+        WebElement element = null;
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
-            WebElement element = driver.findElement(xpath);
+            element = driver.findElement(xpath);
             new Actions(driver)
                     .moveToElement(element)
                     .pause(Duration.ofSeconds(1))
@@ -670,8 +772,11 @@ public class ActionsAPI {
                     .pause(Duration.ofSeconds(1))
                     .sendKeys(value)
                     .perform();
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
+            simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -697,6 +802,8 @@ public class ActionsAPI {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
+        extentTest.pass(String.format("Copy value: {} and paste: {} ", value, element));
+        logger.info("Copy value: {} to element: {} ", value, element);
     }
 
     /**
@@ -719,6 +826,8 @@ public class ActionsAPI {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
+        extentTest.pass(String.format("Copy value: {} and paste: {} ", value, element));
+        logger.info("Copy value: {} to element: {} ", value, element);
     }
 
     /**
@@ -730,12 +839,16 @@ public class ActionsAPI {
         new Actions(driver)
                 .keyDown(Keys.SHIFT)
                 .perform();
+        extentTest.pass(String.format("Key Down"));
+        logger.info("Key Down");
     }
 
     public void keyUp() {
         new Actions(driver)
                 .keyUp(Keys.SHIFT)
                 .perform();
+        extentTest.pass(String.format("Key Up"));
+        logger.info("Key Up");
     }
 
 }

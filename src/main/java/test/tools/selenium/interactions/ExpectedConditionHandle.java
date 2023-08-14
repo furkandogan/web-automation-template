@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -14,10 +15,12 @@ public class ExpectedConditionHandle {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public static ExtentTest extentTest;
 
-    public ExpectedConditionHandle(WebDriver driver, WebDriverWait wait) {
+    public ExpectedConditionHandle(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
+        this.extentTest = extentTest;
     }
 
     public static ExpectedCondition<Boolean> absenceOfElementLocated(final By locator) {
@@ -32,6 +35,8 @@ public class ExpectedConditionHandle {
             }
 
             public String toString() {
+                extentTest.info("element to not being present: " + locator);
+                logger.info("element to not being present: " + locator);
                 return "element to not being present: " + locator;
             }
         };
@@ -47,6 +52,8 @@ public class ExpectedConditionHandle {
             }
 
             public String toString() {
+                extentTest.info(String.format("%s element size: %d is equals %d", locator, this.elemSize, size));
+                logger.info("{} element size: {} is equals {}", locator, this.elemSize, size);
                 return String.format("%s element size: %d is equals %d", locator, this.elemSize, size);
             }
         };

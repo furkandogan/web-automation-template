@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -7,13 +8,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashMap;
 
 public class StoreElementProperties {
-    
+
     public WebDriver driver;
     public WebDriverWait wait;
+    public ExtentTest extentTest;
 
-    public StoreElementProperties(WebDriver driver, WebDriverWait wait) {
+    public StoreElementProperties(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
+        this.extentTest = extentTest;
     }
 
     private HashMap<String, String> stringList = null;
@@ -35,7 +38,7 @@ public class StoreElementProperties {
      */
     public HashMap<String, String> storeElementData(WebElement element, boolean hidden) {
         HashMap<String, String> attrTextList = new HashMap<>();
-        GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
+        GetElementProperties getElementProperties = new GetElementProperties(driver, wait, extentTest);
         attrTextList.put(element.toString(), getElementProperties.getText(element, hidden));
         setStringList(attrTextList);
         return getStringList();
@@ -48,7 +51,7 @@ public class StoreElementProperties {
      */
     public HashMap<String, String> storeElementData(WebElement element, String attr, boolean hidden) {
         HashMap<String, String> attrTextList = new HashMap<>();
-        GetElementProperties getElementProperties = new GetElementProperties(driver, wait);
+        GetElementProperties getElementProperties = new GetElementProperties(driver, wait, extentTest);
         attrTextList.put(element.toString(), getElementProperties.getAttribute(element, attr, hidden));
         setStringList(attrTextList);
         return getStringList();

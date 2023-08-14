@@ -46,10 +46,10 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         String testCaseName = extensionContext.getDisplayName();
-        extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
         driver = createWebDriver(testCaseName);
         wait = getWait();
-        initElements = new InitElements(driver);
+        extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
+        initElements = new InitElements(driver,extTest);
         openStartPage();
         logger.info(testCaseName + " is started");
     }

@@ -6,13 +6,12 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v106.emulation.Emulation;
-import org.openqa.selenium.devtools.v106.performance.Performance;
-import org.openqa.selenium.devtools.v106.performance.model.Metric;
+import org.openqa.selenium.devtools.v115.emulation.Emulation;
+import org.openqa.selenium.devtools.v115.performance.Performance;
+import org.openqa.selenium.devtools.v115.performance.model.Metric;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -32,6 +31,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 
 public abstract class TestCaseFrame {
 
@@ -364,17 +364,21 @@ public abstract class TestCaseFrame {
         chromeOptions.addArguments("disable-translate");
         chromeOptions.addArguments("start-maximized");
         chromeOptions.addArguments("--remote-allow-origins=*");
+        if (Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS))) {
+            chromeOptions.addArguments("--headless=new");
+        }
         chromeOptions.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
         chromeOptions.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
         chromeOptions.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
-        chromeOptions.setHeadless(Boolean.parseBoolean(getConfigProperty(PropertyNames.CHROME_HEADLESS)));
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
-        chromeOptions.setLogLevel(ChromeDriverLogLevel.fromString(getConfigProperty("chrome.log.level")));
         /*Browser start maximize for mac os*/
         //options.addArguments("--kiosk");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("build", getConfigProperty("build"));
+        capabilities.setCapability("name", scenario);
+        chromeOptions.merge(capabilities);
 
         if (isRemote()) {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
             if (isMobileDevice()) {
                 capabilities.setCapability("platformName", getConfigProperty(PropertyNames.BROWSER_PLATFORM));
                 capabilities.setCapability("automationName", getConfigProperty(PropertyNames.BROWSER_AUTOMATION_NAME));
@@ -385,9 +389,9 @@ public abstract class TestCaseFrame {
                     capabilities.setCapability("bundledId", getConfigProperty(PropertyNames.BUNDLE_ID));
                 } else if (getConfigProperty(PropertyNames.BROWSER_PLATFORM).equalsIgnoreCase(String.valueOf(Platform.ANDROID))) {
                     //for android
-                    capabilities.setCapability("app", getConfigProperty(PropertyNames.UDID));
-                    capabilities.setCapability("appPackage", getConfigProperty(PropertyNames.BUNDLE_ID));
-                    capabilities.setCapability("appActivity", getConfigProperty(PropertyNames.BUNDLE_ID));
+                    capabilities.setCapability("app", getConfigProperty(PropertyNames.APP));
+                    capabilities.setCapability("appPackage", getConfigProperty(PropertyNames.APP_PACKAGE));
+                    capabilities.setCapability("appActivity", getConfigProperty(PropertyNames.APP_ACTIVITY));
                 }
 
                 setWebDriver(new RemoteWebDriver(new URL(getAppiumHubUrl()), capabilities));
@@ -397,6 +401,7 @@ public abstract class TestCaseFrame {
         } else {
             WebDriverManager.chromedriver().setup();
             ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
+            chromeDriver.setLogLevel(Level.parse(getConfigProperty("chrome.log.level")));
             setWebDriver(chromeDriver);
         }
 

@@ -9,4 +9,10 @@ public class DBManager {
 
         return DBConfigurationInstance.getInstance().getDbUtility();
     }
+
+    public static DbUtility getOracleDb(String dbDriver, String user, String password, String jdbcUrl) throws Exception {
+
+        return DBConfigurationInstance.getInstance(dbDriver, user, password, jdbcUrl).getDbUtility();
+    }
+
 }

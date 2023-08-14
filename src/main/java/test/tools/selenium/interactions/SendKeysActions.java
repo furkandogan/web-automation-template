@@ -1,5 +1,6 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -15,14 +16,16 @@ public class SendKeysActions {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public ExtentTest extentTest;
     public ActionsAPI actionsAPI;
     public SimpleActions simpleActions;
 
-    public SendKeysActions(WebDriver driver, WebDriverWait wait) {
+    public SendKeysActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
         this.driver = driver;
         this.wait = wait;
-        actionsAPI = new ActionsAPI(driver, wait);
-        simpleActions = new SimpleActions(driver,wait);
+        this.extentTest = extentTest;
+        actionsAPI = new ActionsAPI(driver, wait, extentTest);
+        simpleActions = new SimpleActions(driver, wait,extentTest);
     }
 
     /**
@@ -37,9 +40,11 @@ public class SendKeysActions {
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -57,9 +62,11 @@ public class SendKeysActions {
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -75,9 +82,11 @@ public class SendKeysActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }
@@ -96,9 +105,11 @@ public class SendKeysActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
+            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
+            extentTest.fail(e);
             logger.error(e);
         }
     }

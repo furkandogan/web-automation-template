@@ -81,6 +81,18 @@ public class DbUtility {
         }
     }
 
+    public DbUtility(String dbDriver, String user, String password, String jdbcUrl) {
+        try {
+            setDbDriver(dbDriver);
+            setUser(user);
+            setPassword(password);
+            setJdbcUrl(jdbcUrl);
+        } catch (Exception e) {
+            logger.error(e);
+            e.printStackTrace();
+        }
+    }
+
     public DataSource initConnectionPool() throws Exception {
         ds = new DataSource();
         ds.setDriverClassName(getDbDriver());

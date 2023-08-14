@@ -25,11 +25,11 @@ public class GalenTestLayout {
      * @return
      * @throws IOException
      */
-    public GalenTestInfo testLayout(String specFileName) throws IOException {
+    public GalenTestInfo testLayout(String specFileName, String device) throws IOException {
         LayoutReport layoutReport;
         String specPath = "/specs/" + specFileName + ".spec";
         layoutReport = Galen.checkLayout(driver, specPath,
-                asList("desktop"));
+                asList(device));
         GalenTestInfo galenTestInfo = GalenTestInfo
                 .fromString(specFileName + "Layout Test");
         galenTestInfo.getReport().layout(layoutReport,

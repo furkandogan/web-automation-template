@@ -1,5 +1,7 @@
 package test.tools.selenium.interactions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.HasAuthentication;
 import org.openqa.selenium.UsernameAndPassword;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +15,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
 public class BiDiAPI {
+
+    final static Logger logger = LogManager.getLogger(BiDiAPI.class);
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -31,8 +35,12 @@ public class BiDiAPI {
      * @param password
      */
     public void registerBasicAuth(String domain, String username, String password) {
-        Predicate<URI> uriPredicate = uri -> uri.getHost().contains(domain);
-        ((HasAuthentication) driver).register(uriPredicate, UsernameAndPassword.of(username, password));
+        try {
+            Predicate<URI> uriPredicate = uri -> uri.getHost().contains(domain);
+            ((HasAuthentication) driver).register(uriPredicate, UsernameAndPassword.of(username, password));
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     /**
@@ -44,24 +52,28 @@ public class BiDiAPI {
      * @param password
      */
     public void registerBasicAuthOnRemoteWebdriver(String webdriver, String username, String password) {
-        AtomicReference<DevTools> devToolsAtomicReference = new AtomicReference<>();
+        try {
+            AtomicReference<DevTools> devToolsAtomicReference = new AtomicReference<>();
 
-        driver = new Augmenter().addDriverAugmentation(webdriver,
-                HasAuthentication.class,
-                (caps, exec) -> (whenThisMatches, useTheseCredentials) -> {
-                    devToolsAtomicReference.get()
-                            .createSessionIfThereIsNotOne();
-                    devToolsAtomicReference.get().getDomains()
-                            .network()
-                            .addAuthHandler(whenThisMatches,
-                                    useTheseCredentials);
+            driver = new Augmenter().addDriverAugmentation(webdriver,
+                    HasAuthentication.class,
+                    (caps, exec) -> (whenThisMatches, useTheseCredentials) -> {
+                        devToolsAtomicReference.get()
+                                .createSessionIfThereIsNotOne();
+                        devToolsAtomicReference.get().getDomains()
+                                .network()
+                                .addAuthHandler(whenThisMatches,
+                                        useTheseCredentials);
 
-                }).augment(driver);
+                    }).augment(driver);
 
-        DevTools devTools = ((HasDevTools) driver).getDevTools();
-        devTools.createSession();
-        devToolsAtomicReference.set(devTools);
-        ((HasAuthentication) driver).register(UsernameAndPassword.of(username, password));
+            DevTools devTools = ((HasDevTools) driver).getDevTools();
+            devTools.createSession();
+            devToolsAtomicReference.set(devTools);
+            ((HasAuthentication) driver).register(UsernameAndPassword.of(username, password));
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
 }
