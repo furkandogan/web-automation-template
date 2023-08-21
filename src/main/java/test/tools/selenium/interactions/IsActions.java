@@ -126,7 +126,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = elementText.equalsIgnoreCase(text);
-            extentTest.pass(String.format("Is text: {} of element: {} equals expected text: {} ? - Result: {}", elementText, element, text, isEquals));
+            extentTest.pass(String.format("Is text: {%s} of element: {%s} equals expected text: {%s} ? - Result: {%s}", elementText, element, text, isEquals));
             logger.info("Is text: {} of element: {} equals expected text: {} ? - Result: {}", elementText, element, text, isEquals);
             return isEquals;
         }
@@ -145,7 +145,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = elementText.equalsIgnoreCase(text);
-            extentTest.pass(String.format("Is text: {} of element: {} equals expected text: {} ? - Result: {}", elementText, xpath, text, isEquals));
+            extentTest.pass(String.format("Is text: {%s} of element: {%s} equals expected text: {%s} ? - Result: {%s}", elementText, xpath, text, isEquals));
             logger.info("Is text: {} of element: {} equals expected text: {} ? - Result: {}", elementText, xpath, text, isEquals);
             return isEquals;
         }
@@ -186,7 +186,7 @@ public class IsActions {
             return false;
         } else {
             boolean isContains = elementText.contains(text);
-            extentTest.pass(String.format("Is text: {} of element: {} contains expected text: {} ? - Result: {}", elementText, element, text, isContains));
+            extentTest.pass(String.format("Is text: {%s} of element: {%s} contains expected text: {%s} ? - Result: {%s}", elementText, element, text, isContains));
             logger.info("Is text: {} of element: {} contains expected text: {} ? - Result: {}", elementText, element, text, isContains);
             return isContains;
         }
@@ -205,7 +205,7 @@ public class IsActions {
             return false;
         } else {
             boolean isContains = elementText.contains(text);
-            extentTest.pass(String.format("Is text: {} of element: {} contains expected text: {} ? - Result: {}", elementText, xpath, text, isContains));
+            extentTest.pass(String.format("Is text: {%s} of element: {%s} contains expected text: {%s} ? - Result: {%s}", elementText, xpath, text, isContains));
             logger.info("Is text: {} of element: {} contains expected text: {} ? - Result: {}", elementText, xpath, text, isContains);
             return isContains;
         }
@@ -247,7 +247,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = elementValue.equalsIgnoreCase(value);
-            extentTest.pass(String.format("Is value: {} of element: {} equals expected value: {} ? - Result: {}", elementValue, element, value, isEquals));
+            extentTest.pass(String.format("Is value: {%s} of element: {%s} equals expected value: {%s} ? - Result: {%s}", elementValue, element, value, isEquals));
             logger.info("Is value: {} of element: {} equals expected value: {} ? - Result: {}", elementValue, element, value, isEquals);
             return isEquals;
         }
@@ -266,7 +266,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = elementValue.equalsIgnoreCase(value);
-            extentTest.pass(String.format("Is value: {} of element: {} equals expected value: {} ? - Result: {}", elementValue, xpath, value, isEquals));
+            extentTest.pass(String.format("Is value: {%s} of element: {%s} equals expected value: {%s} ? - Result: {%s}", elementValue, xpath, value, isEquals));
             logger.info("Is value: {} of element: {} equals expected value: {} ? - Result: {}", elementValue, xpath, value, isEquals);
             return isEquals;
         }
@@ -310,7 +310,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = elementAttrValue.equalsIgnoreCase(value);
-            extentTest.pass(String.format("Is attribute value: {} of element: {} equals expected value: {} ? - Result: {}", elementAttrValue, element, value, isEquals));
+            extentTest.pass(String.format("Is attribute value: {%s} of element: {%s} equals expected value: {%s} ? - Result: {%s}", elementAttrValue, element, value, isEquals));
             logger.info("Is attribute value: {} of element: {} equals expected value: {} ? - Result: {}", elementAttrValue, element, value, isEquals);
             return isEquals;
         }
@@ -330,7 +330,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = elementAttrValue.equalsIgnoreCase(value);
-            extentTest.pass(String.format("Is attribute value: {} of element: {} equals expected value: {} ? - Result: {}", elementAttrValue, xpath, value, isEquals));
+            extentTest.pass(String.format("Is attribute value: {%s} of element: {%s} equals expected value: {%s} ? - Result: {%s}", elementAttrValue, xpath, value, isEquals));
             logger.info("Is attribute value: {} of element: {} equals expected value: {} ? - Result: {}", elementAttrValue, xpath, value, isEquals);
             return isEquals;
         }
@@ -374,7 +374,7 @@ public class IsActions {
             return false;
         } else {
             boolean isContains = elementAttrValue.contains(attrValue);
-            extentTest.pass(String.format("Is attribute value: {} of element: {} contains expected value: {} ? - Result: {}", elementAttrValue, element, attrValue, isContains));
+            extentTest.pass(String.format("Is attribute value: {%s} of element: {%s} contains expected value: {%s} ? - Result: {%s}", elementAttrValue, element, attrValue, isContains));
             logger.info("Is attribute value: {} of element: {} contains expected value: {} ? - Result: {}", elementAttrValue, element, attrValue, isContains);
             return isContains;
         }
@@ -394,7 +394,7 @@ public class IsActions {
             return false;
         } else {
             boolean isContains = elementAttrValue.contains(attrValue);
-            extentTest.pass(String.format("Is attribute value: {} of element: {} contains expected value: {} ? - Result: {}", elementAttrValue, xpath, attrValue, isContains));
+            extentTest.pass(String.format("Is attribute value: {%s} of element: {%s} contains expected value: {%s} ? - Result: {%s}", elementAttrValue, xpath, attrValue, isContains));
             logger.info("Is attribute value: {} of element: {} contains expected value: {} ? - Result: {}", elementAttrValue, xpath, attrValue, isContains);
             return isContains;
         }
@@ -439,7 +439,7 @@ public class IsActions {
         } else {
             int elementTextValue = Integer.parseInt(elementText);
             boolean rangeBetweenExpectedValue = low <= elementTextValue && elementTextValue <= high;
-            extentTest.pass(String.format("Is text value: {} of element: {} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementTextValue, element, low, high, rangeBetweenExpectedValue));
+            extentTest.pass(String.format("Is text value: {%s} of element: {%s} lower than expected value: {%s} and higher than expected value {%s} ? - Result: {%s}", elementTextValue, element, low, high, rangeBetweenExpectedValue));
             logger.info("Is text value: {} of element: {} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementTextValue, element, low, high, rangeBetweenExpectedValue);
             return rangeBetweenExpectedValue;
         }
@@ -460,7 +460,7 @@ public class IsActions {
         } else {
             int elementTextValue = Integer.parseInt(elementText);
             boolean rangeBetweenExpectedValue = low <= elementTextValue && elementTextValue <= high;
-            extentTest.pass(String.format("Is text value: {} of element: {} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementTextValue, xpath, low, high, rangeBetweenExpectedValue));
+            extentTest.pass(String.format("Is text value: {%s} of element: {%s} lower than expected value: {%s} and higher than expected value {%s} ? - Result: {%s}", elementTextValue, xpath, low, high, rangeBetweenExpectedValue));
             logger.info("Is text value: {} of element: {} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementTextValue, xpath, low, high, rangeBetweenExpectedValue);
             return rangeBetweenExpectedValue;
         }
@@ -508,7 +508,7 @@ public class IsActions {
         } else {
             int elementAttrValue = Integer.parseInt(elementAttrValueText);
             boolean rangeBetweenExpectedValue = low <= elementAttrValue && elementAttrValue <= high;
-            extentTest.pass(String.format("Is attribute value: {} of element: {} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementAttrValue, element, low, high, rangeBetweenExpectedValue));
+            extentTest.pass(String.format("Is attribute value: {%s} of element: {%s} lower than expected value: {%s} and higher than expected value {%s} ? - Result: {%s}", elementAttrValue, element, low, high, rangeBetweenExpectedValue));
             logger.info("Is attribute value: {} of element: {} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementAttrValue, element, low, high, rangeBetweenExpectedValue);
             return rangeBetweenExpectedValue;
         }
@@ -530,7 +530,7 @@ public class IsActions {
         } else {
             int elementAttrValue = Integer.parseInt(elementAttrValueText);
             boolean rangeBetweenExpectedValue = low <= elementAttrValue && elementAttrValue <= high;
-            extentTest.pass(String.format("Is attribute value: {} of element:{} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementAttrValue, xpath, low, high, rangeBetweenExpectedValue));
+            extentTest.pass(String.format("Is attribute value: {%s} of element:{%s} lower than expected value: {%s} and higher than expected value {%s} ? - Result: {%s}", elementAttrValue, xpath, low, high, rangeBetweenExpectedValue));
             logger.info("Is attribute value: {} of element:{} lower than expected value: {} and higher than expected value {} ? - Result: {}", elementAttrValue, xpath, low, high, rangeBetweenExpectedValue);
             return rangeBetweenExpectedValue;
         }
@@ -548,7 +548,7 @@ public class IsActions {
             return false;
         } else {
             boolean isContains = pageSource.contains(text);
-            extentTest.pass(String.format("Is page source: {} contains expected text: {} ? - Result: {}", pageSource, text, isContains));
+            extentTest.pass(String.format("Is page source: {%s} contains expected text: {%s} ? - Result: {%s}", pageSource, text, isContains));
             logger.info("Is page source: {} contains expected text: {} ? - Result: {}", pageSource, text, isContains);
             return isContains;
         }
@@ -589,7 +589,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = placeholder.equals(value);
-            extentTest.pass(String.format("Is placeholder: {} of element: {} equals expected text: {} ? - Result: {}", placeholder, element, value, isEquals));
+            extentTest.pass(String.format("Is placeholder: {%s} of element: {%s} equals expected text: {%s} ? - Result: {%s}", placeholder, element, value, isEquals));
             logger.info("Is placeholder: {} of element: {} equals expected text: {} ? - Result: {}", placeholder, element, value, isEquals);
             return isEquals;
         }
@@ -608,7 +608,7 @@ public class IsActions {
             return false;
         } else {
             boolean isEquals = placeholder.equals(value);
-            extentTest.pass(String.format("Is placeholder: {} of element: {} equals expected text: {} ? - Result: {}", placeholder, xpath, value, isEquals));
+            extentTest.pass(String.format("Is placeholder: {%s} of element: {%s} equals expected text: {%s} ? - Result: {%s}", placeholder, xpath, value, isEquals));
             logger.info("Is placeholder: {} of element: {} equals expected text: {} ? - Result: {}", placeholder, xpath, value, isEquals);
             return isEquals;
         }
@@ -626,7 +626,7 @@ public class IsActions {
             HttpURLConnection con = (HttpURLConnection) new URL(URLName).openConnection();
             con.setRequestMethod("HEAD");
             boolean isConnOk = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-            extentTest.pass(String.format("Connection is: {}", isConnOk));
+            extentTest.pass(String.format("Connection is: {%s}", isConnOk));
             logger.info("Connection is: {}", isConnOk);
             return isConnOk;
         } catch (Exception e) {

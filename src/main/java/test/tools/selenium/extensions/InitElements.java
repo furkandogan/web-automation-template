@@ -26,21 +26,18 @@ public class InitElements {
 
     public InitElements(WebDriver driver, ExtentTest extentTest) {
         this.driver = driver;
-        this.js = (JavascriptExecutor) driver;
+        this.extentTest = extentTest;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        this.js = (JavascriptExecutor) driver;
         this.waitingActions = new WaitingActions(driver, wait,extentTest);
+        this.actionsAPI = new ActionsAPI(driver, wait,extentTest);
         this.clickActions = new ClickActions(driver, wait,extentTest);
         this.sendKeysActions = new SendKeysActions(driver, wait,extentTest);
         this.selectActions = new SelectActions(driver, wait,extentTest);
-        this.actionsAPI = new ActionsAPI(driver, wait,extentTest);
         this.getElementProperties = new GetElementProperties(driver, wait,extentTest);
         this.is = new IsActions(driver, wait,extentTest);
         this.simpleActions = new SimpleActions(driver,wait,extentTest);
-        this.extentTest = extentTest;
-    }
-
-    public <TPage> TPage getPage(Class<TPage> pageClass) {
-        return PageFactory.initElements(driver, pageClass);
+        PageFactory.initElements(driver, this);
     }
 
 }

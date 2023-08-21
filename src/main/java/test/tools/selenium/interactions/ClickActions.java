@@ -37,7 +37,7 @@ public class ClickActions {
         try {
             actionsAPI.scrollToVisibleElement(element);
             element.click();
-            extentTest.pass(String.format("Clicked to element: {}", element));
+            extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -74,7 +74,7 @@ public class ClickActions {
         try {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
-            extentTest.pass(String.format("Clicked to element: {}", element));
+            extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -95,7 +95,7 @@ public class ClickActions {
             element = driver.findElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
-            extentTest.pass(String.format("Clicked to element: {}", element));
+            extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);

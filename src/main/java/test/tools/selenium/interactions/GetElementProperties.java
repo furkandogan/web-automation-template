@@ -42,7 +42,7 @@ public class GetElementProperties {
             actionsAPI.scrollToVisibleElement(element);
         }
         String elementAttr = element.getAttribute(attr).trim().toLowerCase();
-        extentTest.pass(String.format("Attribute value: {} of element: {}", elementAttr, element));
+        extentTest.pass(String.format("Attribute value: {%s} of element: {%s}", elementAttr, element));
         logger.info("Attribute value: {} of element: {}", elementAttr, element);
         return elementAttr;
     }
@@ -63,7 +63,7 @@ public class GetElementProperties {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
         String elementAttr = element.getAttribute(attr).trim().toLowerCase();
-        extentTest.pass(String.format("Attribute value: {} of element: {}", elementAttr, element));
+        extentTest.pass(String.format("Attribute value: {%s} of element: {%s}", elementAttr, element));
         logger.info("Attribute value: {} of element: {}", elementAttr, element);
         return elementAttr;
     }
@@ -143,7 +143,7 @@ public class GetElementProperties {
             actionsAPI.scrollToVisibleElement(element);
         }
         String elementText = element.getText().trim().toLowerCase();
-        extentTest.pass(String.format("Text: {} of element: {}", elementText, element));
+        extentTest.pass(String.format("Text: {%s} of element: {%s}", elementText, element));
         logger.info("Text: {} of element: {}", elementText, element);
         return elementText;
     }
@@ -164,7 +164,7 @@ public class GetElementProperties {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
         String elementText = element.getText().trim().toLowerCase();
-        extentTest.pass(String.format("Text: {} of element: {}", elementText, element));
+        extentTest.pass(String.format("Text: {%s} of element: {%s}", elementText, element));
         logger.info("Text: {} of element: {}", elementText, element);
         return elementText;
     }
@@ -203,7 +203,7 @@ public class GetElementProperties {
             actionsAPI.scrollToVisibleElement(element);
         }
         String elementTagName = element.getTagName().trim().toLowerCase();
-        extentTest.pass(String.format("Tag name: {} of element: {}", elementTagName, element));
+        extentTest.pass(String.format("Tag name: {%s} of element: {%s}", elementTagName, element));
         logger.info("Tag name: {} of element: {}", elementTagName, element);
         return elementTagName;
     }
@@ -224,7 +224,7 @@ public class GetElementProperties {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
         String elementTagName = element.getTagName().trim().toLowerCase();
-        extentTest.pass(String.format("Tag name: {} of element: {}", elementTagName, element));
+        extentTest.pass(String.format("Tag name: {%s} of element: {%s}", elementTagName, element));
         logger.info("Tag name: {} of element: {}", elementTagName, element);
         return elementTagName;
     }
@@ -263,7 +263,7 @@ public class GetElementProperties {
             actionsAPI.scrollToVisibleElement(element);
         }
         String elementCssValue = element.getCssValue(value).trim().toLowerCase();
-        extentTest.pass(String.format("Css value: {} of element: {}", elementCssValue, element));
+        extentTest.pass(String.format("Css value: {%s} of element: {%s}", elementCssValue, element));
         logger.info("Css value: {} of element: {}", elementCssValue, element);
         return elementCssValue;
     }
@@ -284,7 +284,7 @@ public class GetElementProperties {
             element = actionsAPI.scrollToVisibleElement(xpath);
         }
         String elementCssValue = element.getCssValue(value).trim().toLowerCase();
-        extentTest.pass(String.format("Css value: {} of element: {}", elementCssValue, element));
+        extentTest.pass(String.format("Css value: {%s} of element: {%s}", elementCssValue, element));
         logger.info("Css value: {} of element: {}", elementCssValue, element);
         return elementCssValue;
     }
@@ -312,7 +312,7 @@ public class GetElementProperties {
             wait.until(ExpectedConditions.visibilityOfAllElements(elements));
         }
         Integer elementsSize = elements.size();
-        extentTest.pass(String.format("Size: {} of elements: {}", elementsSize, elements));
+        extentTest.pass(String.format("Size: {%s} of elements: {%s}", elementsSize, elements));
         logger.info("Size: {} of elements: {}", elementsSize, elements);
         return elementsSize;
     }
@@ -331,7 +331,7 @@ public class GetElementProperties {
             wait.until(ExpectedConditions.visibilityOfAllElements(elements));
         }
         Integer elementsSize = elements.size();
-        extentTest.pass(String.format("Size: {} of elements: {}", elementsSize, elements));
+        extentTest.pass(String.format("Size: {%s} of elements: {%s}", elementsSize, elements));
         logger.info("Size: {} of elements: {}", elementsSize, elements);
         return elementsSize;
     }
@@ -342,7 +342,7 @@ public class GetElementProperties {
      * @return
      */
     public String getCurrentUrl() {
-        extentTest.pass(String.format("Current url: {}", driver.getCurrentUrl().trim()));
+        extentTest.pass(String.format("Current url: {%s}", driver.getCurrentUrl().trim()));
         logger.info("Current url: {}", driver.getCurrentUrl().trim());
         return driver.getCurrentUrl().trim();
     }
@@ -353,7 +353,7 @@ public class GetElementProperties {
      * @return
      */
     public String getPageSource() {
-        extentTest.pass(String.format("Page source: {}", driver.getPageSource()));
+        extentTest.pass(String.format("Page source: {%s}", driver.getPageSource()));
         logger.info("Page source: {}", driver.getPageSource());
         return driver.getPageSource();
     }
@@ -364,7 +364,7 @@ public class GetElementProperties {
      * @return
      */
     public String getTitle() {
-        extentTest.pass(String.format("Title: {}", driver.getTitle()));
+        extentTest.pass(String.format("Title: {%s}", driver.getTitle()));
         logger.info("Title: {}", driver.getTitle());
         return driver.getTitle();
     }
@@ -376,7 +376,7 @@ public class GetElementProperties {
      * @return
      */
     public Integer getLenght(String value) {
-        extentTest.pass(String.format("Value length: {}", value.length()));
+        extentTest.pass(String.format("Value length: {%s}", value.length()));
         logger.info("Value length: {}", value.length());
         return value.length();
     }

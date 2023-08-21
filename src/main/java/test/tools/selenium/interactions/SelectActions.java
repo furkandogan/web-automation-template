@@ -65,7 +65,7 @@ public class SelectActions {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).selectByValue(value);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-            extentTest.pass(String.format("Selected value: {} from element: {} ", value, element));
+            extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -84,7 +84,7 @@ public class SelectActions {
             element = actionsAPI.scrollToVisibleElement(xpath);
             new Select(element).selectByValue(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-            extentTest.pass(String.format("Selected value: {} from element: {} ", value, element));
+            extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -102,7 +102,7 @@ public class SelectActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-            extentTest.pass(String.format("Selected value: {} from element: {} ", value, element));
+            extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -124,7 +124,7 @@ public class SelectActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-            extentTest.pass(String.format("Selected value: {} from element: {} ", value, element));
+            extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -142,7 +142,7 @@ public class SelectActions {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).selectByVisibleText(text);
             wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
-            extentTest.pass(String.format("Selected text: {} from element: {} ", text, element));
+            extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", text, element));
             logger.info("Selected text: {} from element: {} ", text, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -161,7 +161,7 @@ public class SelectActions {
             element = actionsAPI.scrollToVisibleElement(xpath);
             new Select(element).selectByVisibleText(text);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
-            extentTest.pass(String.format("Selected text: {} from element: {} ", text, element));
+            extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", text, element));
             logger.info("Selected text: {} from element: {} ", text, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -179,7 +179,7 @@ public class SelectActions {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).selectByIndex(index);
             wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
-            extentTest.pass(String.format("Selected index: {} from element: {} ", index, element));
+            extentTest.pass(String.format("Selected index: {%s} from element: {%s} ", index, element));
             logger.info("Selected index: {} from element: {} ", index, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -198,7 +198,7 @@ public class SelectActions {
             element = actionsAPI.scrollToVisibleElement(xpath);
             new Select(element).selectByIndex(index);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
-            extentTest.pass(String.format("Selected index: {} from element: {} ", index, element));
+            extentTest.pass(String.format("Selected index: {%s} from element: {%s} ", index, element));
             logger.info("Selected index: {} from element: {} ", index, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -220,7 +220,7 @@ public class SelectActions {
                     option.click();
                     break;
                 }
-                extentTest.pass(String.format("Selected text: {} from element: {} ", optionText, element));
+                extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", optionText, element));
                 logger.info("Selected text: {} from element: {} ", optionText, element);
             } catch (Exception e) {
                 simpleActions.highlightElement(element);
@@ -244,7 +244,7 @@ public class SelectActions {
                     option.click();
                     break;
                 }
-                extentTest.pass(String.format("Selected text: {} from element: {} ", optionText, element));
+                extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", optionText, element));
                 logger.info("Selected text: {} from element: {} ", optionText, element);
             } catch (Exception e) {
                 simpleActions.highlightElement(element);
@@ -262,7 +262,7 @@ public class SelectActions {
         try {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).deselectByValue(value);
-            extentTest.pass(String.format("Deselected value: {} from element: {} ", value, element));
+            extentTest.pass(String.format("Deselected value: {%s} from element: {%s} ", value, element));
             logger.info("Deselected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -279,7 +279,7 @@ public class SelectActions {
         try {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).deselectByVisibleText(text);
-            extentTest.pass(String.format("Deselected text: {} from element: {} ", text, element));
+            extentTest.pass(String.format("Deselected text: {%s} from element: {%s} ", text, element));
             logger.info("Deselected text: {} from element: {} ", text, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -296,7 +296,7 @@ public class SelectActions {
         try {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).deselectByIndex(index);
-            extentTest.pass(String.format("Deselected index: {} from element: {} ", index, element));
+            extentTest.pass(String.format("Deselected index: {%s} from element: {%s} ", index, element));
             logger.info("Deselected index: {} from element: {} ", index, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -312,7 +312,7 @@ public class SelectActions {
         try {
             actionsAPI.scrollToVisibleElement(element);
             new Select(element).deselectAll();
-            extentTest.pass(String.format("Deselected all options from element: {} ", element));
+            extentTest.pass(String.format("Deselected all options from element: {%s} ", element));
             logger.info("Deselected all options from element: {} ", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -331,7 +331,7 @@ public class SelectActions {
             String lon = getFirstSelectedOptionFromElement(element).getAttribute("lon");
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', arguments[1]);", element,
                     lat + "," + lon);
-            extentTest.pass(String.format("Selected coordinates lat: {} - lon: {} from element: {} ", lat, lon, element));
+            extentTest.pass(String.format("Selected coordinates lat: {%s} - lon: {%s} from element: {%s} ", lat, lon, element));
             logger.info("Selected coordinates lat: {} - lon: {} from element: {} ", lat, lon, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);

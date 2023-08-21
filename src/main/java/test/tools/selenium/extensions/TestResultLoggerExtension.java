@@ -50,7 +50,7 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         String testCaseName = extensionContext.getDisplayName();
         if (isEnableRecording()) {
-            webDriverManager.startRecording();
+            webDriverManager.enableRecording().dockerRecordingOutput(getConfigProperty("report.folder")+"/videos");
         }
         driver = createWebDriver(testCaseName);
         wait = getWait();

@@ -40,7 +40,7 @@ public class SendKeysActions {
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
+            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -62,7 +62,7 @@ public class SendKeysActions {
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
+            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -82,7 +82,7 @@ public class SendKeysActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
+            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
@@ -105,7 +105,7 @@ public class SendKeysActions {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-            extentTest.pass(String.format("Sent value: {} to element: {} ", value, element));
+            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);

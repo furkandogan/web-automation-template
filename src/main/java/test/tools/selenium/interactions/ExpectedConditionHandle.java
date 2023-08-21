@@ -52,7 +52,7 @@ public class ExpectedConditionHandle {
             }
 
             public String toString() {
-                extentTest.info(String.format("%s element size: %d is equals %d", locator, this.elemSize, size));
+                extentTest.info(String.format("{%s} element size: {%d} is equals {%d}", locator, this.elemSize, size));
                 logger.info("{} element size: {} is equals {}", locator, this.elemSize, size);
                 return String.format("%s element size: %d is equals %d", locator, this.elemSize, size);
             }
