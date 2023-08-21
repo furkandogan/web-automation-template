@@ -78,7 +78,6 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
 
     @Override
     public void afterEach(ExtensionContext extensionContext) throws Exception {
-        cleanUpWebDriver(driver);
         if (isEnableRecording()) {
             webDriverManager.stopRecording();
         }
@@ -101,6 +100,7 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         String testCaseName = context.getDisplayName();
         logger.info("{} is successful", testCaseName);
         extTest.pass(testCaseName + " scenario is successful", MediaEntityBuilder.createScreenCaptureFromPath(createScreenCapture(testCaseName)).build());
+        cleanUpWebDriver(driver);
         testResultsStatus.add(TestResultStatus.SUCCESSFUL);
     }
 
@@ -117,6 +117,7 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         String testCaseName = context.getDisplayName();
         logger.info("{} is failed", testCaseName);
         extTest.fail(testCaseName + " scenario is not successful", MediaEntityBuilder.createScreenCaptureFromPath(createScreenCapture(testCaseName)).build());
+        cleanUpWebDriver(driver);
         testResultsStatus.add(TestResultStatus.FAILED);
     }
 }
