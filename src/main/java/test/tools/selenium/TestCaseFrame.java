@@ -102,6 +102,7 @@ public abstract class TestCaseFrame {
     public boolean isEnableRecording() {
         return enableRecording;
     }
+
     public WebDriverWait getWait() {
         return wait;
     }
@@ -189,8 +190,11 @@ public abstract class TestCaseFrame {
 
     public WebDriverManager createWebDriverManager() throws Exception {
         createBrowserFromConfiguration();
-        if (isRemote())
+        if (isRemote()) {
             setWebDriverManager(createWebDriverManager(getBrowser()).browserInDocker().enableVnc());
+        } else {
+            setWebDriverManager(createWebDriverManager(getBrowser()));
+        }
         return getWebDriverManager();
     }
 
@@ -353,11 +357,11 @@ public abstract class TestCaseFrame {
     }
 
     private WebDriver createOperaDriver(String scenario) throws Exception {
-        return createChromiumDriver(scenario,getBrowser().getName());
+        return createChromiumDriver(scenario, getBrowser().getName());
     }
 
     private WebDriver createChromiumDriver(String scenario, String browserName) throws Exception {
-        ChromiumOptions chromiumOptions=new ChromiumOptions("name",browserName,scenario);
+        ChromiumOptions chromiumOptions = new ChromiumOptions("name", browserName, scenario);
         chromiumOptions.addArguments("test-type");
         chromiumOptions.addArguments("disable-popup-blocking");
         chromiumOptions.addArguments("ignore-certificate-errors");
@@ -379,7 +383,7 @@ public abstract class TestCaseFrame {
     }
 
     private WebDriver createSafariDriver(String scenario) throws Exception {
-        SafariOptions safariOptions=new SafariOptions();
+        SafariOptions safariOptions = new SafariOptions();
         safariOptions.is("test-type");
         safariOptions.is("disable-popup-blocking");
         safariOptions.is("ignore-certificate-errors");
@@ -585,7 +589,7 @@ public abstract class TestCaseFrame {
         } else if ("edge".equalsIgnoreCase(browser.getName())) {
             createEdgeDriver(scenario);
         } else if ("chromium".equalsIgnoreCase(browser.getName())) {
-            createChromiumDriver(scenario,browser.getName());
+            createChromiumDriver(scenario, browser.getName());
         } else if ("safari".equalsIgnoreCase(browser.getName())) {
             createSafariDriver(scenario);
         } else if ("ie".equalsIgnoreCase(browser.getName())) {
