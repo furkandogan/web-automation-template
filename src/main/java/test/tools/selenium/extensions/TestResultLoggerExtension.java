@@ -52,7 +52,7 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         if (isEnableRecording()) {
             webDriverManager.startRecording();
         }
-        driver = webDriverManager.create();
+        driver = createWebDriver(testCaseName);
         wait = getWait();
         extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
         initElements = new InitElements(driver, extTest);
