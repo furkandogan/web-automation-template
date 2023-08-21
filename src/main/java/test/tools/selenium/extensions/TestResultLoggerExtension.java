@@ -4,6 +4,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,7 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
     final static Logger logger = LogManager.getLogger(TestResultLoggerExtension.class);
 
     public static DbUtility oracleDb = null;
+    public WebDriverManager webDriverManager = null;
     public WebDriver driver = null;
     public WebDriverWait wait = null;
     public ExtentTest extTest = null;
@@ -40,16 +42,20 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             galenTestInfos = new LinkedList<GalenTestInfo>();
         }
+        webDriverManager = createWebDriverManager();
         logger.info("Environment is started for {}", extensionContext.getDisplayName());
     }
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         String testCaseName = extensionContext.getDisplayName();
-        driver = createWebDriver(testCaseName);
+        if (isEnableRecording()) {
+            webDriverManager.startRecording();
+        }
+        driver = webDriverManager.create();
         wait = getWait();
         extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
-        initElements = new InitElements(driver,extTest);
+        initElements = new InitElements(driver, extTest);
         openStartPage();
         logger.info(testCaseName + " is started");
     }
@@ -72,7 +78,10 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
 
     @Override
     public void afterEach(ExtensionContext extensionContext) throws Exception {
-
+        cleanUpWebDriver(driver);
+        if (isEnableRecording()) {
+            webDriverManager.stopRecording();
+        }
     }
 
     private enum TestResultStatus {
@@ -92,7 +101,6 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         String testCaseName = context.getDisplayName();
         logger.info("{} is successful", testCaseName);
         extTest.pass(testCaseName + " scenario is successful", MediaEntityBuilder.createScreenCaptureFromPath(createScreenCapture(testCaseName)).build());
-        cleanUpWebDriver(driver);
         testResultsStatus.add(TestResultStatus.SUCCESSFUL);
     }
 
@@ -109,7 +117,6 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         String testCaseName = context.getDisplayName();
         logger.info("{} is failed", testCaseName);
         extTest.fail(testCaseName + " scenario is not successful", MediaEntityBuilder.createScreenCaptureFromPath(createScreenCapture(testCaseName)).build());
-        cleanUpWebDriver(driver);
         testResultsStatus.add(TestResultStatus.FAILED);
     }
 }
