@@ -103,26 +103,6 @@ public class DbUtility {
         ds.setMinIdle(1);
         ds.setMaxActive(100);
         ds.setMaxIdle(10);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    if (ds.getNumActive() > 0) {
-                        logger.info(String.format("[CONNECTION POOL] [{%s}], Max: {%d}, Busy: {%d}, Idle: {%d}",
-                                username,
-                                ds.getMaxActive(),
-                                ds.getNumActive(),
-                                ds.getNumIdle())
-                        );
-                    }
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-            }
-        }, 1000, 1000);
-
         return ds;
     }
 
