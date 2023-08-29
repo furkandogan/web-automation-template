@@ -54,7 +54,7 @@
         <tomcat-jdbc.version>8.5.15</tomcat-jdbc.version>
         <mongodb.version>3.12.11</mongodb.version>
         <projectlombok.version>1.18.24</projectlombok.version>
-        <jackson-core.version>2.13.4</jackson-core.version>
+        <jackson-core.version>2.13.4.2</jackson-core.version>
         <slf4j-simple.version>1.7.30</slf4j-simple.version>
     </properties>
 
