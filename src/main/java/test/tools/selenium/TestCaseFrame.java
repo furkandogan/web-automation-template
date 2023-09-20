@@ -2,13 +2,12 @@ package test.tools.selenium;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.PageLoadStrategy;
+import io.github.bonigarcia.wdm.config.DriverManagerType;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -130,39 +129,50 @@ public abstract class TestCaseFrame {
         return ConfigurationInstance.getInstance().getConfigProperty(key);
     }
 
+    public WebDriverManager createWebDriverManager(DriverManagerType driverManagerType) {
+        return this.createWebDriverManager(driverManagerType,null);
+    }
+
+    public WebDriverManager createWebDriverManager(DriverManagerType driverManagerType, Capabilities capabilities) {
+        WebDriverManager wdm;
+        if (isBrowserInDocker()) {
+            wdm = WebDriverManager.getInstance(driverManagerType).capabilities(capabilities).browserInDocker();
+            wdm.config().setProperties("config/wdm-docker.properties");
+        } else {
+            wdm = WebDriverManager.getInstance(driverManagerType).capabilities(capabilities);
+        }
+        if (isCustomWdmProperties()) {
+            wdm.config().setProperties("config/custom-wdm.properties");
+        }
+        return wdm;
+    }
+
 
     public WebDriverManager createWebDriverManager() throws Exception {
         switch (getConfigProperty(PropertyNames.BROWSER_TYPE)) {
             case "chrome":
-                webDriverManager = WebDriverManager.chromedriver().capabilities(createChromeOptions());
+                setWebDriverManager(createWebDriverManager(DriverManagerType.CHROME, createChromeOptions()));
                 break;
             case "firefox":
-                webDriverManager = WebDriverManager.firefoxdriver().capabilities(createFirefoxOptions());
+                setWebDriverManager(createWebDriverManager(DriverManagerType.FIREFOX, createFirefoxOptions()));
                 break;
             case "edge":
-                webDriverManager = WebDriverManager.edgedriver().capabilities(createEdgeOptions());
+                setWebDriverManager(createWebDriverManager(DriverManagerType.EDGE, createFirefoxOptions()));
                 break;
             case "opera":
-                webDriverManager = WebDriverManager.operadriver();
+                setWebDriverManager(createWebDriverManager(DriverManagerType.OPERA));
                 break;
             case "chromium":
-                webDriverManager = WebDriverManager.chromiumdriver();
+                setWebDriverManager(createWebDriverManager(DriverManagerType.CHROMIUM));
                 break;
             case "safari":
-                webDriverManager = WebDriverManager.safaridriver();
+                setWebDriverManager(createWebDriverManager(DriverManagerType.SAFARI));
                 break;
             case "ie":
-                webDriverManager = WebDriverManager.iedriver();
+                setWebDriverManager(createWebDriverManager(DriverManagerType.IEXPLORER));
                 break;
         }
-        if(isCustomWdmProperties()){
-            webDriverManager.config().setProperties("config/custom-wdm.properties");
-        }
-        if (isBrowserInDocker()) {
-            webDriverManager.browserInDocker();
-            webDriverManager.config().setProperties("config/wdm-docker.properties");
-        }
-        return webDriverManager;
+        return getWebDriverManager();
     }
 
     private ChromeOptions createChromeOptions() throws Exception {
@@ -225,7 +235,8 @@ public abstract class TestCaseFrame {
         return this.createWebDriver(numberOfBrowser, pageUrl, 0);
     }
 
-    public WebDriver createWebDriver(int numberOfBrowser, String pageUrl, long timeOutInSeconds) throws Exception, IOException {
+    public WebDriver createWebDriver(int numberOfBrowser, String pageUrl, long timeOutInSeconds) throws
+            Exception, IOException {
 
         System.out.println(String.format("URL :*%s*", new Object[]{pageUrl}));
 
@@ -235,7 +246,7 @@ public abstract class TestCaseFrame {
         setStartPage(pageUrl);
 
         //create web driver
-        setWebDriver(webDriverManager.create());
+        setWebDriver(getWebDriverManager().create());
 
         //set file detector
         if (isBrowserInDocker())
@@ -264,7 +275,8 @@ public abstract class TestCaseFrame {
         ((RemoteWebDriver) getWebDriver()).setFileDetector(new LocalFileDetector());
     }
 
-    public WebDriver createChromeAndroidDriver(String browserVersion, String deviceName) throws MalformedURLException {
+    public WebDriver createChromeAndroidDriver(String browserVersion, String deviceName) throws
+            MalformedURLException {
         // Resolve driver and get its path
         WebDriverManager wdm = WebDriverManager.chromedriver()
                 .browserVersion(browserVersion);
