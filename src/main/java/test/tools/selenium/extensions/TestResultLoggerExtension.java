@@ -42,17 +42,14 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             galenTestInfos = new LinkedList<GalenTestInfo>();
         }
-        webDriverManager = createWebDriverManager();
+        createWebDriverManager();
         logger.info("Environment is started for {}", extensionContext.getDisplayName());
     }
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         String testCaseName = extensionContext.getDisplayName();
-        if (isEnableRecording()) {
-            webDriverManager.enableRecording().dockerRecordingOutput(getConfigProperty("report.folder")+"/videos");
-        }
-        driver = createWebDriver(testCaseName);
+        driver = createWebDriver();
         wait = getWait();
         extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
         initElements = new InitElements(driver, extTest);
@@ -68,19 +65,16 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         }
         oracleDb.closeConnectionPool();
         cleanUp(getExtentReports());
-        String testCaseName = extensionContext.getDisplayName();
-        logger.info("Environment is closed for {}", testCaseName);
+        String tag = extensionContext.getTags().iterator().next();
+        logger.info("Environment is closed for {}", tag + "cases");
         Map<TestResultStatus, Long> summary = testResultsStatus.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        logger.info("Test Result Summary for {} {}", testCaseName, summary.toString());
+        logger.info("Test Result Summary for {} {}", tag + "cases", summary.toString());
     }
 
     @Override
     public void afterEach(ExtensionContext extensionContext) throws Exception {
-        if (isEnableRecording()) {
-            webDriverManager.stopRecording();
-        }
     }
 
     private enum TestResultStatus {

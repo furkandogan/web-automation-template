@@ -56,7 +56,7 @@ public class ClickActions {
         try {
             element = actionsAPI.scrollToVisibleElement(xpath);
             element.click();
-            extentTest.pass(String.format("Clicked to element: {}", element));
+            extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
             simpleActions.highlightElement(element);
