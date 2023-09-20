@@ -92,7 +92,7 @@ public abstract class TestCaseFrame {
     }
 
     public void setBrowserInDocker(boolean browserInDocker) {
-        browserInDocker = browserInDocker;
+        this.browserInDocker = browserInDocker;
     }
 
     public Duration getImplicitlyWaitTimeOut() {
