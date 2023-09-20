@@ -4,7 +4,10 @@ import io.appium.java_client.android.AndroidDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.chromium.ChromiumOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -136,17 +139,17 @@ public abstract class TestCaseFrame {
             case "firefox":
                 webDriverManager = WebDriverManager.firefoxdriver().capabilities(createFirefoxOptions());
                 break;
-            case "opera":
-                webDriverManager = WebDriverManager.operadriver().capabilities(createOperaOptions());
-                break;
             case "edge":
                 webDriverManager = WebDriverManager.edgedriver().capabilities(createEdgeOptions());
+                break;
+            case "opera":
+                webDriverManager = WebDriverManager.operadriver();
                 break;
             case "chromium":
                 webDriverManager = WebDriverManager.chromiumdriver();
                 break;
             case "safari":
-                webDriverManager = WebDriverManager.safaridriver().capabilities(createSafariOptions());
+                webDriverManager = WebDriverManager.safaridriver();
                 break;
             case "ie":
                 webDriverManager = WebDriverManager.iedriver();
@@ -162,41 +165,28 @@ public abstract class TestCaseFrame {
         return webDriverManager;
     }
 
-    private ChromiumOptions createChromiumOptions(String browserName, String browserCapabilityName) throws Exception {
-        ChromiumOptions chromiumOptions = new ChromiumOptions("browserName", browserName, browserCapabilityName);
-        chromiumOptions.addArguments("test-type");
-        chromiumOptions.addArguments("disable-popup-blocking");
-        chromiumOptions.addArguments("ignore-certificate-errors");
-        chromiumOptions.addArguments("disable-translate");
-        chromiumOptions.addArguments("start-maximized");
+    private ChromeOptions createChromeOptions() throws Exception {
+        ChromeOptions chromeOptions = new ChromeOptions();
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.HEADLESS))) {
-            chromiumOptions.addArguments("--headless=new");
+            chromeOptions.addArguments("--headless=new");
         }
-        chromiumOptions.setImplicitWaitTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.implicit.wait.timeOut"))));
-        chromiumOptions.setScriptTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.set.script.timeOut"))));
-        chromiumOptions.setPageLoadTimeout(Duration.ofSeconds(Long.parseLong(getConfigProperty("browser.page.load.timeOut"))));
-        chromiumOptions.setPageLoadStrategy(PageLoadStrategy.fromString(getConfigProperty("page.load.strategy")));
-        return chromiumOptions;
+        return chromeOptions;
     }
 
-    private ChromiumOptions createChromeOptions() throws Exception {
-        return createChromiumOptions(Browser.CHROME.browserName(), "goog:chromeOptions");
+    private FirefoxOptions createFirefoxOptions() throws Exception {
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        if (Boolean.parseBoolean(getConfigProperty(PropertyNames.HEADLESS))) {
+            firefoxOptions.addArguments("--headless=new");
+        }
+        return firefoxOptions;
     }
 
-    private ChromiumOptions createFirefoxOptions() throws Exception {
-        return createChromiumOptions(Browser.FIREFOX.browserName(), "moz:firefoxOptions");
-    }
-
-    private ChromiumOptions createEdgeOptions() throws Exception {
-        return createChromiumOptions(Browser.EDGE.browserName(), "ms:edgeOptions");
-    }
-
-    private ChromiumOptions createOperaOptions() throws Exception {
-        return createChromiumOptions(Browser.OPERA.browserName(), null);
-    }
-
-    private ChromiumOptions createSafariOptions() throws Exception {
-        return createChromiumOptions(Browser.SAFARI.browserName(), null);
+    private EdgeOptions createEdgeOptions() throws Exception {
+        EdgeOptions edgeOptions = new EdgeOptions();
+        if (Boolean.parseBoolean(getConfigProperty(PropertyNames.HEADLESS))) {
+            edgeOptions.addArguments("--headless=new");
+        }
+        return edgeOptions;
     }
 
     /**
