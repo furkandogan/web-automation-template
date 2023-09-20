@@ -24,8 +24,8 @@ public abstract class TestCaseFrame {
     private WebDriverWait wait = null;
     private int numberOfBrowser = 1;
     private String startPage = null;
-
-    private boolean isBrowserInDocker = false;
+    private boolean browserInDocker = false;
+    private boolean customWdmProperties = false;
     private String appiumHubUrl = null;
     private Duration timeOutInSeconds = Duration.ofSeconds(60);
     private Duration implicitlyWaitTimeOut = Duration.ofSeconds(60);
@@ -88,11 +88,11 @@ public abstract class TestCaseFrame {
     }
 
     public boolean isBrowserInDocker() {
-        return isBrowserInDocker;
+        return browserInDocker;
     }
 
     public void setBrowserInDocker(boolean browserInDocker) {
-        isBrowserInDocker = browserInDocker;
+        browserInDocker = browserInDocker;
     }
 
     public Duration getImplicitlyWaitTimeOut() {
@@ -101,6 +101,14 @@ public abstract class TestCaseFrame {
 
     public void setImplicitlyWaitTimeOut(Duration implicitlyWaitTimeOut) {
         this.implicitlyWaitTimeOut = implicitlyWaitTimeOut;
+    }
+
+    public boolean isCustomWdmProperties() {
+        return customWdmProperties;
+    }
+
+    public void setCustomWdmProperties(boolean customWdmProperties) {
+        this.customWdmProperties = customWdmProperties;
     }
 
 
@@ -144,10 +152,13 @@ public abstract class TestCaseFrame {
                 webDriverManager = WebDriverManager.iedriver();
                 break;
         }
+        if(isCustomWdmProperties()){
+            webDriverManager.config().setProperties("config/custom-wdm.properties");
+        }
         if (isBrowserInDocker()) {
             webDriverManager.browserInDocker();
+            webDriverManager.config().setProperties("config/wdm-docker.properties");
         }
-        webDriverManager.config().setProperties("wdm.properties");
         return webDriverManager;
     }
 
