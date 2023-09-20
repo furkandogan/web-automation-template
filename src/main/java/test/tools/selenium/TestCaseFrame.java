@@ -2,20 +2,13 @@ package test.tools.selenium;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.chromium.ChromiumOptions;
-import org.openqa.selenium.devtools.v115.performance.model.Metric;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.instances.ConfigurationInstance;
@@ -24,7 +17,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.List;
 
 public abstract class TestCaseFrame {
     private WebDriverManager webDriverManager = null;
@@ -116,7 +108,7 @@ public abstract class TestCaseFrame {
         try {
             setStartPage(getConfigProperty(PropertyNames.BASE_URL));
             setAppiumHubUrl(getConfigProperty(PropertyNames.APPIUM_HUB_URL));
-            setBrowserInDocker(Boolean.parseBoolean(PropertyNames.BROWSER_IN_DOCKER));
+            setBrowserInDocker(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_IN_DOCKER)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +144,7 @@ public abstract class TestCaseFrame {
                 webDriverManager = WebDriverManager.iedriver();
                 break;
         }
-        if (isBrowserInDocker()){
+        if (isBrowserInDocker()) {
             webDriverManager.browserInDocker();
         }
         webDriverManager.config().setProperties("wdm.properties");
@@ -203,7 +195,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      */
     public WebDriver createWebDriver() throws Exception {
-        return this.createWebDriver(getNumberOfBrowser(),getStartPage());
+        return this.createWebDriver(getNumberOfBrowser(), getStartPage());
     }
 
     /**
@@ -214,7 +206,7 @@ public abstract class TestCaseFrame {
      * @throws Exception
      */
     public WebDriver createWebDriver(String pageUrl) throws Exception {
-        return this.createWebDriver(getNumberOfBrowser(),pageUrl);
+        return this.createWebDriver(getNumberOfBrowser(), pageUrl);
     }
 
     public WebDriver createWebDriver(int numberOfBrowser) throws Exception {
