@@ -20,8 +20,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
+import static io.github.bonigarcia.wdm.config.DriverManagerType.*;
+
 public abstract class TestCaseFrame {
     private WebDriverManager webDriverManager = null;
+    private DriverManagerType driverManagerType=null;
+
+    private Capabilities capabilities = null;
     private WebDriver webDriver = null;
     private WebDriverWait wait = null;
     private int numberOfBrowser = 1;
@@ -47,6 +52,22 @@ public abstract class TestCaseFrame {
 
     public void setWebDriverManager(WebDriverManager webDriverManager) {
         this.webDriverManager = webDriverManager;
+    }
+
+    public DriverManagerType getDriverManagerType() {
+        return driverManagerType;
+    }
+
+    public void setDriverManagerType(DriverManagerType driverManagerType) {
+        this.driverManagerType = driverManagerType;
+    }
+
+    public Capabilities getCapabilities() {
+        return capabilities;
+    }
+
+    public void setCapabilities(Capabilities capabilities) {
+        this.capabilities = capabilities;
     }
 
     public WebDriver getWebDriver() {
@@ -129,50 +150,46 @@ public abstract class TestCaseFrame {
         return ConfigurationInstance.getInstance().getConfigProperty(key);
     }
 
-    public WebDriverManager createWebDriverManager(DriverManagerType driverManagerType) {
-        return this.createWebDriverManager(driverManagerType,null);
-    }
-
-    public WebDriverManager createWebDriverManager(DriverManagerType driverManagerType, Capabilities capabilities) {
-        WebDriverManager wdm;
+    public void createWebDriverManager() throws Exception {
+        createBrowserFromConfiguration();
         if (isBrowserInDocker()) {
-            wdm = WebDriverManager.getInstance(driverManagerType).capabilities(capabilities).browserInDocker();
-            wdm.config().setProperties("config/wdm-docker.properties");
+            webDriverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities()).browserInDocker();
+            webDriverManager.config().setProperties("config/wdm-docker.properties");
         } else {
-            wdm = WebDriverManager.getInstance(driverManagerType).capabilities(capabilities);
+            webDriverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities());
         }
         if (isCustomWdmProperties()) {
-            wdm.config().setProperties("config/custom-wdm.properties");
+            webDriverManager.config().setProperties("config/custom-wdm.properties");
         }
-        return wdm;
     }
 
-
-    public WebDriverManager createWebDriverManager() throws Exception {
+    public void createBrowserFromConfiguration() throws Exception {
         switch (getConfigProperty(PropertyNames.BROWSER_TYPE)) {
             case "chrome":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.CHROME, createChromeOptions()));
+                setDriverManagerType(CHROME);
+                setCapabilities(createChromeOptions());
                 break;
             case "firefox":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.FIREFOX, createFirefoxOptions()));
+                setDriverManagerType(FIREFOX);
+                setCapabilities(createFirefoxOptions());
                 break;
             case "edge":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.EDGE, createFirefoxOptions()));
+                setDriverManagerType(EDGE);
+                setCapabilities(createEdgeOptions());
                 break;
             case "opera":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.OPERA));
+                setDriverManagerType(OPERA);
                 break;
             case "chromium":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.CHROMIUM));
+                setDriverManagerType(CHROMIUM);
                 break;
             case "safari":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.SAFARI));
+                setDriverManagerType(SAFARI);
                 break;
             case "ie":
-                setWebDriverManager(createWebDriverManager(DriverManagerType.IEXPLORER));
+                setDriverManagerType(IEXPLORER);
                 break;
         }
-        return getWebDriverManager();
     }
 
     private ChromeOptions createChromeOptions() throws Exception {
@@ -246,7 +263,7 @@ public abstract class TestCaseFrame {
         setStartPage(pageUrl);
 
         //create web driver
-        setWebDriver(getWebDriverManager().create());
+        setWebDriver(webDriverManager.create());
 
         //set file detector
         if (isBrowserInDocker())

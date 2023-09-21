@@ -25,7 +25,6 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
     final static Logger logger = LogManager.getLogger(TestResultLoggerExtension.class);
 
     public static DbUtility oracleDb = null;
-    public WebDriverManager webDriverManager = null;
     public WebDriver driver = null;
     public WebDriverWait wait = null;
     public ExtentTest extTest = null;
