@@ -24,7 +24,7 @@ import static io.github.bonigarcia.wdm.config.DriverManagerType.*;
 
 public abstract class TestCaseFrame {
     private WebDriverManager webDriverManager = null;
-    private DriverManagerType driverManagerType=null;
+    private DriverManagerType driverManagerType = null;
 
     private Capabilities capabilities = null;
     private WebDriver webDriver = null;
@@ -140,6 +140,8 @@ public abstract class TestCaseFrame {
             setStartPage(getConfigProperty(PropertyNames.BASE_URL));
             setAppiumHubUrl(getConfigProperty(PropertyNames.APPIUM_HUB_URL));
             setBrowserInDocker(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_IN_DOCKER)));
+            setCustomWdmProperties(Boolean.parseBoolean(getConfigProperty(PropertyNames.CUSTOMER_WDM_PROPERTIES)));
+            setNumberOfBrowser(Integer.parseInt(getConfigProperty(PropertyNames.NUMBER_OF_BROWSER)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,19 +150,6 @@ public abstract class TestCaseFrame {
     public static String getConfigProperty(String key) throws Exception {
 
         return ConfigurationInstance.getInstance().getConfigProperty(key);
-    }
-
-    public void createWebDriverManager() throws Exception {
-        createBrowserFromConfiguration();
-        if (isBrowserInDocker()) {
-            webDriverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities()).browserInDocker();
-            webDriverManager.config().setProperties("config/wdm-docker.properties");
-        } else {
-            webDriverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities());
-        }
-        if (isCustomWdmProperties()) {
-            webDriverManager.config().setProperties("config/custom-wdm.properties");
-        }
     }
 
     public void createBrowserFromConfiguration() throws Exception {
@@ -216,60 +205,34 @@ public abstract class TestCaseFrame {
         return edgeOptions;
     }
 
-    /**
-     * create web driver based on default browser values
-     *
-     * @return
-     * @throws Exception
-     */
-    public WebDriver createWebDriver() throws Exception {
-        return this.createWebDriver(getNumberOfBrowser(), getStartPage());
+    public WebDriver createWebDriver(WebDriverManager driverManager) throws Exception {
+        return this.createWebDriver(driverManager, getNumberOfBrowser(), getStartPage());
     }
 
-    /**
-     * create web driver based on default browser values
-     *
-     * @param pageUrl
-     * @return
-     * @throws Exception
-     */
-    public WebDriver createWebDriver(String pageUrl) throws Exception {
-        return this.createWebDriver(getNumberOfBrowser(), pageUrl);
+    public WebDriver createWebDriver(WebDriverManager driverManager, String pageUrl) throws Exception {
+        return this.createWebDriver(driverManager, getNumberOfBrowser(), pageUrl);
     }
 
-    public WebDriver createWebDriver(int numberOfBrowser) throws Exception {
-        return this.createWebDriver(numberOfBrowser, getStartPage());
+    public WebDriver createWebDriver(WebDriverManager driverManager, int numberOfBrowser) throws Exception {
+        return this.createWebDriver(driverManager, numberOfBrowser, getStartPage());
     }
 
-    /**
-     * @param pageUrl
-     * @return
-     * @throws Exception
-     * @throws IOException
-     */
-    public WebDriver createWebDriver(int numberOfBrowser, String pageUrl) throws Exception, IOException {
+    public WebDriver createWebDriver(WebDriverManager driverManager, int numberOfBrowser, String pageUrl) throws Exception, IOException {
 
-        return this.createWebDriver(numberOfBrowser, pageUrl, 0);
+        return this.createWebDriver(driverManager, numberOfBrowser, pageUrl, 0);
     }
 
-    public WebDriver createWebDriver(int numberOfBrowser, String pageUrl, long timeOutInSeconds) throws
+    public WebDriver createWebDriver(WebDriverManager driverManager, int numberOfBrowser, String pageUrl, long timeOutInSeconds) throws
             Exception, IOException {
 
         System.out.println(String.format("URL :*%s*", new Object[]{pageUrl}));
 
         setNumberOfBrowser(numberOfBrowser);
-
-        //set start page
         setStartPage(pageUrl);
-
-        //create web driver
-        setWebDriver(webDriverManager.create());
-
-        //set file detector
+        setWebDriver(driverManager.create());
         if (isBrowserInDocker())
             setFileDetector();
 
-        //set timeout
         createWebDriverWait();
 
         return getWebDriver();

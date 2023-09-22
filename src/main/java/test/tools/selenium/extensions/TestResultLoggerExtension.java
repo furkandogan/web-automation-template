@@ -25,6 +25,8 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
     final static Logger logger = LogManager.getLogger(TestResultLoggerExtension.class);
 
     public static DbUtility oracleDb = null;
+    public WebDriverManager driverManager = null;
+    public List<WebDriver> drivers = null;
     public WebDriver driver = null;
     public WebDriverWait wait = null;
     public ExtentTest extTest = null;
@@ -41,14 +43,27 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             galenTestInfos = new LinkedList<GalenTestInfo>();
         }
-        createWebDriverManager();
+        createBrowserFromConfiguration();
+        if (isBrowserInDocker()) {
+            driverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities()).browserInDocker();
+            driverManager.config().setProperties("config/wdm-docker.properties");
+        } else {
+            driverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities());
+        }
+        if (isCustomWdmProperties()) {
+            driverManager.config().setProperties("config/custom-wdm.properties");
+        }
         logger.info("Environment is started for {}", extensionContext.getDisplayName());
     }
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         String testCaseName = extensionContext.getDisplayName();
-        driver = createWebDriver();
+        if (getNumberOfBrowser() > 1) {
+            drivers = driverManager.create(getNumberOfBrowser());
+        } else {
+            driver = driverManager.create();
+        }
         wait = getWait();
         extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
         initElements = new InitElements(driver, extTest);
