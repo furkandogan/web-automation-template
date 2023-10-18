@@ -3,6 +3,7 @@ package test.tools.selenium;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
+import io.github.bonigarcia.wdm.config.OperatingSystem;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,11 +15,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import test.tools.selenium.config.PropertyNames;
 import test.tools.selenium.instances.ConfigurationInstance;
+import test.tools.selenium.util.Browser;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 
 import static io.github.bonigarcia.wdm.config.DriverManagerType.*;
 
@@ -26,9 +29,13 @@ public abstract class TestCaseFrame {
     private WebDriverManager webDriverManager = null;
     private DriverManagerType driverManagerType = null;
 
+    private String operatingSystem = null;
     private Capabilities capabilities = null;
+
+    private List<WebDriver> webDrivers = null;
     private WebDriver webDriver = null;
     private WebDriverWait wait = null;
+    private Browser browser = null;
     private int numberOfBrowser = 1;
     private String startPage = null;
     private boolean browserInDocker = false;
@@ -76,6 +83,22 @@ public abstract class TestCaseFrame {
 
     public void setWebDriver(WebDriver newWebDriver) {
         this.webDriver = newWebDriver;
+    }
+
+    public List<WebDriver> getWebDrivers() {
+        return webDrivers;
+    }
+
+    public void setWebDrivers(List<WebDriver> webDrivers) {
+        this.webDrivers = webDrivers;
+    }
+
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
+
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
     }
 
     public int getNumberOfBrowser() {
@@ -137,6 +160,7 @@ public abstract class TestCaseFrame {
 
     public TestCaseFrame() {
         try {
+            setOperatingSystem(getConfigProperty(PropertyNames.OPERATING_SYSTEM));
             setStartPage(getConfigProperty(PropertyNames.BASE_URL));
             setAppiumHubUrl(getConfigProperty(PropertyNames.APPIUM_HUB_URL));
             setBrowserInDocker(Boolean.parseBoolean(getConfigProperty(PropertyNames.BROWSER_IN_DOCKER)));
@@ -152,7 +176,23 @@ public abstract class TestCaseFrame {
         return ConfigurationInstance.getInstance().getConfigProperty(key);
     }
 
-    public void createBrowserFromConfiguration() throws Exception {
+    public WebDriverManager createWebDriverManager() throws Exception {
+        WebDriverManager driverManager;
+        createBrowserFromConfiguration();
+        if (isBrowserInDocker()) {
+            driverManager = WebDriverManager.getInstance(getDriverManagerType()).operatingSystem(OperatingSystem.valueOf(getOperatingSystem())).capabilities(getCapabilities()).browserInDocker();
+            driverManager.config().setProperties("config/wdm-docker.properties");
+        } else {
+            driverManager = WebDriverManager.getInstance(getDriverManagerType()).operatingSystem(OperatingSystem.valueOf(getOperatingSystem())).capabilities(getCapabilities());
+        }
+        if (isCustomWdmProperties()) {
+            driverManager.config().setProperties("config/custom-wdm.properties");
+        }
+        setWebDriverManager(driverManager);
+        return getWebDriverManager();
+    }
+
+    private void createBrowserFromConfiguration() throws Exception {
         switch (getConfigProperty(PropertyNames.BROWSER_TYPE)) {
             case "chrome":
                 setDriverManagerType(CHROME);
@@ -181,6 +221,21 @@ public abstract class TestCaseFrame {
         }
     }
 
+    private void updateBrowserCapsFromConfig(DesiredCapabilities capabilities) {
+
+        if (browser.getName() != null) {
+            capabilities.setBrowserName(browser.getName());
+        }
+
+        if (browser.getPlatform() != null) {
+            capabilities.setPlatform(browser.getPlatform());
+        }
+
+        if (browser.getVersion() != null) {
+            capabilities.setVersion(browser.getVersion());
+        }
+    }
+
     private ChromeOptions createChromeOptions() throws Exception {
         ChromeOptions chromeOptions = new ChromeOptions();
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.HEADLESS))) {
@@ -205,29 +260,45 @@ public abstract class TestCaseFrame {
         return edgeOptions;
     }
 
+    public WebDriver createWebDriver() throws Exception {
+        return this.createWebDriver(getWebDriverManager(), getStartPage());
+    }
+
     public WebDriver createWebDriver(WebDriverManager driverManager) throws Exception {
-        return this.createWebDriver(driverManager, getNumberOfBrowser(), getStartPage());
+        return this.createWebDriver(driverManager, getStartPage());
     }
 
     public WebDriver createWebDriver(WebDriverManager driverManager, String pageUrl) throws Exception {
-        return this.createWebDriver(driverManager, getNumberOfBrowser(), pageUrl);
+        return this.createWebDriver(driverManager, pageUrl, 0);
     }
 
-    public WebDriver createWebDriver(WebDriverManager driverManager, int numberOfBrowser) throws Exception {
-        return this.createWebDriver(driverManager, numberOfBrowser, getStartPage());
+    public List<WebDriver> createWebDrivers() throws
+            Exception {
+        return this.createWebDrivers(getWebDriverManager(), getNumberOfBrowser());
     }
 
-    public WebDriver createWebDriver(WebDriverManager driverManager, int numberOfBrowser, String pageUrl) throws Exception, IOException {
-
-        return this.createWebDriver(driverManager, numberOfBrowser, pageUrl, 0);
+    public List<WebDriver> createWebDrivers(WebDriverManager driverManager) throws
+            Exception {
+        return this.createWebDrivers(driverManager, getNumberOfBrowser());
     }
 
-    public WebDriver createWebDriver(WebDriverManager driverManager, int numberOfBrowser, String pageUrl, long timeOutInSeconds) throws
+    public List<WebDriver> createWebDrivers(WebDriverManager driverManager, int numberOfBrowser) throws
+            Exception, IOException {
+
+        setNumberOfBrowser(numberOfBrowser);
+        setWebDrivers(driverManager.create(numberOfBrowser));
+        if (isBrowserInDocker())
+            setFileDetector();
+        createWebDriverWait();
+
+        return getWebDrivers();
+    }
+
+    public WebDriver createWebDriver(WebDriverManager driverManager, String pageUrl, long timeOutInSeconds) throws
             Exception, IOException {
 
         System.out.println(String.format("URL :*%s*", new Object[]{pageUrl}));
 
-        setNumberOfBrowser(numberOfBrowser);
         setStartPage(pageUrl);
         setWebDriver(driverManager.create());
         if (isBrowserInDocker())

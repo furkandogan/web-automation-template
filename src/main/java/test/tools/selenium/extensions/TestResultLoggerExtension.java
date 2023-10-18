@@ -43,16 +43,7 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
         if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
             galenTestInfos = new LinkedList<GalenTestInfo>();
         }
-        createBrowserFromConfiguration();
-        if (isBrowserInDocker()) {
-            driverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities()).browserInDocker();
-            driverManager.config().setProperties("config/wdm-docker.properties");
-        } else {
-            driverManager = WebDriverManager.getInstance(getDriverManagerType()).capabilities(getCapabilities());
-        }
-        if (isCustomWdmProperties()) {
-            driverManager.config().setProperties("config/custom-wdm.properties");
-        }
+        driverManager = createWebDriverManager();
         logger.info("Environment is started for {}", extensionContext.getDisplayName());
     }
 
@@ -60,9 +51,9 @@ public class TestResultLoggerExtension extends ExtentReportTestCaseFrame impleme
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         String testCaseName = extensionContext.getDisplayName();
         if (getNumberOfBrowser() > 1) {
-            drivers = driverManager.create(getNumberOfBrowser());
+            drivers = createWebDrivers(driverManager);
         } else {
-            driver = driverManager.create();
+            driver = createWebDriver(driverManager);
         }
         wait = getWait();
         extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
