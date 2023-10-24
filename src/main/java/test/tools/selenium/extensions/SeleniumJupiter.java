@@ -40,7 +40,6 @@ import test.tools.selenium.browser.BrowsersTemplate.Browser;
 import test.tools.selenium.browser.CapabilitiesHandler;
 import test.tools.selenium.config.Config;
 import test.tools.selenium.report.OutputHandler;
-import test.tools.selenium.report.ScreenshotManager;
 import test.tools.selenium.report.extent.ExtentReportConfig;
 import test.tools.selenium.util.AnnotationsReader;
 
@@ -91,11 +90,9 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
     List<List<Browser>> browserListList;
     Map<String, List<Browser>> browserListMap;
     OutputHandler outputHandler;
-
     ExtentReportConfig extentReportConfig;
-
     ExtentReports extentReports;
-    ExtentTest extTest;
+    public ExtentTest extTest;
     URL urlFromAnnotation;
     SelenideHandler selenideHandler;
 

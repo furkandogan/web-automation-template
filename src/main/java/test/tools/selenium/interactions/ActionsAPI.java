@@ -40,11 +40,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
-            extentTest.pass(String.format("Found and scrolled to element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Found and scrolled to element: {%s} ", element));
             logger.info("Found and scrolled to element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -61,12 +64,15 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
-            extentTest.pass(String.format("Scrolled to element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled to element: {%s} ", element));
             logger.info("Scrolled to element: {} ", element);
             return element;
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
             return null;
         }
@@ -88,11 +94,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -111,11 +120,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -140,11 +152,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -164,11 +179,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -197,11 +215,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -223,11 +244,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -245,10 +269,13 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s}", xOffset, yOffset, deltaX, deltaY));
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s}", xOffset, yOffset, deltaX, deltaY));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {}", xOffset, yOffset, deltaX, deltaY);
         } catch (Exception e) {
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -266,11 +293,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .clickAndHold(element)
                     .perform();
-            extentTest.pass(String.format("Clicked and held to element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked and held to element: {%s} ", element));
             logger.info("Clicked and held to element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -287,11 +317,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .clickAndHold(element)
                     .perform();
-            extentTest.pass(String.format("Clicked and held to element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked and held to element: {%s} ", element));
             logger.info("Clicked and held to element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -309,11 +342,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .click(element)
                     .perform();
-            extentTest.pass(String.format("Clicked to element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked to element: {%s} ", element));
             logger.info("Clicked to element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -330,11 +366,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .click(element)
                     .perform();
-            extentTest.pass(String.format("Clicked to element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked to element: {%s} ", element));
             logger.info("Clicked to element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -352,11 +391,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .contextClick(element)
                     .perform();
-            extentTest.pass(String.format("Clicked to right click on element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked to right click on element: {%s} ", element));
             logger.info("Clicked to right click on element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -373,11 +415,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .contextClick(element)
                     .perform();
-            extentTest.pass(String.format("Clicked to right click on element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked to right click on element: {%s} ", element));
             logger.info("Clicked to right click on element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -394,10 +439,13 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
-            extentTest.pass("Clicked to back click");
+            if (extentTest != null)
+                extentTest.pass("Clicked to back click");
             logger.info("Clicked to back click");
         } catch (Exception e) {
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -414,10 +462,13 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
-            extentTest.pass("Clicked to forward click");
+            if (extentTest != null)
+                extentTest.pass("Clicked to forward click");
             logger.info("Clicked to forward click");
         } catch (Exception e) {
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -434,11 +485,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .doubleClick(element)
                     .perform();
-            extentTest.pass(String.format("Clicked to double click on element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked to double click on element: {%s} ", element));
             logger.info("Clicked to double click on element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -455,11 +509,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .doubleClick(element)
                     .perform();
-            extentTest.pass(String.format("Clicked to double click on element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Clicked to double click on element: {%s} ", element));
             logger.info("Clicked to double click on element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -478,11 +535,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
-            extentTest.pass(String.format("Moved on element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -499,11 +559,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
-            extentTest.pass(String.format("Moved on element: {%s} ", element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -524,11 +587,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
-            extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -545,11 +611,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
-            extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -568,10 +637,13 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), xOffset, yOffset));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
-            extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
+            if (extentTest != null)
+                extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
         } catch (Exception e) {
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -592,10 +664,13 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveByOffset(xOffset, yOffset)
                     .perform();
-            extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
+            if (extentTest != null)
+                extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
         } catch (Exception e) {
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -616,12 +691,15 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .dragAndDrop(draggable, droppable)
                     .perform();
-            extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
+            if (extentTest != null)
+                extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
         } catch (Exception e) {
             highlightElement(draggable);
             highlightElement(droppable);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -644,12 +722,15 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .dragAndDropBy(draggable, finish.getX() - start.getX(), finish.getY() - start.getY())
                     .perform();
-            extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
+            if (extentTest != null)
+                extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
         } catch (Exception e) {
             highlightElement(draggable);
             highlightElement(droppable);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -666,10 +747,13 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .sendKeys(value)
                     .perform();
-            extentTest.pass(String.format("Sent value: {%s}", value));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: {%s}", value));
             logger.info("Sent value: {}", value);
         } catch (Exception e) {
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -689,11 +773,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .sendKeys(element, value)
                     .perform();
-            extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -711,11 +798,14 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .sendKeys(element, value)
                     .perform();
-            extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -738,11 +828,14 @@ public class ActionsAPI extends SimpleActions {
                     .pause(Duration.ofSeconds(1))
                     .sendKeys(value)
                     .perform();
-            extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -764,11 +857,14 @@ public class ActionsAPI extends SimpleActions {
                     .pause(Duration.ofSeconds(1))
                     .sendKeys(value)
                     .perform();
-            extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }

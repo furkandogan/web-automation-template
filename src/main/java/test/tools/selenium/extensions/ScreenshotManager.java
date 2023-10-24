@@ -14,13 +14,14 @@
  * limitations under the License.
  *
  */
-package test.tools.selenium.report;
+package test.tools.selenium.extensions;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import test.tools.selenium.config.Config;
+import test.tools.selenium.report.OutputHandler;
 
 import java.io.File;
 import java.util.List;
@@ -48,7 +49,7 @@ public class ScreenshotManager {
     OutputHandler outputHandler;
 
     public ScreenshotManager(ExtensionContext extensionContext, Config config,
-            OutputHandler outputHandler) {
+                             OutputHandler outputHandler) {
         this.extensionContext = extensionContext;
         this.config = config;
         this.outputHandler = outputHandler;
@@ -63,7 +64,7 @@ public class ScreenshotManager {
                 || (executionException.isPresent() && isSscreenshotWhenFailure);
     }
 
-    public void makeScreenshotIfRequired(List<WebDriver> driverList) {
+    void makeScreenshotIfRequired(List<WebDriver> driverList) {
         driverList.forEach(this::makeScreenshotIfRequired);
     }
 
@@ -71,19 +72,19 @@ public class ScreenshotManager {
         if (isScreenshotRequired() && driver != null) {
             String screenshotFormat = config.getScreenshotFormat();
             switch (screenshotFormat) {
-            case PNG_KEY:
-                logFileScreenshot(driver);
-                break;
-            case BASE64_KEY:
-                logBase64Screenshot(driver);
-                break;
-            case BASE64_AND_PNG_KEY:
-                logBase64Screenshot(driver);
-                logFileScreenshot(driver);
-                break;
-            default:
-                log.warn("Invalid screenshot format {}", screenshotFormat);
-                break;
+                case PNG_KEY:
+                    logFileScreenshot(driver);
+                    break;
+                case BASE64_KEY:
+                    logBase64Screenshot(driver);
+                    break;
+                case BASE64_AND_PNG_KEY:
+                    logBase64Screenshot(driver);
+                    logFileScreenshot(driver);
+                    break;
+                default:
+                    log.warn("Invalid screenshot format {}", screenshotFormat);
+                    break;
             }
         }
     }

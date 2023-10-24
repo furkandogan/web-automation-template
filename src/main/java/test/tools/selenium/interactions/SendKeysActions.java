@@ -30,11 +30,14 @@ public class SendKeysActions extends ActionsAPI {
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null){
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -52,11 +55,14 @@ public class SendKeysActions extends ActionsAPI {
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null){
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -72,11 +78,14 @@ public class SendKeysActions extends ActionsAPI {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null){
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
@@ -95,11 +104,14 @@ public class SendKeysActions extends ActionsAPI {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
             ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
-            extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
+            if (extentTest != null)
+                extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            extentTest.fail(e);
+            if (extentTest != null){
+                extentTest.fail(e);
+            }
             logger.error(e);
         }
     }
