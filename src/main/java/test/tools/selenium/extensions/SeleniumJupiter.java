@@ -220,7 +220,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         outputHandler = new OutputHandler(extensionContext, getConfig(),
                 parameter);
         wdm.dockerRecordingPrefix(outputHandler.getPrefix());
-        wdm.dockerRecordingOutput(outputHandler.getOutputFolder());
+        wdm.dockerRecordingOutput(outputHandler.getRecordingOutputFolder());
 
         putManagerInMap(contextId, wdm);
 

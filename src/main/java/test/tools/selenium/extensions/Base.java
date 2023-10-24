@@ -8,7 +8,7 @@ import test.tools.selenium.interactions.*;
 
 import java.time.Duration;
 
-public class InitElements {
+public class Base {
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -21,8 +21,11 @@ public class InitElements {
     public SelectActions selectActions;
     public GetElementProperties getElementProperties;
     public IsActions is;
+    public ExpectedConditionHandle handle;
+    public StoreElementProperties storeElementProperties;
+    public BiDiAPI biDiAPI;
 
-    public InitElements(WebDriver driver, ExtentTest extentTest) {
+    public Base(WebDriver driver, ExtentTest extentTest) {
         this.driver = driver;
         this.extentTest = extentTest;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -34,6 +37,9 @@ public class InitElements {
         this.clickActions = new ClickActions(driver,wait,extentTest);
         this.sendKeysActions = new SendKeysActions(driver,wait,extentTest);
         this.selectActions = new SelectActions(driver,wait,extentTest);
+        this.handle = new ExpectedConditionHandle(driver,wait,extentTest);
+        this.storeElementProperties = new StoreElementProperties(driver,wait,extentTest);
+        this.biDiAPI=new BiDiAPI(driver,wait,extentTest);
         PageFactory.initElements(driver, this);
     }
 

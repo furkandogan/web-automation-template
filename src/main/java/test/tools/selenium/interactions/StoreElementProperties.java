@@ -1,12 +1,19 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 
 public class StoreElementProperties extends GetElementProperties{
 
     private HashMap<String, String> stringList = null;
+
+    public StoreElementProperties(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
+        super(driver, wait, extentTest);
+    }
 
     public HashMap<String, String> getStringList() {
         return stringList;

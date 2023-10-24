@@ -57,14 +57,14 @@ public class OutputHandler {
     Parameter parameter;
 
     public OutputHandler(ExtensionContext extensionContext, Config config,
-            Parameter parameter) {
+                         Parameter parameter) {
         this.extensionContext = extensionContext;
         this.config = config;
         this.parameter = parameter;
     }
 
     public File getScreenshotFile(WebDriver driver) {
-        String outputFolder = getOutputFolder();
+        String outputFolder = getScreenshotOutputFolder();
         String fileName = getOutputFileName(driver);
         return new File(outputFolder, fileName + "." + PNG_KEY);
     }
@@ -124,6 +124,14 @@ public class OutputHandler {
             outputFolderFile.mkdirs();
         }
         return outputFolder;
+    }
+
+    public String getScreenshotOutputFolder() {
+        return getOutputFolder() + File.separator + "image" + File.separator;
+    }
+
+    public String getRecordingOutputFolder() {
+        return getOutputFolder() + File.separator + "video" + File.separator;
     }
 
     private String getClassSpecificOutputFolder(String baseFolder, Class<?> testClass) {

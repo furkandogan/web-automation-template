@@ -1,15 +1,21 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ExpectedConditionHandle extends SimpleActions {
 
     final static Logger logger = LogManager.getLogger(ExpectedConditionHandle.class);
+
+    public ExpectedConditionHandle(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
+        super(driver, wait, extentTest);
+    }
 
 
     public static ExpectedCondition<Boolean> absenceOfElementLocated(final By locator) {

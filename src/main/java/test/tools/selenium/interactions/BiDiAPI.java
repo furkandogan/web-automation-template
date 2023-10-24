@@ -1,12 +1,15 @@
 package test.tools.selenium.interactions;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.HasAuthentication;
 import org.openqa.selenium.UsernameAndPassword;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicReference;
@@ -15,6 +18,10 @@ import java.util.function.Predicate;
 public class BiDiAPI extends SimpleActions {
 
     final static Logger logger = LogManager.getLogger(BiDiAPI.class);
+
+    public BiDiAPI(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
+        super(driver, wait, extentTest);
+    }
 
     /**
      * Some applications make use of browser authentication to secure pages.
