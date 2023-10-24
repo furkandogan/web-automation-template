@@ -4,7 +4,6 @@ import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -68,8 +67,8 @@ public class ClickActions extends ActionsAPI {
      */
     public void clickByJs(WebElement element) {
         try {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].click()", element);
             if (extentTest != null)
                 extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
@@ -92,8 +91,8 @@ public class ClickActions extends ActionsAPI {
         try {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].click()", element);
             if (extentTest != null)
                 extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);

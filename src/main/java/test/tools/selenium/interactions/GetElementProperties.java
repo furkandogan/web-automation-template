@@ -29,7 +29,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getAttribute(WebElement element, String attr, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -50,7 +50,7 @@ public class GetElementProperties extends ActionsAPI{
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -130,7 +130,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getText(WebElement element, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -151,7 +151,7 @@ public class GetElementProperties extends ActionsAPI{
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -190,7 +190,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getTagName(WebElement element, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -211,7 +211,7 @@ public class GetElementProperties extends ActionsAPI{
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -250,7 +250,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getCssValue(WebElement element, String value, boolean hidden) {
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOf(element));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -271,7 +271,7 @@ public class GetElementProperties extends ActionsAPI{
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
             element = scrollToVisibleElement(xpath);
         }

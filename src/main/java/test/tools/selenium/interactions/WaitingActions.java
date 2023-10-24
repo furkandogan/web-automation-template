@@ -39,7 +39,7 @@ public class WaitingActions extends SimpleActions{
     public void waitForValueIsPresent(WebElement element, String value) {
         wait.until((ExpectedCondition<Boolean>) driver -> {
             assert driver != null;
-            return Boolean.valueOf(((JavascriptExecutor) driver)
+            return Boolean.valueOf(js
                     .executeScript("return arguments[0].value === '" + value + "'", element).toString());
         });
     }
@@ -48,7 +48,7 @@ public class WaitingActions extends SimpleActions{
         WebElement element = driver.findElement(xpath);
         wait.until((ExpectedCondition<Boolean>) driver -> {
             assert driver != null;
-            return Boolean.valueOf(((JavascriptExecutor) driver)
+            return Boolean.valueOf(js
                     .executeScript("return arguments[0].value === '" + value + "'", element).toString());
         });
     }
@@ -56,7 +56,7 @@ public class WaitingActions extends SimpleActions{
     public void waitForIsChecked(WebElement element) {
         wait.until((ExpectedCondition<Boolean>) driver -> {
             assert driver != null;
-            return Boolean.valueOf(((JavascriptExecutor) driver)
+            return Boolean.valueOf(js
                     .executeScript("return arguments[0].checked", element).toString());
         });
     }
@@ -65,7 +65,7 @@ public class WaitingActions extends SimpleActions{
         WebElement element = driver.findElement(xpath);
         wait.until((ExpectedCondition<Boolean>) driver -> {
             assert driver != null;
-            return Boolean.valueOf(((JavascriptExecutor) driver)
+            return Boolean.valueOf(js
                     .executeScript("return arguments[0].checked", element).toString());
         });
     }

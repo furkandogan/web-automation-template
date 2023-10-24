@@ -94,8 +94,8 @@ public class SelectActions extends ActionsAPI {
      */
     public void selectByValueByJs(WebElement element, String value) {
         try {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
@@ -119,8 +119,8 @@ public class SelectActions extends ActionsAPI {
         try {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
             element = driver.findElement(xpath);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            js.executeScript("arguments[0].value = '" + value + "'", element);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
@@ -362,7 +362,7 @@ public class SelectActions extends ActionsAPI {
             scrollToVisibleElement(element);
             String lat = getFirstSelectedOptionFromElement(element).getAttribute("lat");
             String lon = getFirstSelectedOptionFromElement(element).getAttribute("lon");
-            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', arguments[1]);", element,
+            js.executeScript("arguments[0].setAttribute('value', arguments[1]);", element,
                     lat + "," + lon);
             if (extentTest != null)
                 extentTest.pass(String.format("Selected coordinates lat: {%s} - lon: {%s} from element: {%s} ", lat, lon, element));

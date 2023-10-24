@@ -40,7 +40,7 @@ public class SimpleActions {
      * To change browser tab
      */
     public void changeTab() {
-        ((JavascriptExecutor) driver).executeScript("window.open()");
+        js.executeScript("window.open()");
         ArrayList tabs = new ArrayList(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(tabs.size() - 1).toString());
     }
@@ -130,7 +130,7 @@ public class SimpleActions {
      */
     public void highlightElement(WebElement element) {
         if (element != null) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', arguments[1]);", element,
+            js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element,
                     "color: red; border: 3px solid red;");
         }
     }
