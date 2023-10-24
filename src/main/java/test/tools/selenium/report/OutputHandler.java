@@ -127,11 +127,11 @@ public class OutputHandler {
     }
 
     public String getScreenshotOutputFolder() {
-        return getOutputFolder() + File.separator + "image" + File.separator;
+        return getOutputFolder() + "/image";
     }
 
     public String getRecordingOutputFolder() {
-        return getOutputFolder() + File.separator + "video" + File.separator;
+        return getOutputFolder() +"/video";
     }
 
     private String getClassSpecificOutputFolder(String baseFolder, Class<?> testClass) {
