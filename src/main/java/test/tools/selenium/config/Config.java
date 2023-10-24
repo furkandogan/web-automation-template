@@ -345,8 +345,8 @@ public class Config {
         setRecording(true);
     }
 
-    public void customScreenResolution(String screenResolution) {
-        setDockerScreenResolution(screenResolution);
+    public void customScreenResolution() {
+        setDockerScreenResolution("1920x1080x24");
     }
 
     public void enableRecordingWhenFailure() {

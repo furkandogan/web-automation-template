@@ -402,6 +402,8 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         }
         if (!dockerBrowser.screenResolution().isEmpty()) {
             wdm.dockerScreenResolution(dockerBrowser.screenResolution());
+        }else if (!config.getDockerScreenResolution().isEmpty()){
+            wdm.dockerScreenResolution(config.getDockerScreenResolution());
         }
         Optional<Capabilities> capabilities = getCapabilities(extensionContext,
                 parameter, Optional.of(browserType), Optional.empty());
