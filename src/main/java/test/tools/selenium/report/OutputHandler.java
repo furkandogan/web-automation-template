@@ -64,9 +64,22 @@ public class OutputHandler {
     }
 
     public File getScreenshotFile(WebDriver driver) {
-        String outputFolder = getScreenshotOutputFolder();
+        String screenshotOutputFolder = getOutputFolder()+"/image";
+        File screenshotOutputFolderFile = new File(screenshotOutputFolder);
+        if (!screenshotOutputFolderFile.exists()) {
+            screenshotOutputFolderFile.mkdirs();
+        }
         String fileName = getOutputFileName(driver);
-        return new File(outputFolder, fileName + "." + PNG_KEY);
+        return new File(screenshotOutputFolder, fileName + "." + PNG_KEY);
+    }
+
+    public String getRecordingOutputFolder() {
+        String recordingOutputFolder = getOutputFolder()+"/video";
+        File recordingOutputFolderFile = new File(recordingOutputFolder);
+        if (!recordingOutputFolderFile.exists()) {
+            recordingOutputFolderFile.mkdirs();
+        }
+        return recordingOutputFolder;
     }
 
     public String getPrefix() {
@@ -124,14 +137,6 @@ public class OutputHandler {
             outputFolderFile.mkdirs();
         }
         return outputFolder;
-    }
-
-    public String getScreenshotOutputFolder() {
-        return getOutputFolder() + "/image";
-    }
-
-    public String getRecordingOutputFolder() {
-        return getOutputFolder() +"/video";
     }
 
     private String getClassSpecificOutputFolder(String baseFolder, Class<?> testClass) {
