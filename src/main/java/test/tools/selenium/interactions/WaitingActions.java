@@ -13,24 +13,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.function.Function;
 
-public class WaitingActions {
-
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
-    public FluentWait fluentWait;
-    public ActionsAPI actionsAPI;
-
-
-    public WaitingActions(WebDriver driver) {
-        this.driver = driver;
-    }
+public class WaitingActions extends SimpleActions{
 
     public WaitingActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
-        this.driver = driver;
-        this.wait = wait;
-        this.extentTest = extentTest;
-        actionsAPI = new ActionsAPI(driver, wait, extentTest);
+        super(driver, wait, extentTest);
     }
 
     public void fluentWaitUntil(Object object, final By locator) {

@@ -1,122 +1,78 @@
 package test.tools.selenium.extensions;
 
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.MediaEntityBuilder;
-import com.galenframework.reports.GalenTestInfo;
-import com.galenframework.reports.HtmlReportBuilder;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import test.tools.selenium.config.DBManager;
-import test.tools.selenium.config.PropertyNames;
-import test.tools.selenium.report.extent.ExtentReportTestCaseFrame;
-import test.tools.selenium.util.DbUtility;
+import test.tools.selenium.browser.BrowserOps;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
-public class TestResultLoggerExtension extends ExtentReportTestCaseFrame implements TestWatcher, BeforeAllCallback, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
+public class TestResultLoggerExtension extends SeleniumJupiter implements BeforeTestExecutionCallback {
 
     final static Logger logger = LogManager.getLogger(TestResultLoggerExtension.class);
 
-    public static DbUtility oracleDb = null;
-    public WebDriverManager driverManager = null;
-    public List<WebDriver> drivers = null;
-    public WebDriver driver = null;
-    public WebDriverWait wait = null;
-    public ExtentTest extTest = null;
-    public InitElements initElements = null;
-    public List<GalenTestInfo> galenTestInfos = null;
+    WebDriverManager driverManager;
+    List<WebDriver> drivers;
 
-    private List<TestResultStatus> testResultsStatus = new ArrayList<>();
+    @Override
+    public void beforeTestExecution(ExtensionContext extensionContext) throws Exception {
+        logger.info("Environment is started");
+    }
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) throws Exception {
-        oracleDb = DBManager.getOracleDb();
-        oracleDb.initConnectionPool();
-        setExtentReports(createExtentsReportInstance());
-        if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
-            galenTestInfos = new LinkedList<GalenTestInfo>();
-        }
-        driverManager = createWebDriverManager();
-        logger.info("Environment is started for {}", extensionContext.getDisplayName());
+        BrowserOps browserOps = new BrowserOps();
+        driverManager = WebDriverManager.chromedriver().capabilities(browserOps.getChromeOptions()).browserInDocker();
+        driverManager.config().setProperties("config/wdm-docker.properties");
+        drivers = driverManager.create(extensionContext.getTestClass().get().getDeclaredMethods().length);
+        super.beforeAll(extensionContext);
     }
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
-        String testCaseName = extensionContext.getDisplayName();
-        if (getNumberOfBrowser() > 1) {
-            drivers = createWebDrivers(driverManager);
-        } else {
-            driver = createWebDriver(driverManager);
-        }
-        wait = getWait();
-        extTest = getExtentReports().createTest(testCaseName).assignCategory(extensionContext.getTags().iterator().next());
-        initElements = new InitElements(driver, extTest);
-        openStartPage();
-        logger.info(testCaseName + " is started");
-    }
-
-    @Override
-    public void afterAll(ExtensionContext extensionContext) throws Exception {
-        if (Boolean.parseBoolean(getConfigProperty(PropertyNames.GALEN_TEST_LAYOUT))) {
-            new HtmlReportBuilder().build(galenTestInfos,
-                    "target/galen-html-reports");
-        }
-        oracleDb.closeConnectionPool();
-        cleanUp(getExtentReports());
-        String tag = extensionContext.getTags().iterator().next();
-        logger.info("Environment is closed for {}", tag + "cases");
-        Map<TestResultStatus, Long> summary = testResultsStatus.stream()
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-
-        logger.info("Test Result Summary for {} {}", tag + "cases", summary.toString());
+        super.beforeEach(extensionContext);
     }
 
     @Override
     public void afterEach(ExtensionContext extensionContext) throws Exception {
-    }
-
-    private enum TestResultStatus {
-        SUCCESSFUL, ABORTED, FAILED, DISABLED;
+        super.afterEach(extensionContext);
     }
 
     @Override
-    public void testDisabled(ExtensionContext context, Optional<String> reason) {
-        logger.info("{} is disabled with reason :- {}", context.getDisplayName(), reason.orElse("No reason"));
+    public void afterAll(ExtensionContext extensionContext) throws Exception {
+        super.afterAll(extensionContext);
+    }
 
-        testResultsStatus.add(TestResultStatus.DISABLED);
+    @Override
+    public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
+        super.afterTestExecution(extensionContext);
+        logger.info("Environment is closed");
+    }
+
+    @Override
+    public void testDisabled(ExtensionContext extensionContext, Optional<String> reason) {
+        super.testDisabled(extensionContext, reason);
     }
 
     @SneakyThrows
     @Override
-    public void testSuccessful(ExtensionContext context) {
-        String testCaseName = context.getDisplayName();
-        logger.info("{} is successful", testCaseName);
-        extTest.pass(testCaseName + " scenario is successful", MediaEntityBuilder.createScreenCaptureFromPath(createScreenCapture(testCaseName)).build());
-        cleanUpWebDriver(driver);
-        testResultsStatus.add(TestResultStatus.SUCCESSFUL);
+    public void testSuccessful(ExtensionContext extensionContext) {
+        super.testSuccessful(extensionContext);
     }
 
     @Override
-    public void testAborted(ExtensionContext context, Throwable cause) {
-        logger.info("{} is aborted", context.getDisplayName());
-
-        testResultsStatus.add(TestResultStatus.ABORTED);
+    public void testAborted(ExtensionContext extensionContext, Throwable cause) {
+        super.testAborted(extensionContext, cause);
     }
 
     @SneakyThrows
     @Override
-    public void testFailed(ExtensionContext context, Throwable cause) {
-        String testCaseName = context.getDisplayName();
-        logger.info("{} is failed", testCaseName);
-        extTest.fail(testCaseName + " scenario is not successful", MediaEntityBuilder.createScreenCaptureFromPath(createScreenCapture(testCaseName)).build());
-        cleanUpWebDriver(driver);
-        testResultsStatus.add(TestResultStatus.FAILED);
+    public void testFailed(ExtensionContext extensionContext, Throwable cause) {
+        super.testFailed(extensionContext, cause);
     }
 }

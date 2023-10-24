@@ -10,22 +10,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SendKeysActions {
+public class SendKeysActions extends ActionsAPI {
 
     final static Logger logger = LogManager.getLogger(SendKeysActions.class);
 
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
-    public ActionsAPI actionsAPI;
-    public SimpleActions simpleActions;
-
     public SendKeysActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
-        this.driver = driver;
-        this.wait = wait;
-        this.extentTest = extentTest;
-        actionsAPI = new ActionsAPI(driver, wait, extentTest);
-        simpleActions = new SimpleActions(driver, wait,extentTest);
+        super(driver, wait, extentTest);
     }
 
     /**
@@ -36,14 +26,14 @@ public class SendKeysActions {
      */
     public void sendKeys(WebElement element, String value) {
         try {
-            actionsAPI.scrollToVisibleElement(element);
+            scrollToVisibleElement(element);
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -58,14 +48,14 @@ public class SendKeysActions {
     public void sendKeys(By xpath, String value) {
         WebElement element = null;
         try {
-            element = actionsAPI.scrollToVisibleElement(xpath);
+            element = scrollToVisibleElement(xpath);
             element.clear();
             element.sendKeys(value);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -85,7 +75,7 @@ public class SendKeysActions {
             extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -108,7 +98,7 @@ public class SendKeysActions {
             extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }

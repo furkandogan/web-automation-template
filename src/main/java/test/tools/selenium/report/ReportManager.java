@@ -1,7 +1,4 @@
-package test.tools.selenium.report.extent;
-
-import test.tools.selenium.config.ConfigurationManager;
-import test.tools.selenium.config.PropertyNames;
+package test.tools.selenium.report;
 
 import java.io.File;
 import java.text.ParseException;

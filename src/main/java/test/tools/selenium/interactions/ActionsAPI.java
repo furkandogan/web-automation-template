@@ -15,20 +15,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Collections;
 
-public class ActionsAPI {
+public class ActionsAPI extends SimpleActions {
 
     final static Logger logger = LogManager.getLogger(ActionsAPI.class);
 
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
-    public SimpleActions simpleActions;
-
     public ActionsAPI(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
-        this.driver = driver;
-        this.wait = wait;
-        this.extentTest = extentTest;
-        simpleActions = new SimpleActions(driver, wait, extentTest);
+        super(driver, wait, extentTest);
     }
 
     /**
@@ -51,7 +43,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Found and scrolled to element: {%s} ", element));
             logger.info("Found and scrolled to element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -73,7 +65,7 @@ public class ActionsAPI {
             logger.info("Scrolled to element: {} ", element);
             return element;
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
             return null;
@@ -99,7 +91,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -122,7 +114,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -151,7 +143,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -175,7 +167,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -208,7 +200,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -234,7 +226,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -277,7 +269,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked and held to element: {%s} ", element));
             logger.info("Clicked and held to element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -298,7 +290,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked and held to element: {%s} ", element));
             logger.info("Clicked and held to element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -320,7 +312,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked to element: {%s} ", element));
             logger.info("Clicked to element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -341,7 +333,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked to element: {%s} ", element));
             logger.info("Clicked to element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -363,7 +355,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked to right click on element: {%s} ", element));
             logger.info("Clicked to right click on element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -384,7 +376,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked to right click on element: {%s} ", element));
             logger.info("Clicked to right click on element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -445,7 +437,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked to double click on element: {%s} ", element));
             logger.info("Clicked to double click on element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -466,7 +458,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Clicked to double click on element: {%s} ", element));
             logger.info("Clicked to double click on element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -489,7 +481,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -510,7 +502,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -535,7 +527,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -556,7 +548,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -627,8 +619,8 @@ public class ActionsAPI {
             extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
         } catch (Exception e) {
-            simpleActions.highlightElement(draggable);
-            simpleActions.highlightElement(droppable);
+            highlightElement(draggable);
+            highlightElement(droppable);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -655,8 +647,8 @@ public class ActionsAPI {
             extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
         } catch (Exception e) {
-            simpleActions.highlightElement(draggable);
-            simpleActions.highlightElement(droppable);
+            highlightElement(draggable);
+            highlightElement(droppable);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -700,7 +692,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -722,7 +714,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -749,7 +741,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -775,7 +767,7 @@ public class ActionsAPI {
             extentTest.pass(String.format("Sent value: {%s} to element: {%s} ", value, element));
             logger.info("Sent value: {} to element: {} ", value, element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }

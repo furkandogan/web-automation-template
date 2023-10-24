@@ -3,14 +3,9 @@ package test.tools.selenium.util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
-import test.tools.selenium.config.ConfigurationManager;
-import test.tools.selenium.config.PropertyNames;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DbUtility {
 
@@ -21,22 +16,6 @@ public class DbUtility {
     private String jdbcUrl = null;
     private String username = null;
     private String password = null;
-
-    public DataSource getDataSource() {
-        return ds;
-    }
-
-    public void setDataSource(DataSource ds) {
-        this.ds = ds;
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 
     public String getDbDriver() {
         return dbDriver;
@@ -70,17 +49,6 @@ public class DbUtility {
         this.password = password;
     }
 
-    public DbUtility() {
-        try {
-            setDbDriver(ConfigurationManager.getConfigProperty(PropertyNames.DB_DRIVER));
-            setUser(ConfigurationManager.getConfigProperty(PropertyNames.DB_USER));
-            setPassword(ConfigurationManager.getConfigProperty(PropertyNames.DB_PS));
-            setJdbcUrl(ConfigurationManager.getConfigProperty(PropertyNames.DB_JDBC_URL));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public DbUtility(String dbDriver, String user, String password, String jdbcUrl) {
         try {
             setDbDriver(dbDriver);
@@ -93,7 +61,7 @@ public class DbUtility {
         }
     }
 
-    public DataSource initConnectionPool() throws Exception {
+    public DataSource getDataSource() throws Exception {
         ds = new DataSource();
         ds.setDriverClassName(getDbDriver());
         ds.setUrl(getJdbcUrl());
@@ -106,26 +74,10 @@ public class DbUtility {
         return ds;
     }
 
-    public Connection initConnectionFromPool() throws Exception {
-
+    public Connection getConnection() throws Exception {
         connection = ds.getConnection();
         connection.setAutoCommit(false);
         return connection;
-    }
-
-    public Connection initConnection() throws Exception {
-
-        Class.forName(getDbDriver());
-        connection = DriverManager.getConnection(getJdbcUrl(), getUser(), getPassword());
-        connection.setAutoCommit(false);
-        return connection;
-    }
-
-    public void disConnect() throws SQLException {
-
-        if (connection != null) {
-            connection.close();
-        }
     }
 
     public void disConnect(Connection connection) throws SQLException {
@@ -135,10 +87,10 @@ public class DbUtility {
         }
     }
 
-    public void closeConnectionPool() throws SQLException {
+    public void closeConnectionPool(DataSource dataSource) throws SQLException {
 
-        if (ds != null) {
-            ds.close();
+        if (dataSource != null) {
+            dataSource.close();
         }
     }
 

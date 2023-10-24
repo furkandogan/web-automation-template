@@ -56,6 +56,8 @@
         <projectlombok.version>1.18.24</projectlombok.version>
         <jackson-core.version>2.13.4</jackson-core.version>
         <slf4j-simple.version>1.7.30</slf4j-simple.version>
+        <htmlunit.version>4.13.0</htmlunit.version>
+        <selenide.version>6.19.1</selenide.version>
     </properties>
 
     <build>
@@ -190,11 +192,6 @@
             <version>${extentreports.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.galenframework</groupId>
-            <artifactId>galen-java-support</artifactId>
-            <version>${galenframework.version}</version>
-        </dependency>
-        <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>${rest-assured.version}</version>
@@ -270,6 +267,32 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j-simple.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>htmlunit-driver</artifactId>
+            <version>${htmlunit.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>${selenide.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.github.bonigarcia</groupId>
+                    <artifactId>webdrivermanager</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents.client5</groupId>
+                    <artifactId>httpclient5</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

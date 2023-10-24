@@ -14,21 +14,6 @@ public class DBConfigurationInstance {
 
     private DbUtility dbUtility = null;
 
-
-    //public instance creater
-    public static synchronized DBConfigurationInstance getInstance() throws Exception {
-
-        if (instance == null) {
-            instance = new DBConfigurationInstance();
-
-            // set rm id
-            instance.instanceId = System.currentTimeMillis();
-            instance.loadDbUtils();
-        }
-
-        return instance;
-    }
-
     public static synchronized DBConfigurationInstance getInstance(String dbDriver, String user, String password, String jdbcUrl) throws Exception {
 
         if (instance == null) {
@@ -44,17 +29,6 @@ public class DBConfigurationInstance {
 
     public DbUtility getDbUtility() {
         return dbUtility;
-    }
-
-
-    private void loadDbUtils() {
-
-        try {
-            dbUtility = new DbUtility();
-        } catch (Exception e) {
-            logger.error(e);
-            e.printStackTrace();
-        }
     }
 
     private void loadDbUtils(String dbDriver, String user, String password, String jdbcUrl) {

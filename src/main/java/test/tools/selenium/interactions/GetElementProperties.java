@@ -12,20 +12,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class GetElementProperties {
+public class GetElementProperties extends ActionsAPI{
 
     final static Logger logger = LogManager.getLogger(GetElementProperties.class);
 
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
-    public ActionsAPI actionsAPI;
-
     public GetElementProperties(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
-        this.driver = driver;
-        this.wait = wait;
-        this.extentTest = extentTest;
-        actionsAPI = new ActionsAPI(driver, wait, extentTest);
+        super(driver, wait, extentTest);
     }
 
     /**
@@ -39,7 +31,7 @@ public class GetElementProperties {
             wait.until(ExpectedConditions.invisibilityOf(element));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            actionsAPI.scrollToVisibleElement(element);
+            scrollToVisibleElement(element);
         }
         String elementAttr = element.getAttribute(attr).trim().toLowerCase();
         extentTest.pass(String.format("Attribute value: {%s} of element: {%s}", elementAttr, element));
@@ -60,7 +52,7 @@ public class GetElementProperties {
             element = driver.findElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            element = actionsAPI.scrollToVisibleElement(xpath);
+            element = scrollToVisibleElement(xpath);
         }
         String elementAttr = element.getAttribute(attr).trim().toLowerCase();
         extentTest.pass(String.format("Attribute value: {%s} of element: {%s}", elementAttr, element));
@@ -140,7 +132,7 @@ public class GetElementProperties {
             wait.until(ExpectedConditions.invisibilityOf(element));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            actionsAPI.scrollToVisibleElement(element);
+            scrollToVisibleElement(element);
         }
         String elementText = element.getText().trim().toLowerCase();
         extentTest.pass(String.format("Text: {%s} of element: {%s}", elementText, element));
@@ -161,7 +153,7 @@ public class GetElementProperties {
             element = driver.findElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            element = actionsAPI.scrollToVisibleElement(xpath);
+            element = scrollToVisibleElement(xpath);
         }
         String elementText = element.getText().trim().toLowerCase();
         extentTest.pass(String.format("Text: {%s} of element: {%s}", elementText, element));
@@ -200,7 +192,7 @@ public class GetElementProperties {
             wait.until(ExpectedConditions.invisibilityOf(element));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            actionsAPI.scrollToVisibleElement(element);
+            scrollToVisibleElement(element);
         }
         String elementTagName = element.getTagName().trim().toLowerCase();
         extentTest.pass(String.format("Tag name: {%s} of element: {%s}", elementTagName, element));
@@ -221,7 +213,7 @@ public class GetElementProperties {
             element = driver.findElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            element = actionsAPI.scrollToVisibleElement(xpath);
+            element = scrollToVisibleElement(xpath);
         }
         String elementTagName = element.getTagName().trim().toLowerCase();
         extentTest.pass(String.format("Tag name: {%s} of element: {%s}", elementTagName, element));
@@ -260,7 +252,7 @@ public class GetElementProperties {
             wait.until(ExpectedConditions.invisibilityOf(element));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            actionsAPI.scrollToVisibleElement(element);
+            scrollToVisibleElement(element);
         }
         String elementCssValue = element.getCssValue(value).trim().toLowerCase();
         extentTest.pass(String.format("Css value: {%s} of element: {%s}", elementCssValue, element));
@@ -281,7 +273,7 @@ public class GetElementProperties {
             element = driver.findElement(xpath);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", element);
         } else {
-            element = actionsAPI.scrollToVisibleElement(xpath);
+            element = scrollToVisibleElement(xpath);
         }
         String elementCssValue = element.getCssValue(value).trim().toLowerCase();
         extentTest.pass(String.format("Css value: {%s} of element: {%s}", elementCssValue, element));

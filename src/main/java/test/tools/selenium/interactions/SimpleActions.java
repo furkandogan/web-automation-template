@@ -15,14 +15,25 @@ import java.util.Set;
 
 public class SimpleActions {
 
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
+    protected WebDriver driver;
+    protected JavascriptExecutor js;
 
-    public SimpleActions(WebDriver driver, WebDriverWait wait,ExtentTest extentTest) {
+    protected WebDriverWait wait;
+    protected ExtentTest extentTest;
+
+    public SimpleActions(WebDriver driver, WebDriverWait wait,ExtentTest extentTest){
         this.driver = driver;
-        this.wait = wait;
+        this.js = (JavascriptExecutor) driver;
         this.extentTest = extentTest;
+        this.wait = wait;
+    }
+
+    public void openPage(String URL) {
+        driver.get(URL);
+    }
+
+    public void navigateToUrl(String URL) {
+        driver.navigate().to(URL);
     }
 
     /**
@@ -68,8 +79,7 @@ public class SimpleActions {
         Set<String> allWindows = driver.getWindowHandles();
         for (String selectWindow : allWindows) {
             driver.switchTo().window(selectWindow);
-            IsActions presence = new IsActions(driver, wait,extentTest);
-            if (presence.isElementDisplayed(element)) {
+            if (element.isDisplayed()) {
                 break;
             }
         }

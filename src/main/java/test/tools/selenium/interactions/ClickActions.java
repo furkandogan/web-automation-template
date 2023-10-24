@@ -10,22 +10,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ClickActions {
+public class ClickActions extends ActionsAPI {
 
     final static Logger logger = LogManager.getLogger(ClickActions.class);
 
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
-    public ActionsAPI actionsAPI;
-    public SimpleActions simpleActions;
-
     public ClickActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
-        this.driver = driver;
-        this.wait = wait;
-        this.extentTest = extentTest;
-        actionsAPI = new ActionsAPI(driver, wait, extentTest);
-        simpleActions = new SimpleActions(driver, wait, extentTest);
+        super(driver, wait, extentTest);
     }
 
     /**
@@ -35,12 +25,12 @@ public class ClickActions {
      */
     public void click(WebElement element) {
         try {
-            actionsAPI.scrollToVisibleElement(element);
+            scrollToVisibleElement(element);
             element.click();
             extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -54,12 +44,12 @@ public class ClickActions {
     public void click(By xpath) {
         WebElement element = null;
         try {
-            element = actionsAPI.scrollToVisibleElement(xpath);
+            element = scrollToVisibleElement(xpath);
             element.click();
             extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -77,7 +67,7 @@ public class ClickActions {
             extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }
@@ -98,7 +88,7 @@ public class ClickActions {
             extentTest.pass(String.format("Clicked to element: {%s}", element));
             logger.info("Clicked to element: {}", element);
         } catch (Exception e) {
-            simpleActions.highlightElement(element);
+            highlightElement(element);
             extentTest.fail(e);
             logger.error(e);
         }

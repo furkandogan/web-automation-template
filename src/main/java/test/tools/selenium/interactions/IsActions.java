@@ -13,20 +13,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class IsActions {
+public class IsActions extends GetElementProperties {
 
     final static Logger logger = LogManager.getLogger(SelectActions.class);
 
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public ExtentTest extentTest;
-    public GetElementProperties getElementProperties;
-
-    public IsActions(WebDriver driver, WebDriverWait wait,ExtentTest extentTest) {
-        this.driver = driver;
-        this.wait = wait;
-        this.extentTest = extentTest;
-        getElementProperties = new GetElementProperties(driver, wait,extentTest);
+    public IsActions(WebDriver driver, WebDriverWait wait, ExtentTest extentTest) {
+        super(driver, wait, extentTest);
     }
 
     /**
@@ -121,7 +113,7 @@ public class IsActions {
      * @return
      */
     public boolean isTextEquals(WebElement element, String text, boolean hidden) {
-        String elementText = getElementProperties.getText(element, hidden);
+        String elementText = getText(element, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -140,7 +132,7 @@ public class IsActions {
      * @return
      */
     public boolean isTextEquals(By xpath, String text, boolean hidden) {
-        String elementText = getElementProperties.getText(xpath, hidden);
+        String elementText = getText(xpath, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -181,7 +173,7 @@ public class IsActions {
      * @return
      */
     public boolean isTextContains(WebElement element, String text, boolean hidden) {
-        String elementText = getElementProperties.getText(element, hidden);
+        String elementText = getText(element, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -200,7 +192,7 @@ public class IsActions {
      * @return
      */
     public boolean isTextContains(By xpath, String text, boolean hidden) {
-        String elementText = getElementProperties.getText(xpath, hidden);
+        String elementText = getText(xpath, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -241,8 +233,7 @@ public class IsActions {
      * @return
      */
     public boolean isValueEquals(WebElement element, String value, boolean hidden) {
-        GetElementProperties getElementProperties = new GetElementProperties(driver, wait,extentTest);
-        String elementValue = getElementProperties.getValue(element, hidden);
+        String elementValue = getValue(element, hidden);
         if (elementValue == null || elementValue.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -261,7 +252,7 @@ public class IsActions {
      * @return
      */
     public boolean isValueEquals(By xpath, String value, boolean hidden) {
-        String elementValue = getElementProperties.getValue(xpath, hidden);
+        String elementValue = getValue(xpath, hidden);
         if (elementValue == null || elementValue.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -305,7 +296,7 @@ public class IsActions {
      * @return
      */
     public boolean isAttrValueEquals(WebElement element, String attr, String value, boolean hidden) {
-        String elementAttrValue = getElementProperties.getAttribute(element, attr, hidden);
+        String elementAttrValue = getAttribute(element, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -325,7 +316,7 @@ public class IsActions {
      * @return
      */
     public boolean isAttrValueEquals(By xpath, String attr, String value, boolean hidden) {
-        String elementAttrValue = getElementProperties.getAttribute(xpath, attr, hidden);
+        String elementAttrValue = getAttribute(xpath, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -369,7 +360,7 @@ public class IsActions {
      * @return
      */
     public boolean isAttrValueContains(WebElement element, String attr, String attrValue, boolean hidden) {
-        String elementAttrValue = getElementProperties.getAttribute(element, attr, hidden);
+        String elementAttrValue = getAttribute(element, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -389,7 +380,7 @@ public class IsActions {
      * @return
      */
     public boolean isAttrValueContains(By xpath, String attr, String attrValue, boolean hidden) {
-        String elementAttrValue = getElementProperties.getAttribute(xpath, attr, hidden);
+        String elementAttrValue = getAttribute(xpath, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -433,7 +424,7 @@ public class IsActions {
      * @return
      */
     public boolean rangeText(WebElement element, int low, int high, boolean hidden) {
-        String elementText = getElementProperties.getText(element, hidden);
+        String elementText = getText(element, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -454,7 +445,7 @@ public class IsActions {
      * @return
      */
     public boolean rangeText(By xpath, int low, int high, boolean hidden) {
-        String elementText = getElementProperties.getText(xpath, hidden);
+        String elementText = getText(xpath, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -502,7 +493,7 @@ public class IsActions {
      * @return
      */
     public boolean rangeAttrValue(WebElement element, String attr, int low, int high, boolean hidden) {
-        String elementAttrValueText = getElementProperties.getAttribute(element, attr, hidden);
+        String elementAttrValueText = getAttribute(element, attr, hidden);
         if (elementAttrValueText == null || elementAttrValueText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -524,7 +515,7 @@ public class IsActions {
      * @return
      */
     public boolean rangeAttrValue(By xpath, String attr, int low, int high, boolean hidden) {
-        String elementAttrValueText = getElementProperties.getAttribute(xpath, attr, hidden);
+        String elementAttrValueText = getAttribute(xpath, attr, hidden);
         if (elementAttrValueText == null || elementAttrValueText.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -543,7 +534,7 @@ public class IsActions {
      * @return
      */
     public boolean isTextPresentOnPageSource(String text) {
-        String pageSource = getElementProperties.getPageSource();
+        String pageSource = getPageSource();
         if (pageSource == null || pageSource.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -584,7 +575,7 @@ public class IsActions {
      * @return
      */
     public boolean checkPlaceHolder(WebElement element, String value, boolean hidden) {
-        String placeholder = getElementProperties.getAttribute(element, "placeholder", hidden);
+        String placeholder = getAttribute(element, "placeholder", hidden);
         if (placeholder == null || placeholder.equalsIgnoreCase("")) {
             return false;
         } else {
@@ -603,7 +594,7 @@ public class IsActions {
      * @return
      */
     public boolean checkPlaceHolder(By xpath, String value, boolean hidden) {
-        String placeholder = getElementProperties.getAttribute(xpath, "placeholder", hidden);
+        String placeholder = getAttribute(xpath, "placeholder", hidden);
         if (placeholder == null || placeholder.equalsIgnoreCase("")) {
             return false;
         } else {
