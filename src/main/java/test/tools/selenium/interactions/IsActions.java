@@ -4,7 +4,6 @@ import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,13 +27,11 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isElementDisplayed(WebElement element) {
-        return wait.ignoring(StaleElementReferenceException.class)
-                .until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
     }
 
     public boolean isElementDisplayed(By xpath) {
-        return wait.ignoring(StaleElementReferenceException.class)
-                .until(ExpectedConditions.visibilityOfElementLocated(xpath)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(xpath)).isDisplayed();
     }
 
     /**
@@ -44,13 +41,11 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isElementEnabled(WebElement element) {
-        return wait.ignoring(StaleElementReferenceException.class)
-                .until(ExpectedConditions.visibilityOf(element)).isEnabled();
+        return wait.until(ExpectedConditions.visibilityOf(element)).isEnabled();
     }
 
     public boolean isElementEnabled(By xpath) {
-        return wait.ignoring(StaleElementReferenceException.class)
-                .until(ExpectedConditions.visibilityOfElementLocated(xpath)).isEnabled();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(xpath)).isEnabled();
     }
 
     /**

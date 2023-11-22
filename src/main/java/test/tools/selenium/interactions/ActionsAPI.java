@@ -890,7 +890,8 @@ public class ActionsAPI extends SimpleActions {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
-        extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
+        if (extentTest != null)
+            extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
         logger.info("Copy value: {} to element: {} ", value, element);
     }
 
@@ -914,7 +915,8 @@ public class ActionsAPI extends SimpleActions {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
-        extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
+        if (extentTest != null)
+            extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
         logger.info("Copy value: {} to element: {} ", value, element);
     }
 
@@ -927,7 +929,8 @@ public class ActionsAPI extends SimpleActions {
         new Actions(driver)
                 .keyDown(Keys.SHIFT)
                 .perform();
-        extentTest.pass(String.format("Key Down"));
+        if (extentTest != null)
+            extentTest.pass(String.format("Key Down"));
         logger.info("Key Down");
     }
 
@@ -935,7 +938,8 @@ public class ActionsAPI extends SimpleActions {
         new Actions(driver)
                 .keyUp(Keys.SHIFT)
                 .perform();
-        extentTest.pass(String.format("Key Up"));
+        if (extentTest != null)
+            extentTest.pass(String.format("Key Up"));
         logger.info("Key Up");
     }
 

@@ -1,42 +1,18 @@
-/*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
 package test.tools.selenium.extensions;
 
 import com.codeborne.selenide.SelenideConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
 import test.tools.selenium.annotations.SelenideConfiguration;
 import test.tools.selenium.util.AnnotationsReader;
 
 import java.lang.reflect.Parameter;
 import java.util.Optional;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import static org.slf4j.LoggerFactory.getLogger;
-
-/**
- * Logic for creating instances of SelenideDriver.
- *
- * @author Boni Garcia
- * @since 4.1.0
- */
 public class SelenideHandler {
 
-    final Logger log = getLogger(lookup().lookupClass());
+    final static Logger logger = LogManager.getLogger(SelenideHandler.class);
 
     static final String SELENIDE_DRIVER_CLASS = "com.codeborne.selenide.SelenideDriver";
     static final String SELENIDE_CONFIG_INTERFACE = "com.codeborne.selenide.Config";
@@ -54,7 +30,7 @@ public class SelenideHandler {
     }
 
     public boolean useCustomSelenideConfig(Parameter parameter,
-            Optional<Object> testInstance) {
+                                           Optional<Object> testInstance) {
         SelenideConfiguration selenideConfiguration = parameter
                 .getAnnotation(SelenideConfiguration.class);
         SelenideConfig globalConfig = annotationsReader.getFromAnnotatedField(
@@ -64,7 +40,7 @@ public class SelenideHandler {
     }
 
     public Object createSelenideDriver(WebDriver driver, Parameter parameter,
-            Optional<Object> testInstance) {
+                                       Optional<Object> testInstance) {
         Object object = null;
         try {
             Object config = getSelenideConfig(testInstance, parameter);
@@ -83,14 +59,14 @@ public class SelenideHandler {
             }
 
         } catch (Exception e) {
-            log.warn("Exception creating SelenideDriver object", e);
+            logger.warn("Exception creating SelenideDriver object", e);
         }
 
         return object;
     }
 
     public Object getSelenideConfig(Optional<Object> testInstance,
-            Parameter parameter) {
+                                    Parameter parameter) {
         Object config = null;
         try {
             config = Class.forName(SELENIDE_CONFIG_CLASS)
@@ -125,7 +101,7 @@ public class SelenideHandler {
             }
 
         } catch (Exception e) {
-            log.warn("Exception getting Selenide Config", e);
+            logger.warn("Exception getting Selenide Config", e);
         }
 
         return config;

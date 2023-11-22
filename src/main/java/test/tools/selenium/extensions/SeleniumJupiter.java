@@ -1,19 +1,3 @@
-/*
- * (C) Copyright 2017 Boni Garcia (https://bonigarcia.github.io/)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
 package test.tools.selenium.extensions;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -24,6 +8,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.*;
 import org.openqa.selenium.Capabilities;
@@ -31,7 +17,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.slf4j.Logger;
 import test.tools.selenium.annotations.*;
 import test.tools.selenium.browser.BrowserBuilder;
 import test.tools.selenium.browser.BrowserType;
@@ -57,7 +42,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.isOnline;
-import static java.lang.invoke.MethodHandles.lookup;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
@@ -66,14 +50,13 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
-import static org.slf4j.LoggerFactory.getLogger;
 import static test.tools.selenium.browser.BrowserType.CHROME_MOBILE;
 
 public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, BeforeEachCallback,
         AfterTestExecutionCallback, AfterEachCallback, AfterAllCallback,
         TestTemplateInvocationContextProvider, TestWatcher, ExecutionCondition {
 
-    final Logger log = getLogger(lookup().lookupClass());
+    final static Logger logger = LogManager.getLogger(SeleniumJupiter.class);
 
     static final String CLASSPATH_PREFIX = "classpath:";
     static final String DEVTOOLS_CLASS = "org.openqa.selenium.devtools.DevTools";
@@ -140,7 +123,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         int index = parameterContext.getIndex();
         Optional<Object> testInstance = extensionContext.getTestInstance();
 
-        log.trace("Resolving parameter {} (contextId {}, index {})", parameter,
+        logger.trace("Resolving parameter {} (contextId {}, index {})", parameter,
                 contextId, index);
 
         Class<?> type = parameter.getType();
@@ -185,7 +168,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                 && index < wdmMap.get(contextId).size()) {
             WebDriver driver = wdmMap.get(contextId).get(index).getWebDriver();
             if (driver != null) {
-                log.trace("Returning driver at index {}: {}", index, driver);
+                logger.trace("Returning driver at index {}: {}", index, driver);
                 return driver;
             }
         }
@@ -278,7 +261,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                 && wdmMap.get(contextId).size() >= index) {
             WebDriver driver = wdmMap.get(contextId).get(index - 1)
                     .getWebDriver();
-            log.debug("Opening DevTools for {}", driver);
+            logger.debug("Opening DevTools for {}", driver);
             DevTools devTools = ((HasDevTools) driver).getDevTools();
             devTools.createSessionIfThereIsNotOne();
             devToolsList.add(devTools);
@@ -307,7 +290,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                         .newInstance();
             }
         } catch (Exception e) {
-            log.warn("Exception trying to create HtmlUnit instance", e);
+            logger.warn("Exception trying to create HtmlUnit instance", e);
         }
         return driver;
     }
@@ -326,7 +309,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                         .newInstance(url.get(), caps.get());
             }
         } catch (Exception e) {
-            log.warn("Exception creating instance of AppiumDriver", e);
+            logger.warn("Exception creating instance of AppiumDriver", e);
         }
         return driver;
     }
@@ -402,7 +385,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         }
         if (!dockerBrowser.screenResolution().isEmpty()) {
             wdm.dockerScreenResolution(dockerBrowser.screenResolution());
-        }else if (!config.getDockerScreenResolution().isEmpty()){
+        } else if (!config.getDockerScreenResolution().isEmpty()) {
             wdm.dockerScreenResolution(config.getDockerScreenResolution());
         }
         Optional<Capabilities> capabilities = getCapabilities(extensionContext,
@@ -510,7 +493,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         String tag = extensionContext.getTags().iterator().next();
         Map<TestResultStatus, Long> summary = testResultsStatus.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        log.info("Test Result Summary for {} {}", tag + "cases", summary.toString());
+        logger.info("Test Result Summary for {} {}", tag + "cases", summary.toString());
     }
 
     @Override
@@ -610,7 +593,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                             ParameterContext parameterContext,
                             ExtensionContext extensionContext) {
                         String contextId = getContextId(extensionContext);
-                        log.trace("Setting browser list {} for context id {}",
+                        logger.trace("Setting browser list {} for context id {}",
                                 template, contextId);
                         parent.browserListMap.put(contextId, template);
 
@@ -675,12 +658,12 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
     }
 
     private Browser getBrowser(String contextId, int index) {
-        log.trace("Getting browser by contextId {} and index {}", contextId,
+        logger.trace("Getting browser by contextId {} and index {}", contextId,
                 index);
         Browser browser = null;
 
         if (!browserListMap.containsKey(contextId)) {
-            log.warn("Browser list for context id {} not found", contextId);
+            logger.warn("Browser list for context id {} not found", contextId);
         } else {
             List<Browser> browserList = browserListMap.get(contextId);
 
@@ -741,20 +724,20 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
     private void removeManagersFromMap(String contextId) {
         if (wdmMap.containsKey(contextId)) {
             wdmMap.remove(contextId);
-            log.trace("Removing managers from map (id {})", contextId);
+            logger.trace("Removing managers from map (id {})", contextId);
         }
     }
 
     private void putManagerInMap(String contextId, WebDriverManager wdm) {
-        log.trace("Put manager {} in map (context id {})", wdm, contextId);
+        logger.trace("Put manager {} in map (context id {})", wdm, contextId);
         if (wdmMap.containsKey(contextId)) {
             wdmMap.get(contextId).add(wdm);
-            log.trace("Adding {} to existing map (id {})", wdm, contextId);
+            logger.trace("Adding {} to existing map (id {})", wdm, contextId);
         } else {
             List<WebDriverManager> wdmList = new ArrayList<>();
             wdmList.add(wdm);
             wdmMap.put(contextId, wdmList);
-            log.trace("Adding {} to new map (id {})", wdm, contextId);
+            logger.trace("Adding {} to new map (id {})", wdm, contextId);
         }
     }
 
@@ -765,14 +748,14 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
             singleSession = testClass.get()
                     .isAnnotationPresent(SingleSession.class);
         }
-        log.trace("Single session {}", singleSession);
+        logger.trace("Single session {}", singleSession);
         return singleSession;
     }
 
     private void quitWebDriver(ExtensionContext extensionContext) {
         String contextId = getContextId(extensionContext);
 
-        log.trace("Quitting contextId {}: (wdmMap={})", contextId, wdmMap);
+        logger.trace("Quitting contextId {}: (wdmMap={})", contextId, wdmMap);
 
         // Close DevTools (if any)
         devToolsList.forEach(DevTools::close);
@@ -798,11 +781,11 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                 // Delete recordings (if any)
                 recordingList.forEach(path -> {
                     try {
-                        log.debug("Deleting {} (since test does not fail)",
+                        logger.debug("Deleting {} (since test does not fail)",
                                 path);
                         Files.delete(path);
                     } catch (Exception e) {
-                        log.warn("Exception trying to delete recording {}",
+                        logger.warn("Exception trying to delete recording {}",
                                 path);
                     }
                 });
@@ -820,12 +803,12 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         return invokeWdm(driver, "getDockerNoVncUrl");
     }
 
-    public List<Map<String, Object>> getLogs() {
-        return invokeWdm("getLogs");
+    public List<Map<String, Object>> getloggers() {
+        return invokeWdm("getloggers");
     }
 
-    public List<Map<String, Object>> getLogs(WebDriver driver) {
-        return invokeWdm(driver, "getLogs");
+    public List<Map<String, Object>> getloggers(WebDriver driver) {
+        return invokeWdm(driver, "getloggers");
     }
 
     public void startRecording(String recFilename) {
@@ -859,7 +842,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                 return (T) wdmMethod.invoke(wdm, params);
             }
         } catch (Exception e) {
-            log.warn("Exception invoking {}", method, e);
+            logger.warn("Exception invoking {}", method, e);
         }
         return out;
     }
@@ -883,7 +866,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
                 }
             }
         } catch (Exception e) {
-            log.warn("Exception invoking {} for {}", method, driver, e);
+            logger.warn("Exception invoking {} for {}", method, driver, e);
         }
         return out;
     }
@@ -894,7 +877,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
 
     @Override
     public void testDisabled(ExtensionContext context, Optional<String> reason) {
-        log.info("{} is disabled with reason :- {}", context.getDisplayName(), reason.orElse("No reason"));
+        logger.info("{} is disabled with reason :- {}", context.getDisplayName(), reason.orElse("No reason"));
         testResultsStatus.add(TestResultStatus.DISABLED);
     }
 
@@ -902,14 +885,14 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
     @Override
     public void testSuccessful(ExtensionContext context) {
         String testCaseName = context.getDisplayName();
-        log.info("{} is successful", testCaseName);
+        logger.info("{} is successful", testCaseName);
         extTest.pass(MediaEntityBuilder.createScreenCaptureFromPath(testCaseName).build());
         testResultsStatus.add(TestResultStatus.SUCCESSFUL);
     }
 
     @Override
     public void testAborted(ExtensionContext context, Throwable cause) {
-        log.info("{} is aborted", context.getDisplayName());
+        logger.info("{} is aborted", context.getDisplayName());
         testResultsStatus.add(TestResultStatus.ABORTED);
     }
 
@@ -917,7 +900,7 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
         String testCaseName = context.getDisplayName();
-        log.info("{} is failed", testCaseName);
+        logger.info("{} is failed", testCaseName);
         extTest.fail(MediaEntityBuilder.createScreenCaptureFromPath(testCaseName).build());
         testResultsStatus.add(TestResultStatus.FAILED);
     }

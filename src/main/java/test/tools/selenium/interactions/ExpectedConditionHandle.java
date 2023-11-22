@@ -17,6 +17,24 @@ public class ExpectedConditionHandle extends SimpleActions {
         super(driver, wait, extentTest);
     }
 
+    public static ExpectedCondition<Boolean> visibleOfElementLocated(final By locator) {
+        return new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                try {
+                    driver.findElement(locator);
+                    return true;
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+            }
+
+            public String toString() {
+                logger.info("element is being present: " + locator);
+                return "element is being present: " + locator;
+            }
+        };
+    }
+
 
     public static ExpectedCondition<Boolean> absenceOfElementLocated(final By locator) {
         return new ExpectedCondition<Boolean>() {

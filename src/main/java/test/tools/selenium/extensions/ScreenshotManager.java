@@ -1,25 +1,10 @@
-/*
- * (C) Copyright 2018 Boni Garcia (https://bonigarcia.github.io/)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
 package test.tools.selenium.extensions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
 import test.tools.selenium.config.Config;
 import test.tools.selenium.report.OutputHandler;
 
@@ -27,22 +12,14 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.invoke.MethodHandles.lookup;
 import static org.apache.commons.io.FileUtils.copyFile;
 import static org.openqa.selenium.OutputType.BASE64;
 import static org.openqa.selenium.OutputType.FILE;
-import static org.slf4j.LoggerFactory.getLogger;
 import static test.tools.selenium.report.OutputHandler.*;
 
-/**
- * Screenshots handler.
- *
- * @author Boni Garcia
- * @since 2.0.0
- */
 public class ScreenshotManager {
 
-    final Logger log = getLogger(lookup().lookupClass());
+    final static Logger logger = LogManager.getLogger(ScreenshotManager.class);
 
     ExtensionContext extensionContext;
     Config config;
@@ -73,44 +50,44 @@ public class ScreenshotManager {
             String screenshotFormat = config.getScreenshotFormat();
             switch (screenshotFormat) {
                 case PNG_KEY:
-                    logFileScreenshot(driver);
+                    loggerFileScreenshot(driver);
                     break;
                 case BASE64_KEY:
-                    logBase64Screenshot(driver);
+                    loggerBase64Screenshot(driver);
                     break;
                 case BASE64_AND_PNG_KEY:
-                    logBase64Screenshot(driver);
-                    logFileScreenshot(driver);
+                    loggerBase64Screenshot(driver);
+                    loggerFileScreenshot(driver);
                     break;
                 default:
-                    log.warn("Invalid screenshot format {}", screenshotFormat);
+                    logger.warn("Invalid screenshot format {}", screenshotFormat);
                     break;
             }
         }
     }
 
-    void logBase64Screenshot(WebDriver driver) {
+    void loggerBase64Screenshot(WebDriver driver) {
         try {
             String screenshotBase64 = ((TakesScreenshot) driver)
                     .getScreenshotAs(BASE64);
-            log.debug("Screenshot (in Base64) at the end of test "
+            logger.debug("Screenshot (in Base64) at the end of test "
                     + "(copy&paste this string as URL in browser to watch it):\r\n"
                     + "data:image/png;base64,{}", screenshotBase64);
         } catch (Exception e) {
-            log.trace("Exception getting screenshot in Base64", e);
+            logger.trace("Exception getting screenshot in Base64", e);
         }
     }
 
-    void logFileScreenshot(WebDriver driver) {
+    void loggerFileScreenshot(WebDriver driver) {
         try {
             File screenshotFile = ((TakesScreenshot) driver)
                     .getScreenshotAs(FILE);
             File destFile = outputHandler.getScreenshotFile(driver);
-            log.trace("Creating screenshot for {} in {}", driver, destFile);
+            logger.trace("Creating screenshot for {} in {}", driver, destFile);
             copyFile(screenshotFile, destFile);
 
         } catch (Exception e) {
-            log.trace("Exception getting screenshot as file", e);
+            logger.trace("Exception getting screenshot as file", e);
         }
     }
 
