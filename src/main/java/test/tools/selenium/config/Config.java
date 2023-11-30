@@ -53,6 +53,12 @@ public class Config {
     ConfigKey<String> browserTemplateJsonContent = new ConfigKey<>(
             "sel.jup.browser.template.json.content", String.class);
 
+    ConfigKey<Boolean> sparkEnabled = new ConfigKey<>("sel.jup.spark",
+            Boolean.class);
+
+    ConfigKey<String> sparkPath = new ConfigKey<>("sel.jup.spark.path",
+            String.class);
+
     ConfigKey<Boolean> klovEnabled = new ConfigKey<>("sel.jup.klov",
             Boolean.class);
 
@@ -260,6 +266,22 @@ public class Config {
         this.klovEnabled.setValue(klovEnabled);
     }
 
+    public boolean getSparkEnabled() {
+        return resolve(sparkEnabled);
+    }
+
+    public void setSparkEnabled(boolean sparkEnabled) {
+        this.sparkEnabled.setValue(sparkEnabled);
+    }
+
+    public String getSparkPath() {
+        return resolve(sparkPath);
+    }
+
+    public void setSparkPath(String sparkPath) {
+        this.sparkPath.setValue(sparkPath);
+    }
+
     public String getKlovDb() {
         return resolve(klovDb);
     }
@@ -348,6 +370,14 @@ public class Config {
 
     public void takeScreenshotAsBase64AndPng() {
         setScreenshotFormat(BASE64_AND_PNG_KEY);
+    }
+
+    public void enableSpark(){
+        setKlovEnabled(true);
+    }
+
+    public void customSparkPath(String path){
+        setSparkPath(path);
     }
 
     public void enableKlov(){

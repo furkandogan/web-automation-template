@@ -2,6 +2,7 @@ package test.tools.selenium.report.extent;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentKlovReporter;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import test.tools.selenium.config.Config;
 
 public class ExtentReportConfig {
@@ -13,13 +14,19 @@ public class ExtentReportConfig {
 
     public ExtentReports createExtentReport() {
         ExtentReports extentReports = new ExtentReports();
-        extentReports.setReportUsesManualConfiguration(true);
+
         if (config.getKlovEnabled()) {
             ExtentKlovReporter klovReporter = new ExtentKlovReporter(config.getTitle(), config.getBuild());
             klovReporter.initMongoDbConnection(config.getKlovDb(), config.getKlovPort());
             klovReporter.initKlovServerConnection(config.getKlovUrl());
             extentReports.attachReporter(klovReporter);
         }
+
+        if (config.getSparkEnabled()) {
+            ExtentSparkReporter htmlReporter = new ExtentSparkReporter(config.getSparkPath());
+            extentReports.attachReporter(htmlReporter);
+        }
+
         return extentReports;
     }
 
