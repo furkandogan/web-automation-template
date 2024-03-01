@@ -39,7 +39,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <selenium.version>4.15.0</selenium.version>
         <appium.version>8.5.1</appium.version>
-        <webdrivermanager.version>5.6.2</webdrivermanager.version>
+        <webdrivermanager.version>5.7.0</webdrivermanager.version>
         <junit.version>5.4.0</junit.version>
         <assertj.version>3.23.1</assertj.version>
         <extentreports.version>5.1.0</extentreports.version>
