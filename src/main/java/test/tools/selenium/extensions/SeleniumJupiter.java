@@ -229,8 +229,8 @@ public class SeleniumJupiter implements ParameterResolver, BeforeAllCallback, Be
         Object object = null;
         if (!isSelenide || !selenideHandler.useCustomSelenideConfig(parameter,
                 testInstance)) {
-            object = browserNumber == 0 ? wdm.create()
-                    : wdm.create(browserNumber);
+            object = browserNumber == 0 ? wdm.clearDriverCache().create()
+                    : wdm.clearDriverCache().create(browserNumber);
         }
         if (isSelenide || (browser != null && browser.isInSelenide())) {
             if (browserNumber == 0) {
