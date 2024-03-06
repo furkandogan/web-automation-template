@@ -28,6 +28,14 @@ public class SimpleActions {
         this.wait = wait;
     }
 
+    public void await(long second){
+        try {
+            Thread.sleep(1000*second);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void openPage(String URL) {
         driver.get(URL);
     }

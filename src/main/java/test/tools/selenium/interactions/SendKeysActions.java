@@ -4,7 +4,6 @@ import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,9 +25,13 @@ public class SendKeysActions extends ActionsAPI {
      */
     public void sendKeys(WebElement element, String value) {
         try {
+            await(2);
             scrollToVisibleElement(element);
+            await(1);
             element.clear();
+            await(1);
             element.sendKeys(value);
+            await(2);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
@@ -51,9 +54,13 @@ public class SendKeysActions extends ActionsAPI {
     public void sendKeys(By xpath, String value) {
         WebElement element = null;
         try {
+            await(2);
             element = scrollToVisibleElement(xpath);
+            await(1);
             element.clear();
+            await(1);
             element.sendKeys(value);
+            await(2);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
@@ -75,8 +82,11 @@ public class SendKeysActions extends ActionsAPI {
      */
     public void sendKeysByJs(WebElement element, String value) {
         try {
+            await(1);
             js.executeScript("arguments[0].scrollIntoView(false);", element);
+            await(1);
             js.executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
@@ -99,10 +109,15 @@ public class SendKeysActions extends ActionsAPI {
     public void sendKeysByJs(By xpath, String value) {
         WebElement element = null;
         try {
+            await(2);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            await(2);
             element = driver.findElement(xpath);
+            await(1);
             js.executeScript("arguments[0].scrollIntoView(false);", element);
+            await(1);
             js.executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
