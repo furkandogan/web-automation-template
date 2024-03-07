@@ -25,13 +25,11 @@ public class SendKeysActions extends ActionsAPI {
      */
     public void sendKeys(WebElement element, String value) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(1);
             element.clear();
             await(1);
             element.sendKeys(value);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
@@ -54,13 +52,11 @@ public class SendKeysActions extends ActionsAPI {
     public void sendKeys(By xpath, String value) {
         WebElement element = null;
         try {
-            await(2);
             element = scrollToVisibleElement(xpath);
-            await(1);
             element.clear();
             await(1);
             element.sendKeys(value);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Sent value: %s to element: %s ", value, element));
@@ -109,9 +105,8 @@ public class SendKeysActions extends ActionsAPI {
     public void sendKeysByJs(By xpath, String value) {
         WebElement element = null;
         try {
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            await(2);
             element = driver.findElement(xpath);
             await(1);
             js.executeScript("arguments[0].scrollIntoView(false);", element);

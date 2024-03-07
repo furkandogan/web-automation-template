@@ -56,7 +56,7 @@ public class IsActions extends GetElementProperties {
      */
     public boolean isElementExist(WebElement element) {
         try {
-            await(2);
+            await(1);
             element.isDisplayed();
             return true;
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class IsActions extends GetElementProperties {
      */
     public boolean isElementExist(By xpath) {
         try {
-            await(2);
+            await(1);
             driver.findElement(xpath).isDisplayed();
             return true;
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isTextEquals(WebElement element, String text, boolean hidden) {
-        await(2);
+        await(1);
         String elementText = getText(element, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
@@ -131,7 +131,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isTextEquals(By xpath, String text, boolean hidden) {
-        await(2);
+        await(1);
         String elementText = getText(xpath, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
@@ -174,7 +174,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isTextContains(WebElement element, String text, boolean hidden) {
-        await(2);
+        await(1);
         String elementText = getText(element, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
@@ -195,7 +195,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isTextContains(By xpath, String text, boolean hidden) {
-        await(2);
+        await(1);
         String elementText = getText(xpath, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
@@ -238,7 +238,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isValueEquals(WebElement element, String value, boolean hidden) {
-        await(2);
+        await(1);
         String elementValue = getValue(element, hidden);
         if (elementValue == null || elementValue.equalsIgnoreCase("")) {
             return false;
@@ -259,7 +259,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isValueEquals(By xpath, String value, boolean hidden) {
-        await(2);
+        await(1);
         String elementValue = getValue(xpath, hidden);
         if (elementValue == null || elementValue.equalsIgnoreCase("")) {
             return false;
@@ -305,7 +305,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isAttrValueEquals(WebElement element, String attr, String value, boolean hidden) {
-        await(2);
+        await(1);
         String elementAttrValue = getAttribute(element, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
@@ -327,7 +327,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isAttrValueEquals(By xpath, String attr, String value, boolean hidden) {
-        await(2);
+        await(1);
         String elementAttrValue = getAttribute(xpath, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
@@ -373,7 +373,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isAttrValueContains(WebElement element, String attr, String attrValue, boolean hidden) {
-        await(2);
+        await(1);
         String elementAttrValue = getAttribute(element, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
@@ -395,7 +395,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isAttrValueContains(By xpath, String attr, String attrValue, boolean hidden) {
-        await(2);
+        await(1);
         String elementAttrValue = getAttribute(xpath, attr, hidden);
         if (elementAttrValue == null || elementAttrValue.equalsIgnoreCase("")) {
             return false;
@@ -441,7 +441,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean rangeText(WebElement element, int low, int high, boolean hidden) {
-        await(2);
+        await(1);
         String elementText = getText(element, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
@@ -464,7 +464,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean rangeText(By xpath, int low, int high, boolean hidden) {
-        await(2);
+        await(1);
         String elementText = getText(xpath, hidden);
         if (elementText == null || elementText.equalsIgnoreCase("")) {
             return false;
@@ -514,7 +514,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean rangeAttrValue(WebElement element, String attr, int low, int high, boolean hidden) {
-        await(2);
+        await(1);
         String elementAttrValueText = getAttribute(element, attr, hidden);
         if (elementAttrValueText == null || elementAttrValueText.equalsIgnoreCase("")) {
             return false;
@@ -538,7 +538,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean rangeAttrValue(By xpath, String attr, int low, int high, boolean hidden) {
-        await(2);
+        await(1);
         String elementAttrValueText = getAttribute(xpath, attr, hidden);
         if (elementAttrValueText == null || elementAttrValueText.equalsIgnoreCase("")) {
             return false;
@@ -559,7 +559,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean isTextPresentOnPageSource(String text) {
-        await(2);
+        await(1);
         String pageSource = getPageSource();
         if (pageSource == null || pageSource.equalsIgnoreCase("")) {
             return false;
@@ -602,7 +602,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean checkPlaceHolder(WebElement element, String value, boolean hidden) {
-        await(2);
+        await(1);
         String placeholder = getAttribute(element, "placeholder", hidden);
         if (placeholder == null || placeholder.equalsIgnoreCase("")) {
             return false;
@@ -623,7 +623,7 @@ public class IsActions extends GetElementProperties {
      * @return
      */
     public boolean checkPlaceHolder(By xpath, String value, boolean hidden) {
-        await(2);
+        await(1);
         String placeholder = getAttribute(xpath, "placeholder", hidden);
         if (placeholder == null || placeholder.equalsIgnoreCase("")) {
             return false;

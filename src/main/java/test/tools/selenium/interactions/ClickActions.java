@@ -24,9 +24,7 @@ public class ClickActions extends ActionsAPI {
      */
     public void click(WebElement element) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             element.click();
             if (extentTest != null)
                 extentTest.pass(String.format("Clicked to element: {%s}", element));
@@ -48,9 +46,7 @@ public class ClickActions extends ActionsAPI {
     public void click(By xpath) {
         WebElement element = null;
         try {
-            await(2);
             element = scrollToVisibleElement(xpath);
-            await(2);
             element.click();
             if (extentTest != null)
                 extentTest.pass(String.format("Clicked to element: {%s}", element));
@@ -95,9 +91,8 @@ public class ClickActions extends ActionsAPI {
     public void clickByJs(By xpath) {
         WebElement element = null;
         try {
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            await(2);
             element = driver.findElement(xpath);
             await(1);
             js.executeScript("arguments[0].scrollIntoView(false);", element);

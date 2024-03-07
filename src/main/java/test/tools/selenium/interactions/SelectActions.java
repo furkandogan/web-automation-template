@@ -25,7 +25,6 @@ public class SelectActions extends ActionsAPI {
      */
     public WebElement getFirstSelectedOptionFromElement(WebElement element) {
         scrollToVisibleElement(element);
-        await(2);
         return new Select(element).getFirstSelectedOption();
     }
 
@@ -34,7 +33,6 @@ public class SelectActions extends ActionsAPI {
      */
     public List<WebElement> getAllSelectedOptionsFromElement(WebElement element) {
         scrollToVisibleElement(element);
-        await(2);
         return new Select(element).getAllSelectedOptions();
     }
 
@@ -43,7 +41,6 @@ public class SelectActions extends ActionsAPI {
      */
     public List<WebElement> getOptionsFromElement(WebElement element) {
         scrollToVisibleElement(element);
-        await(2);
         return new Select(element).getOptions();
     }
 
@@ -53,11 +50,9 @@ public class SelectActions extends ActionsAPI {
      */
     public void selectByValue(WebElement element, String value) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).selectByValue(value);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
@@ -78,11 +73,9 @@ public class SelectActions extends ActionsAPI {
     public void selectByValue(By xpath, String value) {
         WebElement element = null;
         try {
-            await(2);
             element = scrollToVisibleElement(xpath);
-            await(2);
             new Select(element).selectByValue(value);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected value: {%s} from element: {%s} ", value, element));
@@ -128,9 +121,8 @@ public class SelectActions extends ActionsAPI {
     public void selectByValueByJs(By xpath, String value) {
         WebElement element = null;
         try {
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            await(2);
             element = driver.findElement(xpath);
             await(1);
             js.executeScript("arguments[0].scrollIntoView(false);", element);
@@ -156,11 +148,9 @@ public class SelectActions extends ActionsAPI {
      */
     public void selectByVisibleText(WebElement element, String text) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).selectByVisibleText(text);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", text, element));
@@ -181,11 +171,9 @@ public class SelectActions extends ActionsAPI {
     public void selectByVisibleText(By xpath, String text) {
         WebElement element = null;
         try {
-            await(2);
             element = scrollToVisibleElement(xpath);
-            await(2);
             new Select(element).selectByVisibleText(text);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", text, element));
@@ -205,11 +193,9 @@ public class SelectActions extends ActionsAPI {
      */
     public void selectByIndex(WebElement element, int index) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).selectByIndex(index);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", element.getAttribute("value")));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected index: {%s} from element: {%s} ", index, element));
@@ -230,11 +216,9 @@ public class SelectActions extends ActionsAPI {
     public void selectByIndex(By xpath, int index) {
         WebElement element = null;
         try {
-            await(2);
             element = scrollToVisibleElement(xpath);
-            await(2);
             new Select(element).selectByIndex(index);
-            await(2);
+            await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", element.getAttribute("value")));
             if (extentTest != null)
                 extentTest.pass(String.format("Selected index: {%s} from element: {%s} ", index, element));
@@ -253,16 +237,13 @@ public class SelectActions extends ActionsAPI {
      * @param optionText
      */
     public void selectByVisibleContainText(WebElement element, String optionText) {
-        await(2);
         scrollToVisibleElement(element);
-        await(2);
         List<WebElement> options = getOptionsFromElement(element);
-        await(2);
         for (WebElement option : options) {
             try {
                 if (option.getText().contains(optionText)) {
-                    await(1);
                     option.click();
+                    await(1);
                     break;
                 }
             if (extentTest != null)
@@ -285,11 +266,8 @@ public class SelectActions extends ActionsAPI {
      * @param optionText
      */
     public void selectByVisibleContainText(By xpath, String optionText) {
-        await(2);
         WebElement element = scrollToVisibleElement(xpath);
-        await(2);
         List<WebElement> options = getOptionsFromElement(element);
-        await(2);
         for (WebElement option : options) {
             try {
                 if (option.getText().contains(optionText)) {
@@ -317,9 +295,7 @@ public class SelectActions extends ActionsAPI {
      */
     public void deselectElementByValue(WebElement element, String value) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).deselectByValue(value);
             if (extentTest != null)
                 extentTest.pass(String.format("Deselected value: {%s} from element: {%s} ", value, element));
@@ -339,9 +315,7 @@ public class SelectActions extends ActionsAPI {
      */
     public void deselectByVisibleText(WebElement element, String text) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).deselectByVisibleText(text);
             if (extentTest != null)
                 extentTest.pass(String.format("Deselected text: {%s} from element: {%s} ", text, element));
@@ -361,9 +335,7 @@ public class SelectActions extends ActionsAPI {
      */
     public void deselectByIndex(WebElement element, int index) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).deselectByIndex(index);
             if (extentTest != null)
                 extentTest.pass(String.format("Deselected index: {%s} from element: {%s} ", index, element));
@@ -382,9 +354,7 @@ public class SelectActions extends ActionsAPI {
      */
     public void deselectElementAllOptions(WebElement element) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(2);
             new Select(element).deselectAll();
             if (extentTest != null)
                 extentTest.pass(String.format("Deselected all options from element: {%s} ", element));
@@ -403,11 +373,8 @@ public class SelectActions extends ActionsAPI {
      */
     public void selectMapPoint(WebElement element) {
         try {
-            await(2);
             scrollToVisibleElement(element);
-            await(1);
             String lat = getFirstSelectedOptionFromElement(element).getAttribute("lat");
-            await(1);
             String lon = getFirstSelectedOptionFromElement(element).getAttribute("lon");
             await(1);
             js.executeScript("arguments[0].setAttribute('value', arguments[1]);", element,

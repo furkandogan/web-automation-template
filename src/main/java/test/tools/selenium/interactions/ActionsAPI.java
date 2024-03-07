@@ -35,11 +35,13 @@ public class ActionsAPI extends SimpleActions {
      */
     public void scrollToVisibleElement(WebElement element) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(element));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Found and scrolled to element: {%s} ", element));
             logger.info("Found and scrolled to element: {} ", element);
@@ -58,12 +60,14 @@ public class ActionsAPI extends SimpleActions {
     public WebElement scrollToVisibleElement(By xpath) {
         WebElement element = null;
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
             element = driver.findElement(xpath);
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to element: {%s} ", element));
             logger.info("Scrolled to element: {} ", element);
@@ -88,12 +92,14 @@ public class ActionsAPI extends SimpleActions {
      */
     public void scrollByGivenAmount(WebElement element, int deltaX) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(element));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             int deltaY = element.getRect().y;
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
@@ -113,6 +119,7 @@ public class ActionsAPI extends SimpleActions {
     public void scrollByGivenAmount(By xpath, int deltaX) {
         WebElement element = null;
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
             element = driver.findElement(xpath);
@@ -120,6 +127,7 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
@@ -146,12 +154,14 @@ public class ActionsAPI extends SimpleActions {
      */
     public void scrollFromAnElementByAGivenAmount(WebElement element, int deltaX, int deltaY) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(element));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element);
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
@@ -172,6 +182,7 @@ public class ActionsAPI extends SimpleActions {
     public void scrollFromAnElementByAGivenAmount(By xpath, int deltaX, int deltaY) {
         WebElement element = null;
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
             element = driver.findElement(xpath);
@@ -179,6 +190,7 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
@@ -209,12 +221,14 @@ public class ActionsAPI extends SimpleActions {
      */
     public void scrollFromAnElementWithAnOffset(WebElement element, int xOffset, int yOffset, int deltaX, int deltaY) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(element));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromElement(element, xOffset, yOffset);
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
@@ -237,6 +251,7 @@ public class ActionsAPI extends SimpleActions {
     public void scrollFromAnElementWithAnOffset(By xpath, int xOffset, int yOffset, int deltaX, int deltaY) {
         WebElement element = null;
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
             element = driver.findElement(xpath);
@@ -244,6 +259,7 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
@@ -265,10 +281,12 @@ public class ActionsAPI extends SimpleActions {
      */
     public void scrollFromAnOffsetOfOriginByGivenAmount(int xOffset, int yOffset, int deltaX, int deltaY) {
         try {
+            await(1);
             WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromViewport(xOffset, yOffset);
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s}", xOffset, yOffset, deltaX, deltaY));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {}", xOffset, yOffset, deltaX, deltaY);
@@ -432,6 +450,7 @@ public class ActionsAPI extends SimpleActions {
      */
     public void backClick() {
         try {
+            await(1);
             PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
 
             Sequence actions = new Sequence(mouse, 0)
@@ -439,6 +458,7 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            await(1);
             if (extentTest != null)
                 extentTest.pass("Clicked to back click");
             logger.info("Clicked to back click");
@@ -455,6 +475,7 @@ public class ActionsAPI extends SimpleActions {
      */
     public void forwardClick() {
         try {
+            await(1);
             PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
 
             Sequence actions = new Sequence(mouse, 0)
@@ -462,6 +483,7 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            await(1);
             if (extentTest != null)
                 extentTest.pass("Clicked to forward click");
             logger.info("Clicked to forward click");
@@ -530,11 +552,13 @@ public class ActionsAPI extends SimpleActions {
      */
     public void moveToElement(WebElement element) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(element));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
@@ -553,12 +577,14 @@ public class ActionsAPI extends SimpleActions {
     public void moveToElement(By xpath) {
         WebElement element = null;
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
             element = driver.findElement(xpath);
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
@@ -582,11 +608,13 @@ public class ActionsAPI extends SimpleActions {
      */
     public void moveByOffsetFromElement(WebElement element, int xOffset, int yOffset) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(element));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
@@ -605,12 +633,14 @@ public class ActionsAPI extends SimpleActions {
     public void moveByOffsetFromElement(By xpath, int xOffset, int yOffset) {
         WebElement element = null;
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
             wait.until(ExpectedConditions.elementToBeClickable(xpath));
             element = driver.findElement(xpath);
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
@@ -631,12 +661,14 @@ public class ActionsAPI extends SimpleActions {
      */
     public void moveByOffsetFromViewport(int xOffset, int yOffset) {
         try {
+            await(1);
             PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
 
             Sequence actions = new Sequence(mouse, 0)
                     .addAction(mouse.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), xOffset, yOffset));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
@@ -661,9 +693,11 @@ public class ActionsAPI extends SimpleActions {
      */
     public void moveByOffset(int xOffset, int yOffset) {
         try {
+            await(1);
             new Actions(driver)
                     .moveByOffset(xOffset, yOffset)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
@@ -684,6 +718,7 @@ public class ActionsAPI extends SimpleActions {
      */
     public void dragAndDropOnElement(WebElement draggable, WebElement droppable) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(draggable));
             wait.until(ExpectedConditions.elementToBeClickable(draggable));
             wait.until(ExpectedConditions.visibilityOf(droppable));
@@ -691,6 +726,7 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .dragAndDrop(draggable, droppable)
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
@@ -713,6 +749,7 @@ public class ActionsAPI extends SimpleActions {
      */
     public void dragElement(WebElement draggable, WebElement droppable) {
         try {
+            await(1);
             wait.until(ExpectedConditions.visibilityOf(draggable));
             wait.until(ExpectedConditions.elementToBeClickable(draggable));
             wait.until(ExpectedConditions.visibilityOf(droppable));
@@ -722,6 +759,7 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .dragAndDropBy(draggable, finish.getX() - start.getX(), finish.getY() - start.getY())
                     .perform();
+            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
@@ -877,9 +915,9 @@ public class ActionsAPI extends SimpleActions {
      * @param value
      */
     public void copyAndPaste(WebElement element, String value) {
+        await(1);
         Platform platformName = ((HasCapabilities) driver).getCapabilities().getPlatformName();
         Keys cmdCtrl = platformName.is(Platform.MAC) ? Keys.COMMAND : Keys.CONTROL;
-
         new Actions(driver)
                 .sendKeys(element, value)
                 .sendKeys(Keys.ARROW_LEFT)
@@ -890,6 +928,7 @@ public class ActionsAPI extends SimpleActions {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
+        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
         logger.info("Copy value: {} to element: {} ", value, element);
@@ -900,6 +939,7 @@ public class ActionsAPI extends SimpleActions {
      * @param value
      */
     public void copyAndPaste(By xpath, String value) {
+        await(1);
         Platform platformName = ((HasCapabilities) driver).getCapabilities().getPlatformName();
         Keys cmdCtrl = platformName.is(Platform.MAC) ? Keys.COMMAND : Keys.CONTROL;
         wait.until(ExpectedConditions.visibilityOfElementLocated(xpath));
@@ -915,6 +955,7 @@ public class ActionsAPI extends SimpleActions {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
+        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
         logger.info("Copy value: {} to element: {} ", value, element);
@@ -926,18 +967,22 @@ public class ActionsAPI extends SimpleActions {
      * Each language has its own way to reference these keys;the full list can be found https://www.w3.org/TR/webdriver/#keyboard-actions.
      */
     public void keyDown() {
+        await(1);
         new Actions(driver)
                 .keyDown(Keys.SHIFT)
                 .perform();
+        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Key Down"));
         logger.info("Key Down");
     }
 
     public void keyUp() {
+        await(1);
         new Actions(driver)
                 .keyUp(Keys.SHIFT)
                 .perform();
+        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Key Up"));
         logger.info("Key Up");
