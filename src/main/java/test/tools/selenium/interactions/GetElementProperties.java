@@ -4,7 +4,6 @@ import com.aventstack.extentreports.ExtentTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,8 +27,7 @@ public class GetElementProperties extends ActionsAPI{
      */
     public String getAttribute(WebElement element, String attr, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            scrollToInvisibleElement(element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -48,9 +46,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getAttribute(By xpath, String attr, boolean hidden) {
         WebElement element;
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            element = scrollToInvisibleElement(xpath);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -129,8 +125,7 @@ public class GetElementProperties extends ActionsAPI{
      */
     public String getText(WebElement element, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            scrollToInvisibleElement(element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -149,9 +144,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getText(By xpath, boolean hidden) {
         WebElement element;
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            element = scrollToInvisibleElement(xpath);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -189,8 +182,7 @@ public class GetElementProperties extends ActionsAPI{
      */
     public String getTagName(WebElement element, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            scrollToInvisibleElement(element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -209,9 +201,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getTagName(By xpath, boolean hidden) {
         WebElement element;
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            element = scrollToInvisibleElement(xpath);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -249,8 +239,7 @@ public class GetElementProperties extends ActionsAPI{
      */
     public String getCssValue(WebElement element, String value, boolean hidden) {
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            scrollToInvisibleElement(element);
         } else {
             scrollToVisibleElement(element);
         }
@@ -269,9 +258,7 @@ public class GetElementProperties extends ActionsAPI{
     public String getCssValue(By xpath, String value, boolean hidden) {
         WebElement element;
         if (hidden) {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            element = scrollToInvisibleElement(xpath);
         } else {
             element = scrollToVisibleElement(xpath);
         }
@@ -298,6 +285,7 @@ public class GetElementProperties extends ActionsAPI{
      * @return
      */
     public Integer getSize(List<WebElement> elements, boolean hidden) {
+        await(1);
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
         } else {
@@ -309,6 +297,10 @@ public class GetElementProperties extends ActionsAPI{
         return elementsSize;
     }
 
+    public Integer getSize(By xpath) {
+        return this.getSize(xpath, false);
+    }
+
     /**
      * Get element list size
      *
@@ -316,6 +308,7 @@ public class GetElementProperties extends ActionsAPI{
      * @return
      */
     public Integer getSize(By xpath, boolean hidden) {
+        await(1);
         List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
         if (hidden) {
             wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
@@ -334,6 +327,7 @@ public class GetElementProperties extends ActionsAPI{
      * @return
      */
     public String getCurrentUrl() {
+        await(1);
         extentTest.pass(String.format("Current url: {%s}", driver.getCurrentUrl().trim()));
         logger.info("Current url: {}", driver.getCurrentUrl().trim());
         return driver.getCurrentUrl().trim();
@@ -345,6 +339,7 @@ public class GetElementProperties extends ActionsAPI{
      * @return
      */
     public String getPageSource() {
+        await(1);
         extentTest.pass(String.format("Page source: {%s}", driver.getPageSource()));
         logger.info("Page source: {}", driver.getPageSource());
         return driver.getPageSource();
@@ -356,6 +351,7 @@ public class GetElementProperties extends ActionsAPI{
      * @return
      */
     public String getTitle() {
+        await(1);
         extentTest.pass(String.format("Title: {%s}", driver.getTitle()));
         logger.info("Title: {}", driver.getTitle());
         return driver.getTitle();
@@ -368,6 +364,7 @@ public class GetElementProperties extends ActionsAPI{
      * @return
      */
     public Integer getLenght(String value) {
+        await(1);
         extentTest.pass(String.format("Value length: {%s}", value.length()));
         logger.info("Value length: {}", value.length());
         return value.length();

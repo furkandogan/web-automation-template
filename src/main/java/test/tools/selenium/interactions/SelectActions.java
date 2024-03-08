@@ -59,7 +59,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -82,7 +82,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -95,9 +95,7 @@ public class SelectActions extends ActionsAPI {
      */
     public void selectByValueByJs(WebElement element, String value) {
         try {
-            await(1);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
-            await(1);
+            scrollToInvisibleElement(element);
             js.executeScript("arguments[0].value = '" + value + "'", element);
             await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
@@ -106,7 +104,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -121,12 +119,7 @@ public class SelectActions extends ActionsAPI {
     public void selectByValueByJs(By xpath, String value) {
         WebElement element = null;
         try {
-            await(1);
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            await(1);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
-            await(1);
+            element = scrollToInvisibleElement(xpath);
             js.executeScript("arguments[0].value = '" + value + "'", element);
             await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
@@ -135,7 +128,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -157,7 +150,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected text: {} from element: {} ", text, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -180,7 +173,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected text: {} from element: {} ", text, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -202,7 +195,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected index: {} from element: {} ", index, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -225,7 +218,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected index: {} from element: {} ", index, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -243,19 +236,18 @@ public class SelectActions extends ActionsAPI {
             try {
                 if (option.getText().contains(optionText)) {
                     option.click();
-                    await(1);
                     break;
                 }
-            if (extentTest != null)
                 if (extentTest != null)
-                extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", optionText, element));
+                    if (extentTest != null)
+                        extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", optionText, element));
                 logger.info("Selected text: {} from element: {} ", optionText, element);
             } catch (Exception e) {
                 highlightElement(element);
-                if (extentTest != null){
-                extentTest.fail(e);
-            }
-            logger.error(e);
+                if (extentTest != null) {
+                    extentTest.fail(e);
+                }
+                logger.error(e);
             }
         }
     }
@@ -271,20 +263,19 @@ public class SelectActions extends ActionsAPI {
         for (WebElement option : options) {
             try {
                 if (option.getText().contains(optionText)) {
-                    await(1);
                     option.click();
                     break;
                 }
-            if (extentTest != null)
                 if (extentTest != null)
-                extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", optionText, element));
+                    if (extentTest != null)
+                        extentTest.pass(String.format("Selected text: {%s} from element: {%s} ", optionText, element));
                 logger.info("Selected text: {} from element: {} ", optionText, element);
             } catch (Exception e) {
                 highlightElement(element);
-                if (extentTest != null){
-                extentTest.fail(e);
-            }
-            logger.error(e);
+                if (extentTest != null) {
+                    extentTest.fail(e);
+                }
+                logger.error(e);
             }
         }
     }
@@ -302,7 +293,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Deselected value: {} from element: {} ", value, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -322,7 +313,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Deselected text: {} from element: {} ", text, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -342,7 +333,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Deselected index: {} from element: {} ", index, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -361,7 +352,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Deselected all options from element: {} ", element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);
@@ -376,7 +367,6 @@ public class SelectActions extends ActionsAPI {
             scrollToVisibleElement(element);
             String lat = getFirstSelectedOptionFromElement(element).getAttribute("lat");
             String lon = getFirstSelectedOptionFromElement(element).getAttribute("lon");
-            await(1);
             js.executeScript("arguments[0].setAttribute('value', arguments[1]);", element,
                     lat + "," + lon);
             if (extentTest != null)
@@ -384,7 +374,7 @@ public class SelectActions extends ActionsAPI {
             logger.info("Selected coordinates lat: {} - lon: {} from element: {} ", lat, lon, element);
         } catch (Exception e) {
             highlightElement(element);
-            if (extentTest != null){
+            if (extentTest != null) {
                 extentTest.fail(e);
             }
             logger.error(e);

@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ClickActions extends ActionsAPI {
@@ -67,9 +66,7 @@ public class ClickActions extends ActionsAPI {
      */
     public void clickByJs(WebElement element) {
         try {
-            await(1);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
-            await(1);
+            scrollToInvisibleElement(element);
             js.executeScript("arguments[0].click()", element);
             if (extentTest != null)
                 extentTest.pass(String.format("Clicked to element: {%s}", element));
@@ -91,12 +88,7 @@ public class ClickActions extends ActionsAPI {
     public void clickByJs(By xpath) {
         WebElement element = null;
         try {
-            await(1);
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            await(1);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
-            await(1);
+            element = scrollToInvisibleElement(xpath);
             js.executeScript("arguments[0].click()", element);
             if (extentTest != null)
                 extentTest.pass(String.format("Clicked to element: {%s}", element));

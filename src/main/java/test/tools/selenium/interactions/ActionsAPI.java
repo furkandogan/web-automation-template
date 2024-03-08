@@ -41,7 +41,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Found and scrolled to element: {%s} ", element));
             logger.info("Found and scrolled to element: {} ", element);
@@ -67,7 +66,44 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollToElement(element)
                     .perform();
+            if (extentTest != null)
+                extentTest.pass(String.format("Scrolled to element: {%s} ", element));
+            logger.info("Scrolled to element: {} ", element);
+            return element;
+        } catch (Exception e) {
+            highlightElement(element);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
+            logger.error(e);
+            return null;
+        }
+    }
+
+    public void scrollToInvisibleElement(WebElement element) {
+        try {
             await(1);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
+            if (extentTest != null)
+                extentTest.pass(String.format("Found and scrolled to invisible element: {%s} ", element));
+            logger.info("Found and scrolled to invisible element: {} ", element);
+        } catch (Exception e) {
+            highlightElement(element);
+            if (extentTest != null) {
+                extentTest.fail(e);
+            }
+            logger.error(e);
+        }
+    }
+
+    public WebElement scrollToInvisibleElement(By xpath) {
+        WebElement element = null;
+        try {
+            await(1);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+            element = driver.findElement(xpath);
+            js.executeScript("arguments[0].scrollIntoView(false);", element);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to element: {%s} ", element));
             logger.info("Scrolled to element: {} ", element);
@@ -99,7 +135,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
@@ -127,7 +162,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollByAmount(deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s} on element: {%s} ", deltaX, element));
             logger.info("Scrolled to deltaX: {} on element: {} ", deltaX, element);
@@ -161,7 +195,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
@@ -190,7 +223,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled to deltaX: {%s}, deltaY: {%s} on element: {%s} ", deltaX, deltaY, element));
             logger.info("Scrolled to deltaX: {}, deltaY: {} on element: {} ", deltaX, deltaY, element);
@@ -228,7 +260,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
@@ -259,7 +290,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s} on element: {%s} ", xOffset, yOffset, deltaX, deltaY, element));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {} on element: {} ", xOffset, yOffset, deltaX, deltaY, element);
@@ -286,7 +316,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .scrollFromOrigin(scrollOrigin, deltaX, deltaY)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Scrolled from xOffset: {%s}, yOffset:{%s} to deltaX: {%s}, deltaY: {%s}", xOffset, yOffset, deltaX, deltaY));
             logger.info("Scrolled from xOffset: {}, yOffset:{} to deltaX: {}, deltaY: {}", xOffset, yOffset, deltaX, deltaY);
@@ -458,7 +487,6 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
-            await(1);
             if (extentTest != null)
                 extentTest.pass("Clicked to back click");
             logger.info("Clicked to back click");
@@ -483,7 +511,6 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
-            await(1);
             if (extentTest != null)
                 extentTest.pass("Clicked to forward click");
             logger.info("Clicked to forward click");
@@ -558,7 +585,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
@@ -584,7 +610,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved on element: {%s} ", element));
             logger.info("Moved on element: {} ", element);
@@ -614,7 +639,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
@@ -640,7 +664,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveToElement(element, xOffset, yOffset)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s} on element: {%s} ", xOffset, yOffset, element));
             logger.info("Moved xOffset: {}, yOffset: {} on element: {} ", xOffset, yOffset, element);
@@ -668,7 +691,6 @@ public class ActionsAPI extends SimpleActions {
                     .addAction(mouse.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), xOffset, yOffset));
 
             ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
@@ -697,7 +719,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .moveByOffset(xOffset, yOffset)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Moved xOffset: {%s}, yOffset: {%s}", xOffset, yOffset));
             logger.info("Moved xOffset: {}, yOffset: {}", xOffset, yOffset);
@@ -726,7 +747,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .dragAndDrop(draggable, droppable)
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
@@ -759,7 +779,6 @@ public class ActionsAPI extends SimpleActions {
             new Actions(driver)
                     .dragAndDropBy(draggable, finish.getX() - start.getX(), finish.getY() - start.getY())
                     .perform();
-            await(1);
             if (extentTest != null)
                 extentTest.pass(String.format("Dragged draggable: {%s} and Dropped droppable: {%s}", draggable, droppable));
             logger.info("Dragged draggable: {} and Dropped droppable: {}", draggable, droppable);
@@ -928,7 +947,6 @@ public class ActionsAPI extends SimpleActions {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
-        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
         logger.info("Copy value: {} to element: {} ", value, element);
@@ -955,7 +973,6 @@ public class ActionsAPI extends SimpleActions {
                 .sendKeys("xvv")
                 .keyUp(cmdCtrl)
                 .perform();
-        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Copy value: {%s} and paste: {%s} ", value, element));
         logger.info("Copy value: {} to element: {} ", value, element);
@@ -971,7 +988,6 @@ public class ActionsAPI extends SimpleActions {
         new Actions(driver)
                 .keyDown(Keys.SHIFT)
                 .perform();
-        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Key Down"));
         logger.info("Key Down");
@@ -982,7 +998,6 @@ public class ActionsAPI extends SimpleActions {
         new Actions(driver)
                 .keyUp(Keys.SHIFT)
                 .perform();
-        await(1);
         if (extentTest != null)
             extentTest.pass(String.format("Key Up"));
         logger.info("Key Up");

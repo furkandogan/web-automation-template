@@ -27,7 +27,6 @@ public class SendKeysActions extends ActionsAPI {
         try {
             scrollToVisibleElement(element);
             element.clear();
-            await(1);
             element.sendKeys(value);
             await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
@@ -54,7 +53,6 @@ public class SendKeysActions extends ActionsAPI {
         try {
             element = scrollToVisibleElement(xpath);
             element.clear();
-            await(1);
             element.sendKeys(value);
             await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
@@ -78,9 +76,7 @@ public class SendKeysActions extends ActionsAPI {
      */
     public void sendKeysByJs(WebElement element, String value) {
         try {
-            await(1);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
-            await(1);
+            scrollToInvisibleElement(element);
             js.executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             await(1);
             wait.until(ExpectedConditions.attributeToBe(element, "value", value));
@@ -105,12 +101,7 @@ public class SendKeysActions extends ActionsAPI {
     public void sendKeysByJs(By xpath, String value) {
         WebElement element = null;
         try {
-            await(1);
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
-            element = driver.findElement(xpath);
-            await(1);
-            js.executeScript("arguments[0].scrollIntoView(false);", element);
-            await(1);
+            element = scrollToInvisibleElement(xpath);
             js.executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
             await(1);
             wait.until(ExpectedConditions.attributeToBe(xpath, "value", value));
